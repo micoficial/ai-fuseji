@@ -10,8 +10,8 @@ const digitsOf = (s) => toHalf(s).replace(/\D/g, "");
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 export const LABELS = {
-  ja: { name: "氏名", company: "会社", email: "メール", phone: "電話", postal: "郵便番号", address: "住所", mynumber: "マイナンバー", card: "カード番号", account: "口座番号", birth: "生年月日", word: "名称", money: "金額", date: "日付", url: "URL", ip: "IP" },
-  en: { name: "NAME", company: "COMPANY", email: "EMAIL", phone: "PHONE", postal: "ZIP", address: "ADDRESS", mynumber: "MYNUMBER", card: "CARD", account: "ACCOUNT", birth: "BIRTHDATE", word: "TERM", money: "AMOUNT", date: "DATE", url: "URL", ip: "IP" },
+  ja: { name: "氏名", company: "会社", email: "メール", phone: "電話", postal: "郵便番号", address: "住所", mynumber: "マイナンバー", card: "カード番号", account: "口座番号", birth: "生年月日", word: "名称", money: "金額", date: "日付", url: "URL", ip: "IP", idnum: "管理番号" },
+  en: { name: "NAME", company: "COMPANY", email: "EMAIL", phone: "PHONE", postal: "ZIP", address: "ADDRESS", mynumber: "MYNUMBER", card: "CARD", account: "ACCOUNT", birth: "BIRTHDATE", word: "TERM", money: "AMOUNT", date: "DATE", url: "URL", ip: "IP", idnum: "ID" },
 };
 
 // Pro版でだけ使える種類
@@ -64,7 +64,8 @@ const DATE_BODY = `(?:(?:明治|大正|昭和|平成|令和)?(?:${D}{1,4}|元)�
 // 名前の前についた部署名などを外す（「営業部山田」→「山田」）、後ろの役職を外す（「田中社長」→「田中」）
 function fixName(text) {
   let start = 0, t = text;
-  const sp = t.match(/^(\S*[部課室局社店所会院科])[ 　]+(.+)$/u);
+  // 前に付いた部署名や「担当」「ご担当」などを外す（「総務部 山田」「ご担当 高橋」→ 名前だけ）
+  const sp = t.match(/^(\S*[部課室局社店所会院科]|ご?担当者?|窓口|宛先|宛て)[ 　]+(.+)$/u);
   if (sp) { start = t.length - sp[2].length; t = sp[2]; }
   const m = t.match(/^(.*[部課室局社店所会院科])(.{2,})$/u);
   if (m && /^[一-龥々ヶ]+$/u.test(t) && t.length > 4) { start += m[1].length; t = m[2]; }
@@ -105,6 +106,19 @@ const RULES = [
   { kind: "birth", re: new RegExp(`(?:生年月日|誕生日)${SP}*[：:は]?${SP}*(${DATE_BODY})`, "gd"), group: 1 },
   { kind: "name", re: new RegExp(`(?:氏名|お名前|名前|フルネーム|担当者名?|ご担当者?|患者名?|契約者名?|申込者名?|代表者名?|宛名|依頼者名?|署名|差出人|送信者|受取人|名義人?)${SP}*[：:]${SP}*([^\\s、。，,（(：:「」]{1,10}(?:${SP}[^\\s、。，,（(：:「」\\d０-９]{1,10})?)`, "gd"), group: 1, fix: (t) => fixName(t) },
   { kind: "name", re: new RegExp(`([一-龥々ヶ]{1,8}(?:${SP}[一-龥々ヶ]{1,4})?|[ァ-ヶー]{2,10}(?:[ 　・][ァ-ヶー]{2,10})?)${SP}?(?=(?:${HONORIFIC})(?![一-龥]))`, "gd"), group: 1, fix: (t) => fixName(t) },
+  // 管理番号：社員番号・会員番号・顧客番号・患者番号・カルテ番号・契約番号
+  { kind: "idnum", re: new RegExp(`(?:社員番号|社員ID|会員番号|会員ID|顧客番号|顧客ID|お客様番号|患者番号|患者ID|カルテ番号|診察券番号|契約番号|受験番号|学籍番号)${SP}*[：:]?${SP}*([A-Za-zＡ-Ｚａ-ｚ0-9０-９][A-Za-zＡ-Ｚａ-ｚ0-9０-９\\-－]{2,19})`, "gd"), group: 1 },
+  // 口座の名義：「カ）サンプルショウジ」「名義：ヤマダ タロウ」
+  { kind: "company", re: new RegExp(`(?:カ|ユ|ド|シャ|ザイ|イ)[)）]${SP}?[ァ-ヶー]{2,}(?:${SP}[ァ-ヶー]{2,})?`, "g") },
+  { kind: "name", re: new RegExp(`(?:口座名義|名義人?)${SP}*[：:]?${SP}*([ァ-ヶー]{2,}(?:${SP}[ァ-ヶー]{2,})?)`, "gd"), group: 1 },
+  // チャットの発言者：「[10:02] 佐藤：」「田中: 」の行頭の名前
+  { kind: "name", re: new RegExp(`(?<=^|\\n|[\\]）)]${SP}?)${SP}*((?:${SURNAMES})[一-龥々]{0,3})(?=${SP}*[：:])`, "gd"), group: 1, fix: (t) => fixName(t) },
+  // カタカナの名前だけの行：「ヤマダ タロウ」（2語、それぞれ2〜4字、長音「ー」なし。「メール テンプレート」のような外来語を外すため）
+  { kind: "name", re: new RegExp(`(?<=^|\\n)${SP}*([ァ-ヶ]{2,4}[ 　・][ァ-ヶ]{2,4})${SP}*(?=\\n|$)`, "gd"), group: 1, check: (t) => !NOT_NAME.has(t.split(/[ 　・]/)[0]) },
+  // 英字の名前：敬称つき（Mr. John Smith）、結びのあいさつのあと（Thank you, Taro Yamada）。
+  // 2語だけの行は「Best Regards」「Google Chrome」と区別できないので見ない
+  { kind: "name", re: /\b(?:Mr|Ms|Mrs|Miss|Dr|Prof)\.?\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+){0,2})/dg, group: 1 },
+  { kind: "name", re: /(?:Regards|regards|Thanks|thanks|Thank you|thank you|Sincerely|sincerely|Best|Cheers),?\s+([A-Z][a-z]+\s+[A-Z][a-z]+)(?=\s*(?:\n|$))/dg, group: 1 },
   // 名前だけの行（メールの署名など）：よくある名字で始まる「鈴木一郎」「鈴木 一郎」だけの行
   { kind: "name", re: new RegExp(`(?<=^|\\n)${SP}*((?:${SURNAMES})(?:${SP}?[一-龥々]{1,3})?)${SP}*(?=\\n|$)`, "gd"), group: 1, check: (t) => [...t.replace(/[ 　]/g, "")].length >= 3 && !/[屋店堂亭庵館社院科園会局課部室所町村市区県]$/.test(t) },
   // メールの名乗り：「合同会社ミコの佐藤です」「営業部の佐藤と申します」
@@ -118,7 +132,7 @@ const RULES = [
 ];
 
 // 同じ人・同じ番号には同じ伏せ字を使うためのキー
-const keyOf = (kind, text) => kind + "\u0000" + (["phone", "card", "mynumber", "postal", "account"].includes(kind) ? digitsOf(text) : text.replace(/[ 　]/g, "").toLowerCase());
+const keyOf = (kind, text) => kind + "\u0000" + (["phone", "card", "mynumber", "postal", "account", "idnum"].includes(kind) ? digitsOf(text) : text.replace(/[ 　]/g, "").toLowerCase());
 
 /**
  * 文章を伏せ字にする。
