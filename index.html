@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI伏せ字｜ChatGPTに貼る前に、個人情報を伏せ字にする無料ツール</title>
+<meta name="description" content="ChatGPT・Gemini・Claudeに文章を貼る前に、氏名・住所・電話番号・メール・会社名を[氏名1]のような伏せ字に置き換える無料ツール。AIの答えは元の名前に戻せます。文章は外部に送信せず、ブラウザの中だけで処理します。">
+<meta property="og:title" content="AI伏せ字｜AIに貼る前に、個人情報を伏せ字に">
+<meta property="og:description" content="氏名・住所・電話・メール・会社名をブラウザの中で伏せ字に。AIの答えは元に戻せる。外部送信なし。">
+<meta property="og:type" content="website">
+<link rel="icon" href="icon128.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap row">
+    <a class="brand" href="./"><img src="icon128.png" alt="" width="32" height="32"> AI伏せ字</a>
+    <a class="btn small" id="storeLink" href="#install">Chrome拡張機能</a>
+  </div>
+</header>
+
+<main>
+<section class="hero wrap">
+  <p class="eyebrow">ChatGPT・Gemini・Claude などに</p>
+  <h1>AIに貼る前に、<br><em>個人情報を伏せ字に。</em></h1>
+  <p class="lead">氏名・住所・電話番号・メール・会社名を、<b>[氏名1]</b> のような伏せ字に置き換えます。AIの答えは、元の名前に戻せます。<br>文章は外部に送信しません。このページの中（あなたのブラウザ）だけで処理します。</p>
+</section>
+
+<section class="tool wrap" aria-label="伏せ字ツール">
+  <div class="tabs" role="tablist">
+    <button class="tab on" data-tab="mask" role="tab"><b>1</b> 伏せる</button>
+    <button class="tab" data-tab="restore" role="tab"><b>2</b> 元に戻す</button>
+  </div>
+
+  <div id="paneMask" class="pane">
+    <div class="cols">
+      <div>
+        <label class="lbl" for="src">AIに渡したい文章</label>
+        <textarea id="src" spellcheck="false" placeholder="ここに文章を貼り付けてください"></textarea>
+        <button id="sample" class="link">例文を入れてみる</button>
+      </div>
+      <div>
+        <div class="lbl row"><span>伏せ字にした文章 <span id="maskCount" class="muted"></span></span><button id="copyMasked" class="btn primary" disabled>コピー</button></div>
+        <div id="out" class="out" aria-live="polite"></div>
+      </div>
+    </div>
+    <details class="box" open>
+      <summary>伏せたもの</summary>
+      <ul id="items" class="items"></ul>
+      <p class="muted small">伏せなくてよいものは「伏せない」を押してください。</p>
+    </details>
+    <div class="box">
+      <label class="lbl" for="words">いつも伏せる言葉（取引先名、案件名など。読点「、」で区切る）</label>
+      <input id="words" type="text" autocomplete="off" spellcheck="false" placeholder="例：プロジェクトFalcon、サンプル物産">
+    </div>
+  </div>
+
+  <div id="paneRestore" class="pane" hidden>
+    <div class="cols">
+      <div>
+        <label class="lbl" for="ai">AIの答え</label>
+        <textarea id="ai" spellcheck="false" placeholder="AIの答えを貼り付けると、[氏名1] などを元に戻します"></textarea>
+      </div>
+      <div>
+        <div class="lbl row"><span>元に戻した文章 <span id="restoreCount" class="muted"></span></span><button id="copyRestored" class="btn primary" disabled>コピー</button></div>
+        <div id="restored" class="out"></div>
+      </div>
+    </div>
+    <p class="muted small">対応表は、このページを閉じると消えます。</p>
+  </div>
+</section>
+
+<section class="wrap grid3">
+  <div class="card"><h3>何を伏せる？</h3><p>氏名（「様」「部長」「担当者：」などから判定）、会社名・団体名、住所、郵便番号、電話番号、メール、生年月日、マイナンバー、クレジットカード番号、口座番号。</p></div>
+  <div class="card"><h3>伏せないもの</h3><p>「お客様」「皆様」「ご担当者様」など、人の名前ではない言葉。普段の業務文で、まちがって伏せないように調整しています。</p></div>
+  <div class="card"><h3>本当に送っていない？</h3><p>判定も置き換えも、このページのプログラムがあなたのブラウザの中で行います。文章をサーバーに送る仕組みはありません。</p></div>
+</section>
+
+<section class="wrap install" id="install">
+  <h2>毎日使うなら、Chrome拡張機能で</h2>
+  <p>サイドパネルでいつでも開けて、ページの文字を選んで右クリック →「伏せ字にする」「伏せ字を元に戻す」でも使えます。無料です。</p>
+  <ul class="checks">
+    <li>Pro版（買い切り ¥1,480）：いつも伏せる言葉を無制限に登録、金額・日付・URLも伏せる、対応表の履歴20件</li>
+    <li>ページの中身を読む権限は使いません</li>
+  </ul>
+  <p><a class="btn primary big" id="storeLink2" href="#">Chromeウェブストアで見る</a> <a class="btn big" href="https://micoficial.gumroad.com/l/ai-fuseji-pro" rel="noopener">Pro版について</a></p>
+  <p class="muted small" id="storeNote"></p>
+</section>
+
+<section class="wrap reads">
+  <h2>読みもの</h2>
+  <ul>
+    <li><a href="articles/ai-shanai-rule.html">ChatGPTに個人情報を入れないための社内ルール例（そのまま使えるひな形つき）</a></li>
+    <li><a href="articles/ai-check-list.html">AIに文章を貼る前の30秒チェックリスト（事務・総務向け）</a></li>
+  </ul>
+</section>
+
+<section class="wrap faq">
+  <h2>よくある質問</h2>
+  <details><summary>伏せ字にすれば、AIに何を貼っても安全ですか？</summary><p>いいえ。判定は機械的なルールなので、見落としがありえます。送る前に、伏せ字の文章を目で確認してください。会社のルールで禁止されている情報は、伏せ字にしても貼らないでください。</p></details>
+  <details><summary>AIが答えの中で伏せ字の形を変えたら？</summary><p>[氏名1] が【氏名1】や［氏名1］、括弧なしの「氏名1」に変わっても元に戻せます。</p></details>
+  <details><summary>英語の文章にも使えますか？</summary><p>メール、電話番号、カード番号などは使えます。氏名と会社名の判定は日本語向けです。英語の名前は「いつも伏せる言葉」に登録してください。</p></details>
+  <details><summary>誰が作っていますか？</summary><p>合同会社micoです。AIのフクロウ「ゼロ」が作り、その過程を動画で公開しています。お問い合わせ：mico.95.official@gmail.com</p></details>
+</section>
+</main>
+
+<footer class="wrap foot">
+  <p>© 2026 合同会社mico ／ <a href="https://docs.google.com/document/d/e/2PACX-1vQDrryEfL2zc4WxP9wg9clm98mq7SNMVW1CrEBNZ9HvnXbdvYl2cNTx6C77LyOF90Aa0OqyuBSoZBtn/pub" rel="noopener">プライバシーポリシー</a> ／ <a href="https://www.youtube.com/@zero_fukurou" rel="noopener">ゼロのYouTube</a></p>
+</footer>
+<div id="toast" class="toast" hidden></div>
+<script type="module" src="app.js"></script>
+</body>
+</html>

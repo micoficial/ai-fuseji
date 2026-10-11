@@ -1,0 +1,231 @@
+// 文章の中から個人情報などを見つけて、[氏名1] のような伏せ字に置き換える。AIの答えを元に戻す（restore）こともできる。
+// すべてこのPCの中で処理する。外部には何も送らない。
+
+const D = "[0-9０-９]";
+const H = "[-‐‑–－―−ー]";
+const SP = "[ \\t　]";
+const NUM = `(?:${D}+|[一二三四五六七八九十〇]+)`;
+const toHalf = (s) => s.replace(/[０-９]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0xfee0));
+const digitsOf = (s) => toHalf(s).replace(/\D/g, "");
+const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+export const LABELS = {
+  ja: { name: "氏名", company: "会社", email: "メール", phone: "電話", postal: "郵便番号", address: "住所", mynumber: "マイナンバー", card: "カード番号", account: "口座番号", birth: "生年月日", word: "名称", money: "金額", date: "日付", url: "URL", ip: "IP" },
+  en: { name: "NAME", company: "COMPANY", email: "EMAIL", phone: "PHONE", postal: "ZIP", address: "ADDRESS", mynumber: "MYNUMBER", card: "CARD", account: "ACCOUNT", birth: "BIRTHDATE", word: "TERM", money: "AMOUNT", date: "DATE", url: "URL", ip: "IP" },
+};
+
+// Pro版でだけ使える種類
+export const PRO_KINDS = ["money", "date", "url", "ip"];
+
+export function luhn(num) {
+  let sum = 0, alt = false;
+  for (let i = num.length - 1; i >= 0; i--) {
+    let n = Number(num[i]);
+    if (alt) { n *= 2; if (n > 9) n -= 9; }
+    sum += n;
+    alt = !alt;
+  }
+  return sum % 10 === 0;
+}
+
+// マイナンバー（12桁）の検査用数字
+export function myNumberOk(num) {
+  if (!/^\d{12}$/.test(num)) return false;
+  const p = num.slice(0, 11).split("").reverse().map(Number);
+  let s = 0;
+  for (let n = 1; n <= 11; n++) s += p[n - 1] * (n <= 6 ? n + 1 : n - 5);
+  const r = s % 11;
+  return (r <= 1 ? 0 : 11 - r) === Number(num[11]);
+}
+
+// ---------- 氏名の判定に使う言葉 ----------
+const HONORIFIC = "様|さま|さん|氏|殿|先生|くん|君|ちゃん|副社長|社長|会長|部長|課長|係長|専務|常務|取締役|主任|店長|院長|准教授|教授|弁護士|税理士|会計士|司法書士|医師|看護師";
+const ROLE_TAIL = /(副社長|社長|会長|部長|課長|係長|専務|常務|取締役|主任|店長|院長|教授|先生|代表)$/;
+// 人の名前ではない言葉（「お客様」「皆さん」など）
+const NOT_NAME = new Set(("客 皆 皆々 奥 子 親御 神 王 仏 殿 先方 相手 貴方 貴殿 各位 家族 ご家族 生徒 学生 児童 先輩 後輩 同僚 上司 部下 担当 ご担当 店員 父 母 兄 姉 弟 妹 祖父 祖母 娘 息子 旦那 嫁 主人 夫 妻 彼 彼女 方 皆様 " +
+  "社長 会長 部長 課長 係長 専務 常務 主任 店長 院長 教授 先生 医師 代表 患者 本人 当人 御社 貴社 弊社 当社 先様 お隣 隣 近所 大家 管理人 " +
+  "ユーザー ユーザ オーナー メンバー ゲスト クライアント スタッフ パートナー ドライバー ホスト ママ パパ ベビー キッズ ファン サポーター リーダー マネージャー マネジャー オペレーター カスタマー エンジニア デザイナー バイヤー セラー ショップ ストア チーム グループ ナース ドクター ボス サンタ ワーカー オーディエンス フォロワー リスナー ゲスト様").split(" "));
+const NOT_NAME_TAIL = /[者員客方達側社部課局室所店会院科団体陣層生家族様]$/;
+// 会社名の前についてしまいがちな言葉
+const LEAD_WORDS = /^(先日|本日|今日|昨日|明日|来週|今週|先週|来月|今月|先月|今回|前回|次回|弊社|当社|御社|貴社|現在|以前|今後|元|旧|新|同)/;
+
+const LEGAL = "(?:株式会社|有限会社|合同会社|合資会社|合名会社|一般社団法人|一般財団法人|公益社団法人|公益財団法人|社会福祉法人|医療法人社団|医療法人財団|医療法人|学校法人|宗教法人|特定非営利活動法人|NPO法人|税理士法人|弁護士法人|司法書士法人|行政書士法人|監査法人|[(（]株[)）]|㈱|[(（]有[)）]|㈲|[(（]同[)）])";
+const CO_CH = "[一-龥々〆ヶヵァ-ヶーA-Za-zＡ-Ｚａ-ｚ0-9０-９&＆・.．'’]";
+const CO_NAME = `(?:${CO_CH}|${SP}(?=[A-Za-z]))`;
+const PREF = "(?:北海道|東京都|京都府|大阪府|(?:青森|岩手|宮城|秋田|山形|福島|茨城|栃木|群馬|埼玉|千葉|神奈川|新潟|富山|石川|福井|山梨|長野|岐阜|静岡|愛知|三重|滋賀|兵庫|奈良|和歌山|鳥取|島根|岡山|広島|山口|徳島|香川|愛媛|高知|福岡|佐賀|長崎|熊本|大分|宮崎|鹿児島|沖縄)県)";
+const BLK = `${NUM}(?:${SP}?(?:丁目|番地|番|号|${H}|の)${SP}?${NUM})*(?:丁目|番地|番|号)?`;
+const BUILDING = `(?:${SP}?[A-Za-zＡ-Ｚａ-ｚァ-ヶー一-龥々・]{2,24}${SP}?${D}{1,4}(?:号室|号|F|Ｆ|階)?)?`;
+const DSEP = "[/／.．‐‑–－―−ー-]";
+const DATE_BODY = `(?:(?:明治|大正|昭和|平成|令和)?(?:${D}{1,4}|元)年${SP}?${D}{1,2}月${SP}?${D}{1,2}日|(?:[MTSHR]${D}{1,2}|${D}{4})${DSEP}${D}{1,2}${DSEP}${D}{1,2})`;
+
+// 名前の前についた部署名などを外す（「営業部山田」→「山田」）、後ろの役職を外す（「田中社長」→「田中」）
+function fixName(text) {
+  let start = 0, t = text;
+  const sp = t.match(/^(\S*[部課室局社店所会院科])[ 　]+(.+)$/u);
+  if (sp) { start = t.length - sp[2].length; t = sp[2]; }
+  const m = t.match(/^(.*[部課室局社店所会院科])(.{2,})$/u);
+  if (m && /^[一-龥々ヶ]+$/u.test(t) && t.length > 4) { start += m[1].length; t = m[2]; }
+  const r = t.match(ROLE_TAIL);
+  if (r && t.length - r[0].length >= 1) t = t.slice(0, -r[0].length);
+  t = t.replace(/[ 　]+$/, "");
+  if (!t || NOT_NAME.has(t) || NOT_NAME.has(t.replace(/^[おご]/, "")) || NOT_NAME_TAIL.test(t)) return null;
+  return { offset: start, text: t };
+}
+function fixCompany(text) {
+  let t = text.replace(/(様|御中|殿|さま)$/u, "");
+  let offset = 0;
+  const lead = t.match(LEAD_WORDS);
+  if (lead && t.length - lead[0].length >= 4) { offset = lead[0].length; t = t.slice(offset); }
+  t = t.replace(/[ 　.．・]+$/, "");
+  return t.length >= 3 ? { offset, text: t } : null;
+}
+
+// 検出のルール。上にあるものほど優先する（重なったら上を採る）
+const RULES = [
+  { kind: "email", re: /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+/g },
+  { kind: "url", re: /https?:\/\/[^\s「」『』（）()<>"'、。]+/g },
+  { kind: "card", re: new RegExp(`(?<!${D})${D}(?:[ \\-－]?${D}){12,18}(?!${D})`, "g"),
+    check: (t) => { const d = digitsOf(t); return d.length >= 13 && d.length <= 19 && !/^(\d)\1+$/.test(d) && luhn(d); } },
+  { kind: "mynumber", re: new RegExp(`(?:マイナンバー|個人番号)${SP}*[：:]?${SP}*(${D}{4}${SP}?${H}?${SP}?${D}{4}${SP}?${H}?${SP}?${D}{4})(?!${D})`, "gd"), group: 1 },
+  { kind: "mynumber", re: new RegExp(`(?<!${D})${D}{4}[ \\-－]?${D}{4}[ \\-－]?${D}{4}(?!${D})`, "g"), check: (t) => myNumberOk(digitsOf(t)) },
+  { kind: "phone", re: new RegExp(`(?:\\+|＋)(?:81|８１)${SP}?${H}?${SP}?[(（]?${D}{1,4}[)）]?${SP}?${H}?${SP}?${D}{1,4}${SP}?${H}?${SP}?${D}{3,4}(?!${D})`, "g"),
+    check: (t) => { const n = digitsOf(t).length; return n >= 11 && n <= 12; } },
+  { kind: "phone", re: new RegExp(`(?<!${D})[(（]?[0０]${D}{1,4}[)）]?${SP}?(?:${H}${SP}?)?${D}{1,4}${SP}?(?:${H}${SP}?)?${D}{3,4}(?!${D})`, "g"),
+    check: (t) => { const n = digitsOf(t).length; return n >= 10 && n <= 11; } },
+  { kind: "postal", re: new RegExp(`〒${SP}?${D}{3}${H}?${D}{4}(?!${D})`, "g") },
+  { kind: "postal", re: new RegExp(`(?<!${D}|${H})${D}{3}${H}${D}{4}(?!${D}|${H})`, "g") },
+  { kind: "account", re: new RegExp(`(?:口座番号|口座|普通預金|当座預金|普通|当座)${SP}*[：:]?${SP}*(?:No\\.?|№)?${SP}*(${D}{6,8})(?!${D})`, "gd"), group: 1 },
+  { kind: "account", re: new RegExp(`(?<!${D})[1１]${D}{4}${H}${D}{8}(?!${D})`, "g") },
+  { kind: "address", re: new RegExp(`(?:住所|所在地|送付先|お届け先|届け先|現住所|居所)${SP}*[：:]${SP}*([^\\n]{4,60}?)(?=\\n|$|${SP}{2}|[、。，,]|TEL|Tel|tel|電話)`, "gd"), group: 1 },
+  { kind: "address", re: new RegExp(`${PREF}[一-龥々ヶヵァ-ヶー]{0,8}?[市区町村郡][一-龥々ヶヵぁ-んァ-ヶーA-Za-z]{0,20}?${BLK}${BUILDING}`, "g") },
+  { kind: "address", re: new RegExp(`(?<![一-龥々ヶヵァ-ヶー])[一-龥々ヶヵァ-ヶー]{1,6}[市区町村郡](?:[一-龥々ヶヵァ-ヶー]{1,6}[区町村])?[一-龥々ヶヵぁ-んァ-ヶー]{0,12}?${NUM}(?:丁目|番地|${H})${NUM}(?:(?:番|号|${H}|の)${NUM})*号?${BUILDING}`, "g") },
+  { kind: "birth", re: new RegExp(`(?:生年月日|誕生日)${SP}*[：:は]?${SP}*(${DATE_BODY})`, "gd"), group: 1 },
+  { kind: "name", re: new RegExp(`(?:氏名|お名前|名前|フルネーム|担当者名?|ご担当者?|患者名?|契約者名?|申込者名?|代表者名?|宛名|依頼者名?|署名|差出人|送信者|受取人|名義人?)${SP}*[：:]${SP}*([^\\s、。，,（(：:「」]{1,10}(?:${SP}[^\\s、。，,（(：:「」\\d０-９]{1,10})?)`, "gd"), group: 1, fix: (t) => fixName(t) },
+  { kind: "name", re: new RegExp(`([一-龥々ヶ]{1,8}(?:${SP}[一-龥々ヶ]{1,4})?|[ァ-ヶー]{2,10}(?:[ 　・][ァ-ヶー]{2,10})?)${SP}?(?=(?:${HONORIFIC})(?![一-龥]))`, "gd"), group: 1, fix: (t) => fixName(t) },
+  // メールの名乗り：「合同会社ミコの佐藤です」「営業部の佐藤と申します」
+  { kind: "name", re: new RegExp(`(?:${LEGAL}${CO_NAME}{1,24}|${CO_CH}{1,20}${LEGAL}|[部課室局店]|チーム)の${SP}?([一-龥々ヶ]{1,4})(?=です|と申します|でございます)`, "gd"), group: 1, fix: (t) => fixName(t) },
+  { kind: "name", re: new RegExp(`(?<=^|\\n|。|、)${SP}*([一-龥々ヶ]{1,4})(?=と申します|でございます)`, "gd"), group: 1, fix: (t) => fixName(t) },
+  { kind: "company", re: new RegExp(`${LEGAL}${SP}?${CO_NAME}{1,24}`, "g"), fix: (t) => fixCompany(t) },
+  { kind: "company", re: new RegExp(`${CO_CH}{1,20}${SP}?${LEGAL}`, "g"), fix: (t) => fixCompany(t) },
+  { kind: "money", re: new RegExp(`(?:[¥￥$＄]${SP}?${D}[0-9０-９,，.]*(?:${SP}?(?:兆|億|万|千))*|${D}[0-9０-９,，.]*(?:(?:兆|億|万|千)${D}*)*${SP}?(?:円|ドル|USD|JPY))`, "g") },
+  { kind: "date", re: new RegExp(`(?:${DATE_BODY}|${D}{1,2}月${D}{1,2}日)`, "g") },
+  { kind: "ip", re: /(?<![0-9.])(?:25[0-5]|2[0-4]\d|1?\d?\d)(?:\.(?:25[0-5]|2[0-4]\d|1?\d?\d)){3}(?![0-9.])/g },
+];
+
+// 同じ人・同じ番号には同じ伏せ字を使うためのキー
+const keyOf = (kind, text) => kind + "\u0000" + (["phone", "card", "mynumber", "postal", "account"].includes(kind) ? digitsOf(text) : text.replace(/[ 　]/g, "").toLowerCase());
+
+/**
+ * 文章を伏せ字にする。
+ * opts.kinds: 使う種類の配列（省略時は Pro 以外のすべて）
+ * opts.words: いつも伏せる言葉（辞書）
+ * opts.ignore: 伏せない言葉（利用者が外したもの）
+ * opts.lang: "ja" | "en"（伏せ字の名前）
+ * 戻り値: { masked, items: [{ token, kind, text, count }], map: { token: 元の文字 } }
+ */
+export function mask(text, opts = {}) {
+  const kinds = new Set(opts.kinds || Object.keys(LABELS.ja).filter((k) => !PRO_KINDS.includes(k)));
+  const ignore = new Set((opts.ignore || []).map((s) => s.trim()).filter(Boolean));
+  const labels = LABELS[opts.lang] || LABELS.ja;
+  const cands = [];
+  let order = 0;
+  const add = (kind, start, end, prio) => {
+    const t = text.slice(start, end);
+    if (!t.trim() || ignore.has(t.trim())) return;
+    cands.push({ kind, start, end, prio, order: order++ });
+  };
+
+  // 辞書の言葉が最優先（利用者が決めたもの）
+  const words = [...new Set((opts.words || []).map((w) => w.trim()).filter((w) => w.length >= 1))].sort((a, b) => b.length - a.length);
+  if (kinds.has("word")) {
+    for (const w of words) for (const m of text.matchAll(new RegExp(esc(w), "gi"))) add("word", m.index, m.index + m[0].length, -1);
+  }
+  RULES.forEach((r, prio) => {
+    if (!kinds.has(r.kind)) return;
+    r.re.lastIndex = 0;
+    for (const m of text.matchAll(r.re)) {
+      let [s, e] = r.group ? m.indices[r.group] : [m.index, m.index + m[0].length];
+      let t = text.slice(s, e);
+      if (r.check && !r.check(t)) continue;
+      if (r.fix) {
+        const f = r.fix(t);
+        if (!f) continue;
+        s += f.offset;
+        e = s + f.text.length;
+        t = f.text;
+      }
+      add(r.kind, s, e, prio);
+    }
+  });
+
+  // 重なりを解く：優先度の高いもの、同じなら長いものを先に採る
+  const taken = [];
+  const free = (s, e) => taken.every((x) => e <= x.start || s >= x.end);
+  for (const c of [...cands].sort((a, b) => a.prio - b.prio || (b.end - b.start) - (a.end - a.start) || a.start - b.start)) {
+    if (free(c.start, c.end)) taken.push(c);
+  }
+  // 見つかった氏名・会社名は、ほかの場所に単独で出てきても伏せる
+  for (const c of [...taken]) {
+    if (!["name", "company", "word"].includes(c.kind)) continue;
+    const t = text.slice(c.start, c.end);
+    if (t.length < 2) continue;
+    for (const m of text.matchAll(new RegExp(esc(t), "g"))) {
+      if (free(m.index, m.index + t.length)) taken.push({ kind: c.kind, start: m.index, end: m.index + t.length });
+    }
+  }
+  taken.sort((a, b) => a.start - b.start);
+
+  // 伏せ字の番号は、出てきた順に種類ごとに振る
+  const counters = {}, byKey = new Map(), items = [], map = {};
+  let out = "", pos = 0;
+  for (const c of taken) {
+    const t = text.slice(c.start, c.end);
+    const key = keyOf(c.kind, t);
+    let item = byKey.get(key);
+    if (!item) {
+      counters[c.kind] = (counters[c.kind] || 0) + 1;
+      item = { token: `[${labels[c.kind]}${counters[c.kind]}]`, kind: c.kind, text: t, count: 0 };
+      byKey.set(key, item);
+      items.push(item);
+      map[item.token] = t;
+    }
+    item.count++;
+    out += text.slice(pos, c.start) + item.token;
+    pos = c.end;
+  }
+  out += text.slice(pos);
+  return { masked: out, items, map };
+}
+
+/**
+ * AIの答えの中の伏せ字を、元の文字に戻す。
+ * AIが括弧を【】や［］に変えたり、括弧を外したりしても戻せるようにする。
+ * 戻り値: { text, replaced }
+ */
+export function restore(text, map) {
+  let replaced = 0;
+  const tokens = Object.keys(map || {}).sort((a, b) => b.length - a.length);
+  for (const token of tokens) {
+    const m = token.match(/^\[(.+?)(\d+)\]$/);
+    if (!m) continue;
+    const re = new RegExp(`[\\[［【〔<＜]?${SP}*${esc(m[1])}${SP}*${m[2]}(?!\\d)${SP}*[\\]］】〕>＞]?`, "gi");
+    text = text.replace(re, () => { replaced++; return map[token]; });
+  }
+  return { text, replaced };
+}
+
+// 伏せ字の部分を見分けるための分割（画面で色を付ける用）
+export function splitTokens(text, map) {
+  const tokens = Object.keys(map || {});
+  if (!tokens.length) return [{ text }];
+  const re = new RegExp(tokens.sort((a, b) => b.length - a.length).map(esc).join("|"), "g");
+  const parts = [];
+  let pos = 0;
+  for (const m of text.matchAll(re)) {
+    if (m.index > pos) parts.push({ text: text.slice(pos, m.index) });
+    parts.push({ text: m[0], token: true, original: map[m[0]] });
+    pos = m.index + m[0].length;
+  }
+  if (pos < text.length) parts.push({ text: text.slice(pos) });
+  return parts;
+}
