@@ -2,7 +2,7 @@
 import { mask, restore, splitTokens } from "./mask.js";
 
 const STORE_URL = "https://chromewebstore.google.com/detail/clhnanhhikamfccidiibgbbfhnkgefjo";
-const STORE_LIVE = false; // ストアの審査に通ったら true にする
+const STORE_LIVE = true; // 2026-10-12 公開を確認
 const $ = (id) => document.getElementById(id);
 let ignore = [];
 let current = { map: {} };
