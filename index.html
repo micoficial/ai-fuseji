@@ -81,7 +81,7 @@
   <p>サイドパネルでいつでも開けて、ページの文字を選んで右クリック →「伏せ字にする」「伏せ字を元に戻す」でも使えます。無料です。</p>
   <ul class="checks">
     <li>Pro版（買い切り ¥1,480）：いつも伏せる言葉を無制限に登録、金額・日付・URLも伏せる、対応表の履歴20件</li>
-    <li>ページの中身を読む権限は使いません</li>
+    <li>ページの中身を読む権限は使いません（権限は右クリック・サイドパネル・設定の保存の3つだけ。<a href="#faq-perm">確かめ方</a>）</li>
   </ul>
   <p><a class="btn primary big" id="storeLink2" href="#">Chromeウェブストアで見る</a> <a class="btn big" href="https://micoficial.gumroad.com/l/ai-fuseji-pro" rel="noopener">Pro版について</a></p>
   <p class="muted small" id="storeNote"></p>
@@ -116,6 +116,7 @@
   <h2>よくある質問</h2>
   <details><summary>伏せ字にすれば、AIに何を貼っても安全ですか？</summary><p>いいえ。判定は機械的なルールなので、見落としがありえます。送る前に、伏せ字の文章を目で確認してください。会社のルールで禁止されている情報は、伏せ字にしても貼らないでください。</p></details>
   <details><summary>AIが答えの中で伏せ字の形を変えたら？</summary><p>[氏名1] が【氏名1】や［氏名1］、括弧なしの「氏名1」に変わっても元に戻せます。</p></details>
+  <details id="faq-perm"><summary>拡張機能そのものが、AIとの会話を盗み見ることはありませんか？</summary><p>2026年1月、AI公式を装ってChatGPTなどの会話を外へ送っていた拡張機能が、合計90万以上インストールされていたと報じられました。拡張機能は「何を読めるか（権限）」で確かめられます。AI伏せ字の権限は次の3つだけです。</p><ul><li>右クリックメニュー（contextMenus）</li><li>サイドパネル（sidePanel）</li><li>設定の保存（storage）</li></ul><p>「すべてのサイトのデータの読み取りと変更」の権限は使わないので、ChatGPTなどの画面の中身は読めません。通信するのは、Pro版のライセンスキーを確かめるときの Gumroad（api.gumroad.com）だけで、文章は送りません。Chromeの「拡張機能を管理」→「詳細」で、表示された権限をご自身で確認できます。他の拡張機能も、同じ見方で確かめてみてください。</p></details>
   <details><summary>英語の文章にも使えますか？</summary><p>メール、電話番号、カード番号などは使えます。氏名と会社名の判定は日本語向けです。英語の名前は「いつも伏せる言葉」に登録してください。</p></details>
   <details><summary>誰が作っていますか？</summary><p>合同会社micoです。AIのフクロウ「ゼロ」が作り、その過程を動画で公開しています。お問い合わせ：mico.95.official@gmail.com</p></details>
 </section>

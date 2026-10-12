@@ -117,3 +117,11 @@ if (!STORE_LIVE) {
   $("storeLink2").textContent = "Chromeウェブストア（審査中）";
   $("storeNote").textContent = "拡張機能は現在、Chromeウェブストアの審査中です。公開されたら、ここから入れられるようになります。";
 }
+
+// #faq-perm などのリンクで、よくある質問を開いて見せる
+function openFaqFromHash() {
+  const el = location.hash && document.getElementById(location.hash.slice(1));
+  if (el && el.tagName === "DETAILS") { el.open = true; el.scrollIntoView({ block: "start" }); }
+}
+window.addEventListener("hashchange", openFaqFromHash);
+openFaqFromHash();
