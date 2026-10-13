@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDF結合（無料・アップロードなし）｜複数のPDFをブラウザの中で1つにまとめる</title>
+<meta name="description" content="複数のPDFを、アップロードせずにブラウザの中だけで1つに結合する無料ツール。順番の並べ替えもできます。見積書・契約書など社外に出したくないPDFも安心。登録・インストール不要。">
+<meta property="og:title" content="PDF結合（無料・アップロードなし）">
+<meta property="og:description" content="複数のPDFを、ブラウザの中だけで1つに。ファイルを外部に送りません。">
+<link rel="icon" href="merge-icon128.png">
+<link rel="stylesheet" href="../style.css">
+<style>
+  .drop { display: block; border: 2px dashed var(--line); border-radius: 14px; padding: 36px 16px; text-align: center; background: var(--card); cursor: pointer; }
+  .drop.over { border-color: var(--accent); }
+  .drop b { display: block; font-size: 20px; margin-bottom: 4px; }
+  .files { list-style: none; padding: 0; margin: 16px 0; display: grid; gap: 6px; }
+  .files li { display: grid; grid-template-columns: 2em 1fr auto; gap: 10px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); }
+  .files .no { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .files .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; }
+  .files .ops button { border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 8px; padding: 2px 10px; cursor: pointer; font: inherit; }
+  .run { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap row">
+    <a class="brand" href="./merge.html"><img src="merge-icon128.png" alt="" width="32" height="32"> PDF結合</a>
+    <a class="btn small" href="#ext">拡張機能</a>
+  </div>
+</header>
+<main>
+<section class="hero wrap">
+  <p class="eyebrow">無料・登録なし・アップロードなし</p>
+  <h1>複数のPDFを、<br><em>外に出さずに1つに。</em></h1>
+  <p class="lead">PDFの結合と並べ替えを、このページの中（あなたのブラウザの中）だけで行います。ファイルはどこにも送信しません。見積書や契約書など、オンラインのサービスにアップロードしたくないPDFにどうぞ。</p>
+</section>
+
+<section class="tool wrap" aria-label="PDF結合ツール">
+  <label id="drop" class="drop">
+    <b>PDFをここにドラッグ</b>
+    <span class="muted">またはクリックして選ぶ（複数まとめてOK）。上から順に1つにまとめます。</span>
+    <input id="fileInput" type="file" accept="application/pdf" multiple hidden>
+  </label>
+  <ol id="files" class="files"></ol>
+  <div class="run">
+    <button id="run" class="btn primary big" disabled>結合してダウンロード</button>
+    <span id="status" class="muted" role="status"></span>
+  </div>
+</section>
+
+<section class="wrap grid3">
+  <div class="card"><h3>本当に送っていない？</h3><p>結合は、このページのプログラムがあなたのブラウザの中で行います。PDFをサーバーに送る仕組みはありません。読み込んだあとは、ネットを切っても動きます。</p></div>
+  <div class="card"><h3>何ができる？</h3><p>複数のPDFを1つに結合、↑↓で順番の並べ替え、不要なファイルの削除。ページ単位の指定・回転・分割は拡張機能のPro版でできます。</p></div>
+  <div class="card"><h3>重くなったら</h3><p>結合したPDFが重くてメールで送れないときは、<a href="compress.html">PDF圧縮</a>（こちらもアップロードなし）で小さくできます。</p></div>
+</section>
+
+<section class="wrap install" id="ext">
+  <h2>よく使うなら、Chrome拡張機能で</h2>
+  <p>ツールバーのボタン1つで開けます。Pro版（買い切り ¥980）では、ページ範囲の指定・回転・分割・画像の追加ができます。</p>
+  <p><a class="btn primary big" href="https://chromewebstore.google.com/detail/bmbjoiempejebljbjgkddmmlnlnhbjjn" rel="noopener">Chromeウェブストアで見る</a> <a class="btn big" href="https://micoficial.gumroad.com/l/pdf-merge-pro" rel="noopener">Pro版について</a></p>
+  <p class="muted small">Microsoft Edge アドオン版は審査中です。</p>
+</section>
+
+<section class="wrap faq">
+  <h2>よくある質問</h2>
+  <details><summary>パスワード付きのPDFは？</summary><p>パスワードで保護されたPDFは、結合できないことがあります。保護を外してからお試しください。</p></details>
+  <details><summary>何個まで結合できますか？</summary><p>決まった上限はありません。ただし、とても大きなPDFをたくさん入れると、パソコンのメモリによっては時間がかかります。</p></details>
+  <details><summary>詳しいやり方や、ほかの方法は？</summary><p><a href="../articles/pdf-merge-no-upload.html">会社のPDFを結合したい。ネットにアップロードせずに済ませる4つの方法</a>にまとめています。</p></details>
+</section>
+</main>
+<footer class="wrap foot">
+  <p>© 2026 合同会社mico ／ <a href="../privacy.html">プライバシーポリシー</a> ／ <a href="../">AI伏せ字</a></p>
+</footer>
+<script type="module">
+import { PDFDocument } from "./lib/pdf-lib.esm.min.js";
+const $ = (id) => document.getElementById(id);
+const items = [];
+const fmt = (n) => n >= 1048576 ? (n / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(n / 1024)) + " KB";
+function render() {
+  const ol = $("files");
+  ol.innerHTML = "";
+  items.forEach((it, i) => {
+    const li = document.createElement("li");
+    li.innerHTML = '<span class="no"></span><span class="name"></span><span class="ops"><button data-a="up" aria-label="上へ">↑</button> <button data-a="down" aria-label="下へ">↓</button> <button data-a="del" aria-label="外す">×</button></span>';
+    li.querySelector(".no").textContent = i + 1;
+    li.querySelector(".name").textContent = `${it.name}（${fmt(it.size)}）`;
+    li.querySelector(".ops").addEventListener("click", (e) => {
+      const a = e.target.dataset.a; if (!a) return;
+      if (a === "up" && i > 0) [items[i - 1], items[i]] = [items[i], items[i - 1]];
+      if (a === "down" && i < items.length - 1) [items[i + 1], items[i]] = [items[i], items[i + 1]];
+      if (a === "del") items.splice(i, 1);
+      render();
+    });
+    ol.append(li);
+  });
+  $("run").disabled = items.length < 2;
+  $("status").textContent = items.length === 1 ? "もう1つ以上PDFを入れてください。" : "";
+}
+async function add(files) {
+  for (const f of files) {
+    if (!(f.type === "application/pdf" || /\.pdf$/i.test(f.name))) continue;
+    items.push({ name: f.name, size: f.size, bytes: new Uint8Array(await f.arrayBuffer()) });
+  }
+  render();
+}
+$("fileInput").addEventListener("change", (e) => { add([...e.target.files]); e.target.value = ""; });
+const drop = $("drop");
+for (const ev of ["dragenter", "dragover"]) drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("over"); });
+for (const ev of ["dragleave", "drop"]) drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove("over"); });
+drop.addEventListener("drop", (e) => add([...e.dataTransfer.files]));
+$("run").addEventListener("click", async () => {
+  $("run").disabled = true; $("status").textContent = "結合しています…";
+  try {
+    const out = await PDFDocument.create();
+    for (const it of items) {
+      const src = await PDFDocument.load(it.bytes, { ignoreEncryption: true });
+      for (const p of await out.copyPages(src, src.getPageIndices())) out.addPage(p);
+    }
+    const bytes = await out.save();
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([bytes], { type: "application/pdf" }));
+    a.download = "結合.pdf";
+    a.click();
+    $("status").textContent = `${items.length}個のPDF（${out.getPageCount()}ページ）を1つにまとめました。`;
+  } catch (e) {
+    $("status").textContent = "結合できませんでした：" + String(e.message || e).slice(0, 100);
+  } finally { $("run").disabled = items.length < 2; }
+});
+</script>
+</body>
+</html>
