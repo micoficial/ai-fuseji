@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>画像の文字を読み取り（OCR・無料・アップロードなし）｜画像から文字を抽出</title>
+<meta name="description" content="画像の文字を読み取ってテキストにする無料のOCRツール。スクリーンショットや写真を貼り付けるだけで、日本語・英語の文字を抽出します。画像はアップロードせず、ブラウザの中だけで処理。登録不要。">
+<meta property="og:title" content="画像の文字を読み取り（OCR・アップロードなし）">
+<meta property="og:description" content="画像から文字を抽出。ブラウザの中だけで処理し、画像を外部に送りません。">
+<link rel="icon" href="ocr-icon128.png">
+<link rel="stylesheet" href="../style.css">
+<style>
+  .drop { display: block; border: 2px dashed var(--line); border-radius: 14px; padding: 32px 16px; text-align: center; background: var(--card); cursor: pointer; }
+  .drop.over { border-color: var(--accent); }
+  .drop b { display: block; font-size: 20px; margin-bottom: 4px; }
+  .opts { display: flex; gap: 18px; flex-wrap: wrap; align-items: center; margin: 12px 0; }
+  .out { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; margin-top: 12px; }
+  .out img { max-width: 100%; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+  .out textarea { width: 100%; min-height: 280px; border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--card); color: var(--ink); font: 15px/1.7 inherit; }
+  @media (max-width: 760px) { .out { grid-template-columns: 1fr; } }
+  progress { width: 220px; }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap row">
+    <a class="brand" href="./"><img src="ocr-icon128.png" alt="" width="32" height="32"> 画像の文字読み取り</a>
+    <a class="btn small" href="#ext">拡張機能</a>
+  </div>
+</header>
+<main>
+<section class="hero wrap">
+  <p class="eyebrow">無料・登録なし・アップロードなし</p>
+  <h1>画像の文字を、<br><em>外に出さずにテキストに。</em></h1>
+  <p class="lead">スクリーンショットや写真を貼り付けるだけで、日本語・英語の文字を読み取ります（OCR）。画像はどこにも送信せず、このページの中（あなたのブラウザの中）だけで処理します。請求書や名刺など、外に出したくない画像にもどうぞ。</p>
+</section>
+
+<section class="tool wrap" aria-label="文字読み取りツール">
+  <label id="drop" class="drop" tabindex="0">
+    <b>画像をここに貼り付け（Ctrl+V）またはドラッグ</b>
+    <span class="muted">クリックして選ぶこともできます（PNG・JPG など）</span>
+    <input id="fileInput" type="file" accept="image/*" hidden>
+  </label>
+  <div class="opts">
+    <label><input type="radio" name="lang" value="jpn+eng" checked> 日本語＋英語</label>
+    <label><input type="radio" name="lang" value="eng"> 英語だけ</label>
+    <label><input type="checkbox" id="join"> 改行をつなげる（文章として貼りたいとき）</label>
+    <span id="status" class="muted" role="status"></span>
+    <progress id="prog" max="1" value="0" hidden></progress>
+  </div>
+  <div class="out" id="out" hidden>
+    <div><img id="preview" alt="読み取った画像"></div>
+    <div>
+      <textarea id="text" spellcheck="false" aria-label="読み取った文字"></textarea>
+      <p><button id="copy" class="btn primary">テキストをコピー</button> <span class="muted small">読み間違いがあるので、使う前に目で確かめてください。</span></p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap grid3">
+  <div class="card"><h3>本当に送っていない？</h3><p>文字の読み取りは、このページに入っている読み取りエンジン（Tesseract.js）が、あなたのブラウザの中で行います。画像をサーバーに送る仕組みはありません。</p></div>
+  <div class="card"><h3>はじめは少し待ちます</h3><p>最初の1回だけ、読み取りエンジンと日本語のデータ（約10MB）を読み込みます。2回目からは速くなります。</p></div>
+  <div class="card"><h3>うまく読めないときは</h3><p>文字が小さい・ぼやけている画像は読み間違えます。できるだけ大きく、まっすぐ撮った画像を使ってください。</p></div>
+</section>
+
+<section class="wrap install" id="ext">
+  <h2>画面の文字をそのまま読むなら、拡張機能で</h2>
+  <p>拡張機能版「ローカルOCR」なら、ページの読みたい範囲をドラッグで囲むだけで読み取れます。Pro版（買い切り ¥980）では、縦書き、複数の画像のまとめ読み、全角英数字の半角化、履歴が使えます。</p>
+  <ul class="checks">
+    <li>Microsoft Edge アドオン：審査中</li>
+    <li>Chrome ウェブストア：準備中</li>
+  </ul>
+  <p><a class="btn big" href="https://micoficial.gumroad.com/l/local-ocr-pro" rel="noopener">Pro版について</a></p>
+</section>
+
+<section class="wrap faq">
+  <h2>よくある質問</h2>
+  <details><summary>縦書きの文字は読めますか？</summary><p>このページでは横書きだけです。縦書きは拡張機能のPro版で読み取れます。</p></details>
+  <details><summary>PDFの文字は？</summary><p>PDFは、画面に表示してスクリーンショットを撮り、その画像を貼り付けてください。</p></details>
+  <details><summary>誰が作っていますか？</summary><p>合同会社micoです。同じ考え方（外に出さない）で、<a href="../pdf/merge.html">PDF結合</a>・<a href="../pdf/compress.html">PDF圧縮</a>・<a href="../">AIに貼る前に個人情報を伏せ字にするツール</a>も作っています。</p></details>
+</section>
+</main>
+<footer class="wrap foot">
+  <p>© 2026 合同会社mico ／ <a href="../privacy.html">プライバシーポリシー</a></p>
+</footer>
+<script type="module">
+import Tesseract from "./vendor/tesseract.esm.min.js";
+import { clean } from "./text.js";
+const $ = (id) => document.getElementById(id);
+const u = (p) => new URL(p, import.meta.url).href;
+const workers = new Map();
+let raw = "";
+function worker(lang) {
+  if (!workers.has(lang)) {
+    const p = Tesseract.createWorker(lang, Tesseract.OEM.LSTM_ONLY, {
+      workerPath: u("./vendor/worker.min.js"),
+      corePath: u("./vendor/core"),
+      langPath: u("./vendor/lang"),
+      workerBlobURL: false,
+      gzip: true,
+      logger: (m) => {
+        if (m.status === "recognizing text") { $("prog").hidden = false; $("prog").value = m.progress; $("status").textContent = "読み取り中…"; }
+        else if (/loading|initializ/.test(m.status)) { $("status").textContent = "読み取りの準備中…（初回は少し時間がかかります）"; }
+      },
+    }).then(async (w) => { await w.setParameters({ tessedit_pageseg_mode: "3", preserve_interword_spaces: "1" }); return w; });
+    p.catch(() => workers.delete(lang));
+    workers.set(lang, p);
+  }
+  return workers.get(lang);
+}
+async function prepare(blob) {
+  const bmp = await createImageBitmap(blob);
+  const scale = Math.max(bmp.width, bmp.height) < 1600 ? 2 : 1;
+  const c = document.createElement("canvas");
+  c.width = bmp.width * scale; c.height = bmp.height * scale;
+  const g = c.getContext("2d");
+  g.fillStyle = "#fff"; g.fillRect(0, 0, c.width, c.height);
+  g.imageSmoothingQuality = "high";
+  g.drawImage(bmp, 0, 0, c.width, c.height);
+  return new Promise((r) => c.toBlob(r, "image/png"));
+}
+const render = () => { $("text").value = clean(raw, { join: $("join").checked }); };
+async function run(blob) {
+  if (!blob || !/^image\//.test(blob.type)) { $("status").textContent = "画像を貼り付けるか、選んでください。"; return; }
+  $("out").hidden = false;
+  $("preview").src = URL.createObjectURL(blob);
+  $("text").value = "";
+  const lang = document.querySelector('input[name="lang"]:checked').value;
+  try {
+    const w = await worker(lang);
+    const { data } = await w.recognize(await prepare(blob));
+    raw = data.text;
+    render();
+    $("status").textContent = `読み取りました（確からしさ ${Math.round(data.confidence)}%）`;
+  } catch (e) {
+    $("status").textContent = "読み取れませんでした：" + String(e.message || e).slice(0, 100);
+  } finally { $("prog").hidden = true; }
+}
+$("join").addEventListener("change", render);
+$("copy").addEventListener("click", async () => { await navigator.clipboard.writeText($("text").value); $("status").textContent = "コピーしました"; });
+$("fileInput").addEventListener("change", (e) => { const f = e.target.files[0]; e.target.value = ""; run(f); });
+document.addEventListener("paste", (e) => { const it = [...(e.clipboardData?.items || [])].find((x) => x.type.startsWith("image/")); if (it) { e.preventDefault(); run(it.getAsFile()); } });
+const drop = $("drop");
+for (const ev of ["dragenter", "dragover"]) drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("over"); });
+for (const ev of ["dragleave", "drop"]) drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove("over"); });
+drop.addEventListener("drop", (e) => run(e.dataTransfer.files[0]));
+</script>
+</body>
+</html>
