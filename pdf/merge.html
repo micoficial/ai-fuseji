@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PDF結合（無料・アップロードなし）｜複数のPDFをブラウザの中で1つにまとめる</title>
-<meta name="description" content="複数のPDFを、アップロードせずにブラウザの中だけで1つに結合する無料ツール。順番の並べ替えもできます。見積書・契約書など社外に出したくないPDFも安心。登録・インストール不要。">
+<meta name="description" content="複数のPDFを、アップロードせずにブラウザの中だけで1つに結合する無料ツール。順番の並べ替えや、サイズがバラバラなページをA4にそろえることもできます。見積書・契約書など社外に出したくないPDFも安心。登録・インストール不要。">
 <meta property="og:title" content="PDF結合（無料・アップロードなし）">
 <meta property="og:description" content="複数のPDFを、ブラウザの中だけで1つに。ファイルを外部に送りません。">
 <link rel="icon" href="merge-icon128.png">
@@ -18,9 +18,11 @@
   .files .no { color: var(--muted); font-variant-numeric: tabular-nums; }
   .files .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; }
   .files .ops button { border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 8px; padding: 2px 10px; cursor: pointer; font: inherit; }
+  .fit { display: block; margin: 0 0 12px; }
+  .fit input { transform: scale(1.2); margin-right: 6px; }
   .run { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 </style>
-<script type="application/ld+json">[{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PDF結合（アップロードなし）","url":"https://micoficial.github.io/ai-fuseji/pdf/merge.html","description":"複数のPDFを、アップロードせずにブラウザの中で1つに結合する無料ツール。","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows, macOS, ChromeOS（Chrome・Edge などのブラウザ）","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"publisher":{"@type":"Organization","name":"合同会社mico"}},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"パスワード付きのPDFは？","acceptedAnswer":{"@type":"Answer","text":"パスワードで保護されたPDFは、結合できないことがあります。保護を外してからお試しください。"}},{"@type":"Question","name":"何個まで結合できますか？","acceptedAnswer":{"@type":"Answer","text":"決まった上限はありません。ただし、とても大きなPDFをたくさん入れると、パソコンのメモリによっては時間がかかります。"}},{"@type":"Question","name":"詳しいやり方や、ほかの方法は？","acceptedAnswer":{"@type":"Answer","text":"会社のPDFを結合したい。ネットにアップロードせずに済ませる4つの方法にまとめています。"}}]}]</script>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PDF結合（アップロードなし）","url":"https://micoficial.github.io/ai-fuseji/pdf/merge.html","description":"複数のPDFを、アップロードせずにブラウザの中で1つに結合する無料ツール。","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows, macOS, ChromeOS（Chrome・Edge などのブラウザ）","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"publisher":{"@type":"Organization","name":"合同会社mico"}},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"パスワード付きのPDFは？","acceptedAnswer":{"@type":"Answer","text":"パスワードで保護されたPDFは、結合できないことがあります。保護を外してからお試しください。"}},{"@type":"Question","name":"何個まで結合できますか？","acceptedAnswer":{"@type":"Answer","text":"決まった上限はありません。ただし、とても大きなPDFをたくさん入れると、パソコンのメモリによっては時間がかかります。"}},{"@type":"Question","name":"結合したらページのサイズがバラバラになります","acceptedAnswer":{"@type":"Answer","text":"「ページの大きさをA4にそろえる」にチェックを入れてから結合すると、縦長のページはA4縦、横長のページはA4横に、縦横比を保ったまま拡大・縮小して置き直します。文字は選べるままです。"}},{"@type":"Question","name":"詳しいやり方や、ほかの方法は？","acceptedAnswer":{"@type":"Answer","text":"会社のPDFを結合したい。ネットにアップロードせずに済ませる4つの方法にまとめています。"}}]}]</script>
 </head>
 <body>
 <header class="top">
@@ -43,6 +45,7 @@
     <input id="fileInput" type="file" accept="application/pdf" multiple hidden>
   </label>
   <ol id="files" class="files"></ol>
+  <label class="fit"><input id="fitA4" type="checkbox"> ページの大きさをA4にそろえる（B5・レター・スキャンなど、サイズがバラバラなとき。縦横は元のまま、余白は白）</label>
   <div class="run">
     <button id="run" class="btn primary big" disabled>結合してダウンロード</button>
     <span id="status" class="muted" role="status"></span>
@@ -51,7 +54,7 @@
 
 <section class="wrap grid3">
   <div class="card"><h3>本当に送っていない？</h3><p>結合は、このページのプログラムがあなたのブラウザの中で行います。PDFをサーバーに送る仕組みはありません。読み込んだあとは、ネットを切っても動きます。</p></div>
-  <div class="card"><h3>何ができる？</h3><p>複数のPDFを1つに結合、↑↓で順番の並べ替え、不要なファイルの削除。ページ単位の指定・回転・分割は拡張機能のPro版でできます。</p></div>
+  <div class="card"><h3>何ができる？</h3><p>複数のPDFを1つに結合、↑↓で順番の並べ替え、不要なファイルの削除、ページの大きさをA4にそろえる。ページ単位の指定・回転・分割は拡張機能のPro版でできます。</p></div>
   <div class="card"><h3>重くなったら</h3><p>結合したPDFが重くてメールで送れないときは、<a href="compress.html">PDF圧縮</a>（こちらもアップロードなし）で小さくできます。</p></div>
 </section>
 
@@ -66,6 +69,7 @@
   <h2>よくある質問</h2>
   <details><summary>パスワード付きのPDFは？</summary><p>パスワードで保護されたPDFは、結合できないことがあります。保護を外してからお試しください。</p></details>
   <details><summary>何個まで結合できますか？</summary><p>決まった上限はありません。ただし、とても大きなPDFをたくさん入れると、パソコンのメモリによっては時間がかかります。</p></details>
+  <details><summary>結合したらページのサイズがバラバラになります</summary><p>A4・B5・レター（米国の用紙）・スキャンした書類などを結合すると、元の大きさのまま並ぶため、ページごとに大きさが変わります。「ページの大きさをA4にそろえる」にチェックを入れてから結合すると、縦長のページはA4縦、横長のページはA4横に、縦横比を保ったまま拡大・縮小して置き直します。文字は選べるまま（画像にはしません）です。</p></details>
   <details><summary>詳しいやり方や、ほかの方法は？</summary><p><a href="../articles/pdf-merge-no-upload.html">会社のPDFを結合したい。ネットにアップロードせずに済ませる4つの方法</a>にまとめています。</p></details>
 </section>
 </main>
@@ -74,6 +78,7 @@
 </footer>
 <script type="module">
 import { PDFDocument } from "./lib/pdf-lib.esm.min.js";
+import { addPagesFitA4 } from "./merge-fit.js";
 const $ = (id) => document.getElementById(id);
 const items = [];
 const fmt = (n) => n >= 1048576 ? (n / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(n / 1024)) + " KB";
@@ -115,14 +120,15 @@ $("run").addEventListener("click", async () => {
     const out = await PDFDocument.create();
     for (const it of items) {
       const src = await PDFDocument.load(it.bytes, { ignoreEncryption: true });
-      for (const p of await out.copyPages(src, src.getPageIndices())) out.addPage(p);
+      if ($("fitA4").checked) await addPagesFitA4(out, src);
+      else for (const p of await out.copyPages(src, src.getPageIndices())) out.addPage(p);
     }
     const bytes = await out.save();
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([bytes], { type: "application/pdf" }));
     a.download = "結合.pdf";
     a.click();
-    $("status").textContent = `${items.length}個のPDF（${out.getPageCount()}ページ）を1つにまとめました。`;
+    $("status").textContent = `${items.length}個のPDF（${out.getPageCount()}ページ）を1つにまとめました${$("fitA4").checked ? "（A4にそろえました）" : ""}。`;
   } catch (e) {
     $("status").textContent = "結合できませんでした：" + String(e.message || e).slice(0, 100);
   } finally { $("run").disabled = items.length < 2; }
