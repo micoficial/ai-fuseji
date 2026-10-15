@@ -1,7 +1,7 @@
 // 体験ページ：拡張機能と同じ判定（mask.js）を、ページの中だけで動かす。文章はどこにも送らない。
 import { mask, restore, splitTokens } from "./mask.js";
 
-const STORE_URL = "https://chromewebstore.google.com/detail/clhnanhhikamfccidiibgbbfhnkgefjo";
+const STORE_URL = "https://chromewebstore.google.com/detail/clhnanhhikamfccidiibgbbfhnkgefjo?utm_source=micoficial_site&utm_medium=top";
 const STORE_LIVE = true; // 2026-10-12 公開を確認
 const $ = (id) => document.getElementById(id);
 let ignore = [];
