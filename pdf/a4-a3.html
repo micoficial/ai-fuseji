@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDFのA4 2枚をA3 1枚に（無料・アップロードなし）｜余白なしで横に並べる</title>
+<meta name="description" content="A4のPDFを2ページずつ横に並べて、A3横の1ページにする無料ツール。余白なし、右→左（右綴じ）にも対応。アップロードせずブラウザの中だけで処理するので、社外に出したくない資料も安心。登録・インストール不要、Chrome・Edge対応。">
+<meta property="og:title" content="PDFのA4 2枚をA3 1枚に（無料・アップロードなし）">
+<meta property="og:description" content="A4を2ページずつ横に並べてA3に。ファイルを外部に送りません。">
+<link rel="icon" href="merge-icon128.png">
+<link rel="canonical" href="https://micoficial.github.io/ai-fuseji/pdf/a4-a3.html">
+<link rel="stylesheet" href="../style.css">
+<style>
+  .drop { display: block; border: 2px dashed var(--line); border-radius: 14px; padding: 36px 16px; text-align: center; background: var(--card); cursor: pointer; }
+  .drop.over { border-color: var(--accent); }
+  .drop b { display: block; font-size: 20px; margin-bottom: 4px; }
+  .files { list-style: none; padding: 0; margin: 16px 0; display: grid; gap: 6px; }
+  .files li { display: grid; grid-template-columns: 2em 1fr auto; gap: 10px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); }
+  .files .no { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .files .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; }
+  .files .ops button { border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 8px; padding: 2px 10px; cursor: pointer; font: inherit; }
+  .fit { display: block; margin: 0 0 12px; }
+  .fit input { transform: scale(1.2); margin-right: 6px; }
+  .run { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+</style>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PDF A4 2枚→A3 1枚（アップロードなし）","url":"https://micoficial.github.io/ai-fuseji/pdf/a4-a3.html","description":"A4のPDFを2ページずつ横に並べてA3横にする無料ツール。ブラウザの中だけで処理します。","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows, macOS, ChromeOS（Chrome・Edge などのブラウザ）","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"publisher":{"@type":"Organization","name":"合同会社mico"}},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"余白は入りますか？","acceptedAnswer":{"@type":"Answer","text":"入りません。A4のページはA3の左右半分にぴったり収まります。B5やスキャンなどA4以外のページは、縦横比を保って半分の枠に収め、足りない所は白になります。"}},{"@type":"Question","name":"右から左の順にできますか？","acceptedAnswer":{"@type":"Answer","text":"できます。「右→左の順（右綴じ）」を選ぶと、1ページ目が右、2ページ目が左に並びます。縦書きの資料や冊子の見開きに。"}},{"@type":"Question","name":"ページ数が奇数のときは？","acceptedAnswer":{"@type":"Answer","text":"最後のA3は片側だけにページを置き、もう片側は白のままにします。"}},{"@type":"Question","name":"文字は画像になりますか？","acceptedAnswer":{"@type":"Answer","text":"なりません。元のPDFのまま並べるので、文字は選んだりコピーしたりできます。"}},{"@type":"Question","name":"Microsoft Edgeで使えますか？","acceptedAnswer":{"@type":"Answer","text":"はい。このページはEdgeでもそのまま使えます（インストール不要）。"}}]}]</script>
+</head>
+<body>
+<header class="top">
+  <div class="wrap row">
+    <a class="brand" href="./a4-a3.html"><img src="merge-icon128.png" alt="" width="32" height="32"> A4 2枚→A3</a>
+    <a class="btn small" href="merge.html">PDF結合</a>
+  </div>
+</header>
+<main>
+<section class="hero wrap">
+  <p class="eyebrow">無料・登録なし・アップロードなし</p>
+  <h1>A4のPDF 2枚を、<br><em>余白なしでA3 1枚に。</em></h1>
+  <p class="lead">A4のページを2つずつ横に並べて、A3横のPDFにします。会議の配布資料や見開きの印刷に。処理はこのページの中（あなたのブラウザの中）だけで行い、ファイルはどこにも送信しません。</p>
+</section>
+
+<section class="tool wrap" aria-label="A4 2枚をA3 1枚にするツール">
+  <label id="drop" class="drop">
+    <b>PDFをここにドラッグ</b>
+    <span class="muted">またはクリックして選ぶ。複数のPDFを入れたら、上から順につないでから2ページずつ並べます。</span>
+    <input id="fileInput" type="file" accept="application/pdf" multiple hidden>
+  </label>
+  <ol id="files" class="files"></ol>
+  <p class="fit"><label><input type="radio" name="dir" value="ltr" checked> 左→右の順（横書きの資料）</label>　<label><input type="radio" name="dir" value="rtl"> 右→左の順（右綴じ・縦書き）</label></p>
+  <div class="run">
+    <button id="run" class="btn primary big" disabled>A3にしてダウンロード</button>
+    <span id="status" class="muted" role="status"></span>
+  </div>
+</section>
+
+<section class="wrap grid3">
+  <div class="card"><h3>本当に送っていない？</h3><p>このページのプログラムが、あなたのブラウザの中で並べ替えます。PDFをサーバーに送る仕組みはありません。読み込んだあとは、ネットを切っても動きます。</p></div>
+  <div class="card"><h3>印刷で2アップとどう違う？</h3><p>印刷の「1枚に2ページ」は余白が入り、縮小されます。ここではA4を縮めずにA3の左右にそのまま置くので、余白なし・原寸のままです。</p></div>
+  <div class="card"><h3>逆にしたいときは</h3><p>複数のPDFを1つにするだけなら<a href="merge.html">PDF結合</a>、重くなったら<a href="compress.html">PDF圧縮</a>へ（どちらもアップロードなし）。</p></div>
+</section>
+
+<section class="wrap install" id="ext">
+  <h2>PDFをよく扱うなら、Chrome拡張機能で</h2>
+  <p>ツールバーのボタン1つでPDFの結合・並べ替え。Pro版（買い切り ¥980）では、ページ範囲の指定・回転・分割・画像の追加ができます。</p>
+  <p><a class="btn primary big" href="https://chromewebstore.google.com/detail/bmbjoiempejebljbjgkddmmlnlnhbjjn?utm_source=micoficial_site&utm_medium=pdf_a4a3" rel="noopener">Chromeウェブストアで見る</a></p>
+</section>
+
+<section class="wrap faq">
+  <h2>よくある質問</h2>
+  <details><summary>余白は入りますか？</summary><p>入りません。A4のページはA3の左右半分にぴったり収まります。B5やスキャンなどA4以外のページは、縦横比を保って半分の枠に収め、足りない所は白になります。</p></details>
+  <details><summary>右から左の順にできますか？</summary><p>できます。「右→左の順（右綴じ）」を選ぶと、1ページ目が右、2ページ目が左に並びます。縦書きの資料や冊子の見開きに。</p></details>
+  <details><summary>ページ数が奇数のときは？</summary><p>最後のA3は片側だけにページを置き、もう片側は白のままにします。</p></details>
+  <details><summary>文字は画像になりますか？</summary><p>なりません。元のPDFのまま並べるので、文字は選んだりコピーしたりできます。</p></details>
+  <details><summary>Microsoft Edgeで使えますか？</summary><p>はい。このページはEdgeでもそのまま使えます（インストール不要）。</p></details>
+</section>
+</main>
+<footer class="wrap foot">
+  <p>© 2026 合同会社mico ／ <a href="../privacy.html">プライバシーポリシー</a> ／ <a href="merge.html">PDF結合</a> ／ <a href="compress.html">PDF圧縮</a> ／ <a href="../ocr/">画像の文字読み取り</a></p>
+</footer>
+<script type="module">
+import { PDFDocument } from "./lib/pdf-lib.esm.min.js";
+import { addPagesTwoUp } from "./nup.js";
+const $ = (id) => document.getElementById(id);
+const items = [];
+const fmt = (n) => n >= 1048576 ? (n / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(n / 1024)) + " KB";
+function render() {
+  const ol = $("files");
+  ol.innerHTML = "";
+  items.forEach((it, i) => {
+    const li = document.createElement("li");
+    li.innerHTML = '<span class="no"></span><span class="name"></span><span class="ops"><button data-a="up" aria-label="上へ">↑</button> <button data-a="down" aria-label="下へ">↓</button> <button data-a="del" aria-label="外す">×</button></span>';
+    li.querySelector(".no").textContent = i + 1;
+    li.querySelector(".name").textContent = `${it.name}（${fmt(it.size)}）`;
+    li.querySelector(".ops").addEventListener("click", (e) => {
+      const a = e.target.dataset.a; if (!a) return;
+      if (a === "up" && i > 0) [items[i - 1], items[i]] = [items[i], items[i - 1]];
+      if (a === "down" && i < items.length - 1) [items[i + 1], items[i]] = [items[i], items[i + 1]];
+      if (a === "del") items.splice(i, 1);
+      render();
+    });
+    ol.append(li);
+  });
+  $("run").disabled = items.length < 1;
+  $("status").textContent = "";
+}
+async function add(files) {
+  for (const f of files) {
+    if (!(f.type === "application/pdf" || /\.pdf$/i.test(f.name))) continue;
+    items.push({ name: f.name, size: f.size, bytes: new Uint8Array(await f.arrayBuffer()) });
+  }
+  render();
+}
+$("fileInput").addEventListener("change", (e) => { add([...e.target.files]); e.target.value = ""; });
+const drop = $("drop");
+for (const ev of ["dragenter", "dragover"]) drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("over"); });
+for (const ev of ["dragleave", "drop"]) drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove("over"); });
+drop.addEventListener("drop", (e) => add([...e.dataTransfer.files]));
+$("run").addEventListener("click", async () => {
+  $("run").disabled = true; $("status").textContent = "並べています…";
+  try {
+    const out = await PDFDocument.create();
+    const pages = [];
+    for (const it of items) pages.push(...(await PDFDocument.load(it.bytes, { ignoreEncryption: true })).getPages());
+    const rtl = document.querySelector("input[name=dir]:checked").value === "rtl";
+    await addPagesTwoUp(out, pages, { rtl });
+    const bytes = await out.save();
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([bytes], { type: "application/pdf" }));
+    a.download = "A3.pdf";
+    a.click();
+    $("status").textContent = `${pages.length}ページを、A3 ${out.getPageCount()}ページにまとめました${rtl ? "（右→左）" : ""}。`;
+  } catch (e) {
+    $("status").textContent = "変換できませんでした：" + String(e.message || e).slice(0, 100);
+  } finally { $("run").disabled = items.length < 1; }
+});
+</script>
+</body>
+</html>
