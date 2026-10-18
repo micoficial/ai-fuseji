@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDFの回転を保存する（無料・アップロードなし）｜Chromeで回しても保存されないときに</title>
+<meta name="description" content="PDFのページを回転して、その向きのまま保存する無料ツール。ChromeやEdge、Acrobat Readerで回転しても保存されないときに。全ページ・指定ページ（例：2,4-6）を右へ90°・左へ90°・180°。アップロードせずブラウザの中だけで処理するので、社外に出したくない書類も安心。登録・インストール不要。">
+<meta property="og:title" content="PDFの回転を保存する（無料・アップロードなし）">
+<meta property="og:description" content="Chromeで回しても保存されないPDFの向きを、ファイルに書き込んで保存。ファイルを外部に送りません。">
+<link rel="icon" href="merge-icon128.png">
+<link rel="canonical" href="https://micoficial.github.io/ai-fuseji/pdf/rotate.html">
+<link rel="stylesheet" href="../style.css">
+<style>
+  .drop { display: block; border: 2px dashed var(--line); border-radius: 14px; padding: 36px 16px; text-align: center; background: var(--card); cursor: pointer; }
+  .drop.over { border-color: var(--accent); }
+  .drop b { display: block; font-size: 20px; margin-bottom: 4px; }
+  .files { list-style: none; padding: 0; margin: 16px 0; display: grid; gap: 6px; }
+  .files li { display: grid; grid-template-columns: 2em 1fr auto; gap: 10px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); }
+  .files .no { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .files .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; }
+  .files .ops button { border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 8px; padding: 2px 10px; cursor: pointer; font: inherit; }
+  .fit { display: block; margin: 0 0 12px; line-height: 2; }
+  .fit input[type=radio] { transform: scale(1.2); margin-right: 6px; }
+  .fit input[type=number] { width: 4.5em; font: inherit; padding: 2px 6px; }
+  .fit select { font: inherit; padding: 2px 6px; }
+  .run { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+</style>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PDFの回転を保存する（アップロードなし）","url":"https://micoficial.github.io/ai-fuseji/pdf/rotate.html","description":"PDFのページを回転してそのまま保存する無料ツール。ブラウザの中だけで処理します。","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows, macOS, ChromeOS（Chrome・Edge などのブラウザ）","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"publisher":{"@type":"Organization","name":"合同会社mico"}},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Chromeで回転したのに保存されない","acceptedAnswer":{"@type":"Answer","text":"Chrome・EdgeのPDF表示の回転ボタンは、画面の見た目を回すだけでファイルには残りません（ダウンロードしても元の向き）。このページで回してから保存すると、向きがファイルに書き込まれます。"}},{"@type":"Question","name":"一部のページだけ回転したい","acceptedAnswer":{"@type":"Answer","text":"「回すページ」に「2,4-6」のように書きます。空欄なら全ページ。「3-」は3ページ目から最後までです。"}},{"@type":"Question","name":"Acrobat Readerで回転を保存できない","acceptedAnswer":{"@type":"Answer","text":"無料のAcrobat Readerの回転は表示だけで、ページの向きを保存する機能は有料のAcrobatのものです。このページなら無料でインストールせずに保存できます。"}},{"@type":"Question","name":"文字や画質は落ちますか？","acceptedAnswer":{"@type":"Answer","text":"落ちません。ページの中身はそのままで、向きの情報だけを書き換えます。文字は選んだりコピーしたりできます。"}},{"@type":"Question","name":"スキャンした書類が横向き・逆さまになった","acceptedAnswer":{"@type":"Answer","text":"横向きなら「右へ90°」か「左へ90°」、逆さまなら「180°」を選んで保存します。"}},{"@type":"Question","name":"Microsoft Edgeで使えますか？","acceptedAnswer":{"@type":"Answer","text":"はい。このページはEdgeでもそのまま使えます（インストール不要）。"}}]}]</script>
+</head>
+<body>
+<header class="top">
+  <div class="wrap row">
+    <a class="brand" href="./rotate.html"><img src="merge-icon128.png" alt="" width="32" height="32"> PDFの回転</a>
+    <a class="btn small" href="merge.html">PDF結合</a>
+  </div>
+</header>
+<main>
+<section class="hero wrap">
+  <p class="eyebrow">無料・登録なし・アップロードなし</p>
+  <h1>PDFを回転して、<br><em>その向きで保存する。</em></h1>
+  <p class="lead">ChromeやEdgeのPDF表示で回転しても、保存すると元の向きに戻ります（見た目だけ回しているため）。このページで回すと、向きがファイルに書き込まれます。処理はあなたのブラウザの中だけで行い、ファイルはどこにも送信しません。</p>
+</section>
+
+<section class="tool wrap" aria-label="PDFを回転して保存するツール">
+  <label id="drop" class="drop">
+    <b>PDFをここにドラッグ</b>
+    <span class="muted">またはクリックして選ぶ（1ファイル）。</span>
+    <input id="fileInput" type="file" accept="application/pdf" hidden>
+  </label>
+  <ol id="files" class="files"></ol>
+  <p class="fit">向き：<label><input type="radio" name="ang" value="90" checked> 右へ90°</label>　<label><input type="radio" name="ang" value="270"> 左へ90°</label>　<label><input type="radio" name="ang" value="180"> 180°（逆さまを直す）</label></p>
+  <p class="fit"><label>回すページ <input id="pages" type="text" placeholder="空欄なら全ページ（例：2,4-6）" style="width:16em;font:inherit;padding:2px 6px"></label></p>
+  <div class="run">
+    <button id="run" class="btn primary big" disabled>回転して保存</button>
+    <span id="status" class="muted" role="status"></span>
+  </div>
+</section>
+
+<section class="wrap grid3">
+  <div class="card"><h3>なぜ保存されない？</h3><p>ブラウザやAcrobat ReaderのPDF表示の回転ボタンは、画面の表示を回すだけです。ファイルの中の「ページの向き」は変わらないので、開き直すと元に戻ります。</p></div>
+  <div class="card"><h3>本当に送っていない？</h3><p>このページのプログラムが、あなたのブラウザの中で向きを書き換えます。PDFをサーバーに送る仕組みはありません。読み込んだあとは、ネットを切っても動きます。</p></div>
+  <div class="card"><h3>ほかの道具</h3><p>複数のPDFを1つにするなら<a href="merge.html">PDF結合</a>、番号を入れるなら<a href="page-number.html">ページ番号</a>、重くなったら<a href="compress.html">PDF圧縮</a>（どれもアップロードなし）。</p></div>
+</section>
+
+<section class="wrap install" id="ext">
+  <h2>PDFをよく扱うなら、Chrome拡張機能で</h2>
+  <p>ツールバーのボタン1つでPDFの結合・並べ替え。Pro版（買い切り ¥980）では、ページ範囲の指定・回転・分割・画像の追加ができます。</p>
+  <p><a class="btn primary big" href="https://chromewebstore.google.com/detail/bmbjoiempejebljbjgkddmmlnlnhbjjn?utm_source=micoficial_site&utm_medium=pdf_rotate" rel="noopener">Chromeウェブストアで見る</a></p>
+</section>
+
+<section class="wrap faq">
+  <h2>よくある質問</h2>
+  <details><summary>Chromeで回転したのに保存されない</summary><p>Chrome・EdgeのPDF表示の回転ボタンは、画面の見た目を回すだけでファイルには残りません（ダウンロードしても元の向き）。このページで回してから保存すると、向きがファイルに書き込まれます。</p></details>
+  <details><summary>一部のページだけ回転したい</summary><p>「回すページ」に「2,4-6」のように書きます。空欄なら全ページ。「3-」は3ページ目から最後までです。</p></details>
+  <details><summary>Acrobat Readerで回転を保存できない</summary><p>無料のAcrobat Readerの回転は表示だけで、ページの向きを保存する機能は有料のAcrobatのものです。このページなら無料でインストールせずに保存できます。</p></details>
+  <details><summary>文字や画質は落ちますか？</summary><p>落ちません。ページの中身はそのままで、向きの情報だけを書き換えます。文字は選んだりコピーしたりできます。</p></details>
+  <details><summary>スキャンした書類が横向き・逆さまになった</summary><p>横向きなら「右へ90°」か「左へ90°」、逆さまなら「180°」を選んで保存します。</p></details>
+  <details><summary>Microsoft Edgeで使えますか？</summary><p>はい。このページはEdgeでもそのまま使えます（インストール不要）。</p></details>
+</section>
+</main>
+<footer class="wrap foot">
+  <p>© 2026 合同会社mico ／ <a href="../privacy.html">プライバシーポリシー</a> ／ <a href="merge.html">PDF結合</a> ／ <a href="compress.html">PDF圧縮</a> ／ <a href="a4-a3.html">A4 2枚→A3</a> ／ <a href="page-number.html">ページ番号</a> ／ <a href="../ocr/">画像の文字読み取り</a></p>
+</footer>
+<script type="module">
+import { PDFDocument } from "./lib/pdf-lib.esm.min.js";
+import { rotatePages } from "./rotate.js";
+const $ = (id) => document.getElementById(id);
+let item = null;
+const fmt = (n) => n >= 1048576 ? (n / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(n / 1024)) + " KB";
+function render() {
+  const ol = $("files");
+  ol.innerHTML = "";
+  if (item) {
+    const li = document.createElement("li");
+    li.innerHTML = '<span class="no">1</span><span class="name"></span><span class="ops"><button data-a="del" aria-label="外す">×</button></span>';
+    li.querySelector(".name").textContent = `${item.name}（${fmt(item.size)}）`;
+    li.querySelector(".ops").addEventListener("click", (e) => { if (e.target.dataset.a === "del") { item = null; render(); } });
+    ol.append(li);
+  }
+  $("run").disabled = !item;
+  $("status").textContent = "";
+}
+async function add(files) {
+  const f = files.find((f) => f.type === "application/pdf" || /.pdf$/i.test(f.name));
+  if (!f) return;
+  item = { name: f.name, size: f.size, bytes: new Uint8Array(await f.arrayBuffer()) };
+  render();
+}
+$("fileInput").addEventListener("change", (e) => { add([...e.target.files]); e.target.value = ""; });
+const drop = $("drop");
+for (const ev of ["dragenter", "dragover"]) drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("over"); });
+for (const ev of ["dragleave", "drop"]) drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove("over"); });
+drop.addEventListener("drop", (e) => add([...e.dataTransfer.files]));
+$("run").addEventListener("click", async () => {
+  $("run").disabled = true; $("status").textContent = "回転しています…";
+  try {
+    const doc = await PDFDocument.load(item.bytes, { ignoreEncryption: true });
+    const done = rotatePages(doc, { angle: parseInt(document.querySelector("input[name=ang]:checked").value, 10), pages: $("pages").value });
+    if (!done.length) { $("status").textContent = "回すページがありません（ページの書き方を確かめてください）。"; return; }
+    const bytes = await doc.save();
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([bytes], { type: "application/pdf" }));
+    a.download = item.name.replace(/.pdf$/i, "") + "_回転.pdf";
+    a.click();
+    $("status").textContent = `${doc.getPageCount()}ページ中 ${done.length}ページを回転して保存しました。`;
+  } catch (e) {
+    $("status").textContent = "変換できませんでした：" + String(e.message || e).slice(0, 100);
+  } finally { $("run").disabled = !item; }
+});
+</script>
+</body>
+</html>
