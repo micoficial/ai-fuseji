@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>個人情報のマスキング箇所一覧：AIに貼る前に隠す12か所と、隠さなくていいもの｜AI伏せ字</title>
+<meta name="description" content="「マスキングしてからAIに貼って」と言われても、**どこを隠せばいいのか** が決まっていないと、人によって隠し方がばらばらになります。">
+<meta name="keywords" content="個人情報 マスキング 箇所, 個人情報 マスキング ルール, 個人情報 マスキング ai, マスキング 対象 一覧">
+<link rel="icon" href="../icon128.png">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="top"><div class="wrap row"><a class="brand" href="../"><img src="../icon128.png" alt="" width="32" height="32"> AI伏せ字</a><a class="btn small" href="../">無料で試す</a></div></header>
+<main class="wrap article">
+<h1>個人情報のマスキング箇所一覧：AIに貼る前に隠す12か所と、隠さなくていいもの</h1>
+<p>「マスキングしてからAIに貼って」と言われても、<b>どこを隠せばいいのか</b> が決まっていないと、人によって隠し方がばらばらになります。<br>この記事では、ChatGPTなどの生成AIに文章を貼る前に隠す箇所を、一覧と書類別の見落としポイントにまとめました。社内ルールの別表として、そのまま使えます。</p>
+<h2>まず結論：隠す12か所</h2>
+<p><b>A. 誰のことか分かる情報（伏せ字に置き換える）</b></p>
+<ol>
+<li>氏名（フルネーム、名字だけ、下の名前だけ、カタカナ・ローマ字表記も）</li>
+<li>会社名・店名・団体名（取引先、顧客の勤務先）</li>
+<li>住所（番地まで。都道府県・市区町村だけなら残してよいことが多い）</li>
+<li>電話番号（固定・携帯・FAX）</li>
+<li>メールアドレス</li>
+<li>社員番号・顧客番号・会員番号・受付番号</li>
+<li>生年月日（年齢だけで足りるなら「40代」に）</li>
+<li>顔写真・署名の画像（文章ではなく画像を貼るときに注意）</li>
+</ol>
+<p><b>B. 伏せ字にしても貼らない情報（AIに渡さない）</b></p>
+<ol>
+<li>マイナンバー</li>
+<li>銀行口座（支店・口座番号・名義）、クレジットカード番号</li>
+<li>病名・通院歴・障害など健康の情報</li>
+<li>パスワード、ログインID、社内システムのURL</li>
+</ol>
+<p>Aは [氏名1]、[会社1]、[電話1] のように <b>種類と番号で置き換える</b> と、AIの答えを元に戻せます。<br>Bは置き換えても「何の情報か」が残ります。<b>その部分を文章ごと削ってから</b> 貼るのが安全です。</p>
+<h2>隠さなくていいもの（隠しすぎると答えがずれる）</h2>
+<ul>
+<li>「お客様」「ご担当者様」「先方」などの呼び方</li>
+<li>日付、金額、数量（個人と結びつかない限り）</li>
+<li>商品名・サービス名・自社の部署名</li>
+<li>「様」「さん」「御中」などの敬称（[氏名1]様 のように伏せ字の外に残す）</li>
+</ul>
+<p>なんでも ■■■ にすると、AIは誰が誰に何をしたのか分からなくなります。<b>隠すのは「誰か分かる部分」だけ</b> にするのがコツです。</p>
+<h2>書類別：見落としやすい箇所</h2>
+<h3>メール</h3>
+<ul>
+<li>最後の <b>署名</b>（名前・携帯番号・メール・会社の住所がまとめて入っている）</li>
+<li>返信の下にぶら下がっている <b>前のメールの引用</b></li>
+<li>宛先欄からコピーされた「山田 太郎 &lt;yamada@…&gt;」のような行</li>
+</ul>
+<h3>議事録・会議メモ</h3>
+<ul>
+<li>「担当：佐藤」「→鈴木さん確認」のような <b>短い書き方</b></li>
+<li>出席者の一覧</li>
+<li>発言者の名前（「田中：」で始まる行）</li>
+</ul>
+<h3>請求書・見積書・注文書</h3>
+<ul>
+<li>宛名と <b>振込先の口座</b>（口座はBなので削る）</li>
+<li>取引先の担当者名・電話番号</li>
+<li>請求書番号・注文番号（社外の人には意味がなくても、社内の台帳と照らせば誰か分かる）</li>
+</ul>
+<h3>履歴書・応募書類</h3>
+<ul>
+<li>氏名・住所・生年月日・顔写真のほか、<b>学校名と卒業年</b>、前の勤め先の組み合わせ</li>
+<li>組み合わせると一人に絞れる情報は、一つずつは無害でもまとめて隠す</li>
+</ul>
+<h3>医療・介護・士業の書類</h3>
+<ul>
+<li>患者名・利用者名・依頼者名に加えて、<b>病名や相談内容そのもの</b>（Bに当たる）</li>
+<li>「〇〇病院の△△先生」のような、施設名と人名の組み合わせ</li>
+<li>こうした書類は、伏せ字にしても外部のAIに貼らない、と決めておく方が安全です</li>
+</ul>
+<h2>社内ルールに書くときの書き方（例）</h2>
+<p><b>例：</b> 生成AIに文章を入力するときは、別表の1〜8を伏せ字に置き換え、9〜12を含む部分は削除してから入力する。入力の前に、伏せ字にした文章を一度読み、見落としがないか確かめる。</p>
+<p>ルール全体のひな形は、こちらにまとめています：<a href="https://micoficial.github.io/ai-fuseji/articles/ai-shanai-rule.html" rel="noopener">https://micoficial.github.io/ai-fuseji/articles/ai-shanai-rule.html</a></p>
+<h2>毎回手で探すのが大変なら</h2>
+<p>1〜7は、ほとんどが「形が決まっている情報」です。電話番号やメールアドレスは形で見つけられ、名前もよくある名字や「様」「さん」の前を手がかりに見つけられます。</p>
+<p>私たち（合同会社mico）の無料の道具「<b>AI伏せ字</b>」は、名前・会社名・住所・電話番号・メールなどを [氏名1] のような伏せ字に自動で置き換え、AIの答えを元に戻せます。処理はすべてブラウザの中で行い、文章は外部に送信しません。<br>ただし機械の判定なので、<b>最後に目で確かめる</b> のはどの方法でも同じです。</p>
+<p>インストール不要の体験ページ：<a href="https://micoficial.github.io/ai-fuseji/?utm_source=micoficial_site&amp;utm_medium=article08" rel="noopener">https://micoficial.github.io/ai-fuseji/?utm_source=micoficial_site&amp;utm_medium=article08</a></p>
+<p>手でやる方法（メモ帳・Wordの置換）は、こちら：<a href="https://micoficial.github.io/ai-fuseji/articles/masking-howto.html" rel="noopener">https://micoficial.github.io/ai-fuseji/articles/masking-howto.html</a></p>
+<h2>まとめ</h2>
+<ul>
+<li>隠すのは「誰か分かる部分」。12か所の一覧を社内で共有する</li>
+<li>マイナンバー・口座・健康の情報・パスワードは、伏せ字にしても貼らない</li>
+<li>署名、引用、「担当：佐藤」のような短い書き方が、いちばん見落とされる</li>
+</ul>
+<div class="cta"><p><b>AIに貼る前に、個人情報を伏せ字に。</b><br>氏名・住所・電話・メール・会社名を、ブラウザの中だけで [氏名1] のように置き換える無料ツールです。</p><p><a class="btn primary big" href="../">無料で試してみる</a></p></div>
+</main>
+<footer class="wrap foot"><p class="tools-links">ほかの無料ツール（アップロードなし）：<a href="../pdf/merge.html">PDF結合（サイズをA4にそろえる）</a> ／ <a href="../pdf/a4-a3.html">A4 2枚→A3 1枚</a> ／ <a href="../pdf/compress.html">PDF圧縮</a> ／ <a href="../ocr/">画像の文字読み取り（OCR）</a></p><p>© 2026 合同会社mico ／ <a href="https://docs.google.com/document/d/e/2PACX-1vQDrryEfL2zc4WxP9wg9clm98mq7SNMVW1CrEBNZ9HvnXbdvYl2cNTx6C77LyOF90Aa0OqyuBSoZBtn/pub" rel="noopener">プライバシーポリシー</a></p></footer>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDFにページ番号を入れる（無料・アップロードなし）｜途中から・表紙なしにも対応</title>
+<meta name="description" content="PDFにページ番号を追加する無料ツール。「1」「- 1 -」「1 / 10」の3つの書き方、下の中央・右下・上などの位置、表紙を飛ばして途中から番号を振ることもできます。アップロードせずブラウザの中だけで処理するので、社外に出したくない資料も安心。登録・インストール不要、Chrome・Edge対応。">
+<meta property="og:title" content="PDFにページ番号を入れる（無料・アップロードなし）">
+<meta property="og:description" content="PDFにページ番号を追加。表紙を飛ばして途中からも。ファイルを外部に送りません。">
+<link rel="icon" href="merge-icon128.png">
+<link rel="canonical" href="https://micoficial.github.io/ai-fuseji/pdf/page-number.html">
+<link rel="stylesheet" href="../style.css">
+<style>
+  .drop { display: block; border: 2px dashed var(--line); border-radius: 14px; padding: 36px 16px; text-align: center; background: var(--card); cursor: pointer; }
+  .drop.over { border-color: var(--accent); }
+  .drop b { display: block; font-size: 20px; margin-bottom: 4px; }
+  .files { list-style: none; padding: 0; margin: 16px 0; display: grid; gap: 6px; }
+  .files li { display: grid; grid-template-columns: 2em 1fr auto; gap: 10px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); }
+  .files .no { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .files .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; }
+  .files .ops button { border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 8px; padding: 2px 10px; cursor: pointer; font: inherit; }
+  .fit { display: block; margin: 0 0 12px; line-height: 2; }
+  .fit input[type=radio] { transform: scale(1.2); margin-right: 6px; }
+  .fit input[type=number] { width: 4.5em; font: inherit; padding: 2px 6px; }
+  .fit select { font: inherit; padding: 2px 6px; }
+  .run { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+</style>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PDFにページ番号を入れる（アップロードなし）","url":"https://micoficial.github.io/ai-fuseji/pdf/page-number.html","description":"PDFにページ番号を追加する無料ツール。ブラウザの中だけで処理します。","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows, macOS, ChromeOS（Chrome・Edge などのブラウザ）","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"publisher":{"@type":"Organization","name":"合同会社mico"}},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"表紙にはページ番号を入れたくない","acceptedAnswer":{"@type":"Answer","text":"「番号を入れない先頭のページ数」を1にすると、表紙を飛ばして2ページ目から番号が入ります。目次も飛ばすなら2にします。"}},{"@type":"Question","name":"途中のページから番号を振りたい（例：3ページ目を1にしたい）","acceptedAnswer":{"@type":"Answer","text":"「番号を入れない先頭のページ数」を2に、「最初の番号」を1にします。別の資料の続きにしたいときは、最初の番号を好きな数（例：21）にできます。"}},{"@type":"Question","name":"Acrobat Readerでページ番号を追加できない","acceptedAnswer":{"@type":"Answer","text":"無料のAcrobat Readerにはページ番号を書き込む機能がありません（有料のAcrobatの機能です）。このページなら無料で、インストールせずに追加できます。"}},{"@type":"Question","name":"文字は画像になりますか？","acceptedAnswer":{"@type":"Answer","text":"なりません。元のページはそのままで、番号だけを上に書き足します。文字は選んだりコピーしたりできます。"}},{"@type":"Question","name":"横向きや回転したページは？","acceptedAnswer":{"@type":"Answer","text":"見た目の向きに合わせて、正しい向きで下（または上）に入ります。"}},{"@type":"Question","name":"Microsoft Edgeで使えますか？","acceptedAnswer":{"@type":"Answer","text":"はい。このページはEdgeでもそのまま使えます（インストール不要）。"}}]}]</script>
+</head>
+<body>
+<header class="top">
+  <div class="wrap row">
+    <a class="brand" href="./page-number.html"><img src="merge-icon128.png" alt="" width="32" height="32"> PDFページ番号</a>
+    <a class="btn small" href="merge.html">PDF結合</a>
+  </div>
+</header>
+<main>
+<section class="hero wrap">
+  <p class="eyebrow">無料・登録なし・アップロードなし</p>
+  <h1>PDFに、<br><em>ページ番号を入れる。</em></h1>
+  <p class="lead">PDFの各ページに番号を書き足します。表紙を飛ばして途中から、「1 / 10」の形にも。処理はこのページの中（あなたのブラウザの中）だけで行い、ファイルはどこにも送信しません。</p>
+</section>
+
+<section class="tool wrap" aria-label="PDFにページ番号を入れるツール">
+  <label id="drop" class="drop">
+    <b>PDFをここにドラッグ</b>
+    <span class="muted">またはクリックして選ぶ。複数のPDFを入れたら、上から順につないで通し番号にします。</span>
+    <input id="fileInput" type="file" accept="application/pdf" multiple hidden>
+  </label>
+  <ol id="files" class="files"></ol>
+  <p class="fit">書き方：<label><input type="radio" name="fmt" value="n" checked> 1</label>　<label><input type="radio" name="fmt" value="dash"> - 1 -</label>　<label><input type="radio" name="fmt" value="n/N"> 1 / 10</label></p>
+  <p class="fit">位置：<label><input type="radio" name="pos" value="bc" checked> 下の中央</label>　<label><input type="radio" name="pos" value="br"> 右下</label>　<label><input type="radio" name="pos" value="bl"> 左下</label>　<label><input type="radio" name="pos" value="tc"> 上の中央</label>　<label><input type="radio" name="pos" value="tr"> 右上</label></p>
+  <p class="fit"><label>番号を入れない先頭のページ数 <input id="skip" type="number" min="0" value="0"></label>　<label>最初の番号 <input id="start" type="number" min="0" value="1"></label>　<label>文字の大きさ <select id="size"><option value="9">小</option><option value="10.5" selected>中</option><option value="14">大</option></select></label></p>
+  <div class="run">
+    <button id="run" class="btn primary big" disabled>番号を入れてダウンロード</button>
+    <span id="status" class="muted" role="status"></span>
+  </div>
+</section>
+
+<section class="wrap grid3">
+  <div class="card"><h3>本当に送っていない？</h3><p>このページのプログラムが、あなたのブラウザの中で番号を書き足します。PDFをサーバーに送る仕組みはありません。読み込んだあとは、ネットを切っても動きます。</p></div>
+  <div class="card"><h3>表紙・目次を飛ばせる</h3><p>「番号を入れない先頭のページ数」で表紙や目次を飛ばし、本文の1ページ目から1を振れます。別の資料の続き番号にすることもできます。</p></div>
+  <div class="card"><h3>ほかの道具</h3><p>複数のPDFを1つにするなら<a href="merge.html">PDF結合</a>、重くなったら<a href="compress.html">PDF圧縮</a>、A4 2枚をA3 1枚にするなら<a href="a4-a3.html">こちら</a>（どれもアップロードなし）。</p></div>
+</section>
+
+<section class="wrap install" id="ext">
+  <h2>PDFをよく扱うなら、Chrome拡張機能で</h2>
+  <p>ツールバーのボタン1つでPDFの結合・並べ替え。Pro版（買い切り ¥980）では、ページ範囲の指定・回転・分割・画像の追加ができます。</p>
+  <p><a class="btn primary big" href="https://chromewebstore.google.com/detail/bmbjoiempejebljbjgkddmmlnlnhbjjn?utm_source=micoficial_site&utm_medium=pdf_pagenum" rel="noopener">Chromeウェブストアで見る</a></p>
+</section>
+
+<section class="wrap faq">
+  <h2>よくある質問</h2>
+  <details><summary>表紙にはページ番号を入れたくない</summary><p>「番号を入れない先頭のページ数」を1にすると、表紙を飛ばして2ページ目から番号が入ります。目次も飛ばすなら2にします。</p></details>
+  <details><summary>途中のページから番号を振りたい（例：3ページ目を1にしたい）</summary><p>「番号を入れない先頭のページ数」を2に、「最初の番号」を1にします。別の資料の続きにしたいときは、最初の番号を好きな数（例：21）にできます。</p></details>
+  <details><summary>Acrobat Readerでページ番号を追加できない</summary><p>無料のAcrobat Readerにはページ番号を書き込む機能がありません（有料のAcrobatの機能です）。このページなら無料で、インストールせずに追加できます。</p></details>
+  <details><summary>文字は画像になりますか？</summary><p>なりません。元のページはそのままで、番号だけを上に書き足します。文字は選んだりコピーしたりできます。</p></details>
+  <details><summary>横向きや回転したページは？</summary><p>見た目の向きに合わせて、正しい向きで下（または上）に入ります。</p></details>
+  <details><summary>Microsoft Edgeで使えますか？</summary><p>はい。このページはEdgeでもそのまま使えます（インストール不要）。</p></details>
+</section>
+</main>
+<footer class="wrap foot">
+  <p>© 2026 合同会社mico ／ <a href="../privacy.html">プライバシーポリシー</a> ／ <a href="merge.html">PDF結合</a> ／ <a href="compress.html">PDF圧縮</a> ／ <a href="a4-a3.html">A4 2枚→A3</a> ／ <a href="../ocr/">画像の文字読み取り</a></p>
+</footer>
+<script type="module">
+import { PDFDocument } from "./lib/pdf-lib.esm.min.js";
+import { addPageNumbers } from "./pagenum.js";
+const $ = (id) => document.getElementById(id);
+const items = [];
+const fmt = (n) => n >= 1048576 ? (n / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(n / 1024)) + " KB";
+function render() {
+  const ol = $("files");
+  ol.innerHTML = "";
+  items.forEach((it, i) => {
+    const li = document.createElement("li");
+    li.innerHTML = '<span class="no"></span><span class="name"></span><span class="ops"><button data-a="up" aria-label="上へ">↑</button> <button data-a="down" aria-label="下へ">↓</button> <button data-a="del" aria-label="外す">×</button></span>';
+    li.querySelector(".no").textContent = i + 1;
+    li.querySelector(".name").textContent = `${it.name}（${fmt(it.size)}）`;
+    li.querySelector(".ops").addEventListener("click", (e) => {
+      const a = e.target.dataset.a; if (!a) return;
+      if (a === "up" && i > 0) [items[i - 1], items[i]] = [items[i], items[i - 1]];
+      if (a === "down" && i < items.length - 1) [items[i + 1], items[i]] = [items[i], items[i + 1]];
+      if (a === "del") items.splice(i, 1);
+      render();
+    });
+    ol.append(li);
+  });
+  $("run").disabled = items.length < 1;
+  $("status").textContent = "";
+}
+async function add(files) {
+  for (const f of files) {
+    if (!(f.type === "application/pdf" || /\.pdf$/i.test(f.name))) continue;
+    items.push({ name: f.name, size: f.size, bytes: new Uint8Array(await f.arrayBuffer()) });
+  }
+  render();
+}
+$("fileInput").addEventListener("change", (e) => { add([...e.target.files]); e.target.value = ""; });
+const drop = $("drop");
+for (const ev of ["dragenter", "dragover"]) drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("over"); });
+for (const ev of ["dragleave", "drop"]) drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove("over"); });
+drop.addEventListener("drop", (e) => add([...e.dataTransfer.files]));
+$("run").addEventListener("click", async () => {
+  $("run").disabled = true; $("status").textContent = "番号を入れています…";
+  try {
+    let doc;
+    if (items.length === 1) doc = await PDFDocument.load(items[0].bytes, { ignoreEncryption: true });
+    else {
+      doc = await PDFDocument.create();
+      for (const it of items) {
+        const src = await PDFDocument.load(it.bytes, { ignoreEncryption: true });
+        for (const p of await doc.copyPages(src, src.getPageIndices())) doc.addPage(p);
+      }
+    }
+    const opts = {
+      format: document.querySelector("input[name=fmt]:checked").value,
+      pos: document.querySelector("input[name=pos]:checked").value,
+      skip: Math.max(0, parseInt($("skip").value, 10) || 0),
+      start: Math.max(0, parseInt($("start").value, 10) || 0),
+      size: parseFloat($("size").value),
+    };
+    const done = await addPageNumbers(doc, opts);
+    const bytes = await doc.save();
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([bytes], { type: "application/pdf" }));
+    a.download = (items.length === 1 ? items[0].name.replace(/\.pdf$/i, "") : "PDF") + "_番号付き.pdf";
+    a.click();
+    $("status").textContent = done.length ? `${doc.getPageCount()}ページ中 ${done.length}ページに番号（${done[0]}〜${done[done.length - 1]}）を入れました。` : "番号を入れるページがありません（飛ばすページ数を減らしてください）。";
+  } catch (e) {
+    $("status").textContent = "変換できませんでした：" + String(e.message || e).slice(0, 100);
+  } finally { $("run").disabled = items.length < 1; }
+});
+</script>
+</body>
+</html>
