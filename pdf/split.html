@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDFを分割・ページを抜き出す（無料・アップロードなし）｜オフラインでも安全</title>
+<meta name="description" content="PDFを1ページずつ・数ページごと・範囲ごと（例：1-3 / 4-6）に分割したり、必要なページだけ抜き出して1つのPDFにする無料ツール。アップロードせずブラウザの中だけで処理するので、請求書・契約書・カルテなど社外に出したくない書類も安全。登録・インストール不要、読み込んだあとはオフラインでも動きます。">
+<meta property="og:title" content="PDFを分割・ページを抜き出す（無料・アップロードなし）">
+<meta property="og:description" content="PDFの分割とページの抜き出しを、ファイルを外部に送らずにブラウザの中だけで。">
+<link rel="icon" href="merge-icon128.png">
+<link rel="canonical" href="https://micoficial.github.io/ai-fuseji/pdf/split.html">
+<link rel="stylesheet" href="../style.css">
+<style>
+  .drop { display: block; border: 2px dashed var(--line); border-radius: 14px; padding: 36px 16px; text-align: center; background: var(--card); cursor: pointer; }
+  .drop.over { border-color: var(--accent); }
+  .drop b { display: block; font-size: 20px; margin-bottom: 4px; }
+  .files { list-style: none; padding: 0; margin: 16px 0; display: grid; gap: 6px; }
+  .files li { display: grid; grid-template-columns: 2em 1fr auto; gap: 10px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); }
+  .files .no { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .files .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; }
+  .files .ops button { border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: 8px; padding: 2px 10px; cursor: pointer; font: inherit; }
+  .fit { display: block; margin: 0 0 12px; line-height: 2; }
+  .fit input[type=radio] { transform: scale(1.2); margin-right: 6px; }
+  .fit input[type=number] { width: 4.5em; font: inherit; padding: 2px 6px; }
+  .fit select { font: inherit; padding: 2px 6px; }
+  .run { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+</style>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PDF分割・ページ抜き出し（アップロードなし）","url":"https://micoficial.github.io/ai-fuseji/pdf/split.html","description":"PDFを分割・ページを抜き出す無料ツール。ブラウザの中だけで処理します。","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows, macOS, ChromeOS（Chrome・Edge などのブラウザ）","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"publisher":{"@type":"Organization","name":"合同会社mico"}},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"PDFを分割するのにアップロードしなくて大丈夫？","acceptedAnswer":{"@type":"Answer","text":"大丈夫です。分割はこのページのプログラムがあなたのブラウザの中で行います。PDFをサーバーに送る仕組みはなく、読み込んだあとはネットを切っても動きます。"}},{"@type":"Question","name":"必要なページだけ抜き出したい","acceptedAnswer":{"@type":"Answer","text":"「ページを抜き出して1つに」を選び、「2,5-6」のように書きます。書いたページだけが入ったPDFが1つできます。"}},{"@type":"Question","name":"範囲ごとに別々のファイルにしたい","acceptedAnswer":{"@type":"Answer","text":"「範囲ごとに分ける」を選び、「1-3 / 4-6 / 7-」のように「/」で区切ります。「7-」は7ページ目から最後までです。"}},{"@type":"Question","name":"ファイルがいくつも保存される","acceptedAnswer":{"@type":"Answer","text":"分けた数だけPDFを保存します。ブラウザに「複数のファイルのダウンロード」を聞かれたら「許可」を押してください。"}},{"@type":"Question","name":"文字や画質は落ちますか？","acceptedAnswer":{"@type":"Answer","text":"落ちません。ページをそのまま写すので、文字は選んだりコピーしたりできます。"}},{"@type":"Question","name":"スマホで使えますか？","acceptedAnswer":{"@type":"Answer","text":"パソコンのChrome・Edgeを想定しています。スマホでも開けますが、複数ファイルの保存は機種によって止められることがあります。"}}]}]</script>
+</head>
+<body>
+<header class="top">
+  <div class="wrap row">
+    <a class="brand" href="./split.html"><img src="merge-icon128.png" alt="" width="32" height="32"> PDF分割</a>
+    <a class="btn small" href="merge.html">PDF結合</a>
+  </div>
+</header>
+<main>
+<section class="hero wrap">
+  <p class="eyebrow">無料・登録なし・アップロードなし</p>
+  <h1>PDFを分割する。<br><em>必要なページだけ抜き出す。</em></h1>
+  <p class="lead">1ページずつ、数ページごと、範囲ごとに分けるか、必要なページだけを1つのPDFにします。処理はあなたのブラウザの中だけで行い、ファイルはどこにも送信しません。請求書・契約書・カルテなど、社外のサイトに上げたくない書類にどうぞ。</p>
+</section>
+
+<section class="tool wrap" aria-label="PDFを分割するツール">
+  <label id="drop" class="drop">
+    <b>PDFをここにドラッグ</b>
+    <span class="muted">またはクリックして選ぶ（1ファイル）。</span>
+    <input id="fileInput" type="file" accept="application/pdf" hidden>
+  </label>
+  <ol id="files" class="files"></ol>
+  <p class="fit">
+    <label><input type="radio" name="mode" value="each" checked> 1ページずつ分ける</label><br>
+    <label><input type="radio" name="mode" value="every"> <input id="n" type="number" min="1" value="2"> ページごとに分ける</label><br>
+    <label><input type="radio" name="mode" value="groups"> 範囲ごとに分ける <input id="groups" type="text" placeholder="例：1-3 / 4-6 / 7-" style="width:14em;font:inherit;padding:2px 6px"></label><br>
+    <label><input type="radio" name="mode" value="extract"> ページを抜き出して1つに <input id="extract" type="text" placeholder="例：2,5-6" style="width:10em;font:inherit;padding:2px 6px"></label>
+  </p>
+  <div class="run">
+    <button id="run" class="btn primary big" disabled>分割して保存</button>
+    <span id="status" class="muted" role="status"></span>
+  </div>
+</section>
+
+<section class="wrap grid3">
+  <div class="card"><h3>本当に送っていない？</h3><p>このページのプログラムが、あなたのブラウザの中でページを写して新しいPDFを作ります。PDFをサーバーに送る仕組みはありません。読み込んだあとは、ネットを切っても動きます。</p></div>
+  <div class="card"><h3>いくつも保存される</h3><p>分けた数だけPDFを保存します。ブラウザに「複数のファイルのダウンロード」を聞かれたら「許可」を押してください。ファイル名の後ろにページ番号（例：_p1-3）が付きます。</p></div>
+  <div class="card"><h3>ほかの道具</h3><p>分けたPDFをまた1つにするなら<a href="merge.html">PDF結合</a>、向きを直すなら<a href="rotate.html">PDFの回転</a>、重いなら<a href="compress.html">PDF圧縮</a>（どれもアップロードなし）。</p></div>
+</section>
+
+<section class="wrap install" id="ext">
+  <h2>PDFをよく扱うなら、Chrome拡張機能で</h2>
+  <p>ツールバーのボタン1つでPDFの結合・並べ替え。Pro版（買い切り ¥980）では、ページ範囲の指定・回転・分割・画像の追加ができます。</p>
+  <p><a class="btn primary big" href="https://chromewebstore.google.com/detail/bmbjoiempejebljbjgkddmmlnlnhbjjn?utm_source=micoficial_site&utm_medium=pdf_split" rel="noopener">Chromeウェブストアで見る</a></p>
+</section>
+
+<section class="wrap faq">
+  <h2>よくある質問</h2>
+  <details><summary>PDFを分割するのにアップロードしなくて大丈夫？</summary><p>大丈夫です。分割はこのページのプログラムがあなたのブラウザの中で行います。PDFをサーバーに送る仕組みはなく、読み込んだあとはネットを切っても動きます。</p></details>
+  <details><summary>必要なページだけ抜き出したい</summary><p>「ページを抜き出して1つに」を選び、「2,5-6」のように書きます。書いたページだけが入ったPDFが1つできます。</p></details>
+  <details><summary>範囲ごとに別々のファイルにしたい</summary><p>「範囲ごとに分ける」を選び、「1-3 / 4-6 / 7-」のように「/」で区切ります。「7-」は7ページ目から最後までです。</p></details>
+  <details><summary>ファイルがいくつも保存される</summary><p>分けた数だけPDFを保存します。ブラウザに「複数のファイルのダウンロード」を聞かれたら「許可」を押してください。</p></details>
+  <details><summary>文字や画質は落ちますか？</summary><p>落ちません。ページをそのまま写すので、文字は選んだりコピーしたりできます。</p></details>
+  <details><summary>スマホで使えますか？</summary><p>パソコンのChrome・Edgeを想定しています。スマホでも開けますが、複数ファイルの保存は機種によって止められることがあります。</p></details>
+</section>
+</main>
+<footer class="wrap foot">
+  <p>© 2026 合同会社mico ／ <a href="../privacy.html">プライバシーポリシー</a> ／ <a href="merge.html">PDF結合</a> ／ <a href="compress.html">PDF圧縮</a> ／ <a href="a4-a3.html">A4 2枚→A3</a> ／ <a href="page-number.html">ページ番号</a> ／ <a href="rotate.html">PDFの回転</a> ／ <a href="../ocr/">画像の文字読み取り</a></p>
+</footer>
+<script type="module">
+import { planSplit, splitPdf, suffix } from "./split.js";
+import { PDFDocument } from "./lib/pdf-lib.esm.min.js";
+const $ = (id) => document.getElementById(id);
+let item = null;
+const fmt = (n) => n >= 1048576 ? (n / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(n / 1024)) + " KB";
+function render() {
+  const ol = $("files");
+  ol.innerHTML = "";
+  if (item) {
+    const li = document.createElement("li");
+    li.innerHTML = '<span class="no">1</span><span class="name"></span><span class="ops"><button data-a="del" aria-label="外す">×</button></span>';
+    li.querySelector(".name").textContent = `${item.name}（${item.count}ページ・${fmt(item.size)}）`;
+    li.querySelector(".ops").addEventListener("click", (e) => { if (e.target.dataset.a === "del") { item = null; render(); } });
+    ol.append(li);
+  }
+  $("run").disabled = !item;
+  $("status").textContent = "";
+}
+async function add(files) {
+  const f = files.find((f) => f.type === "application/pdf" || /\.pdf$/i.test(f.name));
+  if (!f) return;
+  const bytes = new Uint8Array(await f.arrayBuffer());
+  try {
+    const count = (await PDFDocument.load(bytes, { ignoreEncryption: true })).getPageCount();
+    item = { name: f.name, size: f.size, bytes, count };
+    render();
+  } catch (e) { $("status").textContent = "読み込めませんでした：" + String(e.message || e).slice(0, 100); }
+}
+$("fileInput").addEventListener("change", (e) => { add([...e.target.files]); e.target.value = ""; });
+const drop = $("drop");
+for (const ev of ["dragenter", "dragover"]) drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("over"); });
+for (const ev of ["dragleave", "drop"]) drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove("over"); });
+drop.addEventListener("drop", (e) => add([...e.dataTransfer.files]));
+for (const [id, mode] of [["n", "every"], ["groups", "groups"], ["extract", "extract"]]) $(id).addEventListener("focus", () => { document.querySelector(`input[name=mode][value=${mode}]`).checked = true; });
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+$("run").addEventListener("click", async () => {
+  const mode = document.querySelector("input[name=mode]:checked").value;
+  const plan = planSplit(item.count, { mode, n: $("n").value, spec: mode === "extract" ? $("extract").value : $("groups").value });
+  if (!plan.length) { $("status").textContent = "分けるページがありません（ページの書き方を確かめてください）。"; return; }
+  $("run").disabled = true; $("status").textContent = "分割しています…";
+  try {
+    const parts = await splitPdf(item.bytes, plan);
+    const base = item.name.replace(/\.pdf$/i, "");
+    for (const p of parts) {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([p.bytes], { type: "application/pdf" }));
+      a.download = base + suffix(p.pages) + ".pdf";
+      a.click();
+      await wait(250);
+    }
+    $("status").textContent = mode === "extract" ? `${parts[0].pages.length}ページを抜き出して保存しました。` : `${parts.length}個のPDFに分けて保存しました。`;
+  } catch (e) {
+    $("status").textContent = "分割できませんでした：" + String(e.message || e).slice(0, 100);
+  } finally { $("run").disabled = !item; }
+});
+</script>
+</body>
+</html>
