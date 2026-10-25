@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claudeに個人情報はどこまで入れていい？｜学習させない設定と、仕事で使うときの線引き｜AI伏せ字</title>
+<meta name="description" content="Claude（Anthropic）に顧客の名前や電話番号を入れてよいか。個人向けプランで学習に使わせない設定の場所、保存期間の違い、法人向けプランとの差、仕事で使うときの3つの線引きをまとめました。">
+<meta name="keywords" content="Claude 個人情報, Claude 個人情報 学習させない, Claude 個人情報 設定, Claude 個人情報 どこまで, Claude 個人情報漏洩">
+<link rel="icon" href="../icon128.png">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="top"><div class="wrap row"><a class="brand" href="../"><img src="../icon128.png" alt="" width="32" height="32"> AI伏せ字</a><a class="btn small" href="../">無料で試す</a></div></header>
+<main class="wrap article">
+<h1>Claudeに個人情報はどこまで入れていい？｜学習させない設定と、仕事で使うときの線引き</h1>
+<p>文章がうまいので、お客様へのメールや報告書の下書きを Claude に頼む人が増えています。<br>では、お客様の名前や電話番号が入った文章を、そのまま貼ってよいのでしょうか。</p>
+<p>※ 設定の名前や場所、保存の期間は、Anthropic の更新で変わることがあります。最後は Claude の公式ヘルプとプライバシーポリシーで確かめてください。</p>
+<h2>1. 個人向けのプランは「学習に使うか」を自分で選ぶ</h2>
+<p>Claude の無料・Pro・Max（個人向けのプラン）では、2025年秋から、チャットの内容を AI の改善（学習）に使ってよいかを利用者が選ぶ形になりました。オンのままだと、入力した内容が学習に使われることがあります。</p>
+<ul>
+<li><b>設定の場所</b>：左下のアカウント →「設定」→「プライバシー」→「Claudeの改善にご協力ください」をオフ</li>
+<li>この設定は<b>アカウント全体</b>にかかります。設定がオンのままでも、<b>シークレット（インコグニート）チャット</b>で始めた会話は改善（学習）に使われないと案内されています</li>
+<li>オンにすると、オンにした後の新しい（または再開した）チャットが、個人を特定しにくい形で<b>最長5年</b>保たれることがあります。オフにしても、すでに学習に使われた分は取り消せません</li>
+<li>削除したチャットは履歴からすぐ消え、Anthropic のサーバーからも<b>30日以内</b>に消えると案内されています（利用規約違反の疑いがある会話や、法律で求められる場合は除く）</li>
+<li>回答への「いいね・よくないね」やバグ報告を送ると、その会話は<b>5年</b>保たれます。仕事の会話では押さないのが無難です</li>
+</ul>
+<h2>2. 会社が契約したプランは扱いが違う</h2>
+<p>Claude の Team・Enterprise や、API（ほかのサービスに組み込んで使う形）は「商用」の扱いで、上の個人向けの設定とは別のルールです。入力を学習に使わない扱いになっているのが一般的です。</p>
+<p>まず、<b>いま自分がどちらのアカウントで使っているか</b>を確かめてください。個人のメールアドレスでログインしているなら、個人向けのプランです。</p>
+<h2>3. 仕事で使うときの3つの線引き</h2>
+<p>学習の設定をオフにしても、入力した文章は Anthropic のサーバーに送られて処理されます。「学習されない」と「外に出ていない」は同じではありません。</p>
+<ol>
+<li><b>会社のルールを先に見る</b>：会社が「AIに顧客情報を入れない」と決めているなら、設定に関係なく入れない</li>
+<li><b>お客様との約束を見る</b>：プライバシーポリシーや契約で、外部のサービスに預ける範囲をどう書いているか</li>
+<li><b>本物の名前や番号が要るか考える</b>：返信の下書き・要約・言い回しの直しなら、たいてい要りません</li>
+</ol>
+<p>迷ったときの考え方は、こちらにもまとめています。</p>
+<ul>
+<li>ChatGPTに顧客情報を入れていい？ 3つの線引き：<a href="customer-info-chatgpt.html">customer-info-chatgpt.html</a></li>
+<li>AIに個人情報を入れてしまったら（最初の10分でやること）：<a href="ai-nyuryoku-shimatta.html">ai-nyuryoku-shimatta.html</a></li>
+</ul>
+<h2>いちばん確実なのは、貼る前に伏せ字にすること</h2>
+<p>「山田太郎様」を [氏名1]様、「090-1234-5678」を [電話1] にしてから貼れば、Claude に頼めることはほとんど変わりません。答えが返ってきたら、伏せ字を元に戻せば完成です。</p>
+<p>私たち（合同会社mico）は、この置き換えと戻す作業をブラウザの中だけで行う無料の道具「<b>AI伏せ字</b>」を作りました。文章は外部に送信しません。Claude のほか、ChatGPT・Gemini・Copilot に貼る前でも使えます。</p>
+<p>体験ページ：<a href="../">こちら</a></p>
+<p>※ 判定は機械的なルールなので、見落としがありえます。AIに送る前に、伏せ字の文章を目で確かめてください。</p>
+<div class="cta"><p><b>AIに貼る前に、個人情報を伏せ字に。</b><br>氏名・住所・電話・メール・会社名を、ブラウザの中だけで [氏名1] のように置き換える無料ツールです。</p><p><a class="btn primary big" href="../">無料で試してみる</a></p></div>
+</main>
+<footer class="wrap foot"><p class="tools-links">ほかの無料ツール（アップロードなし）：<a href="../pdf/merge.html">PDF結合（サイズをA4にそろえる）</a> ／ <a href="../pdf/a4-a3.html">A4 2枚→A3 1枚</a> ／ <a href="../pdf/compress.html">PDF圧縮</a> ／ <a href="../ocr/">画像の文字読み取り（OCR）</a></p><p>© 2026 合同会社mico ／ <a href="https://docs.google.com/document/d/e/2PACX-1vQDrryEfL2zc4WxP9wg9clm98mq7SNMVW1CrEBNZ9HvnXbdvYl2cNTx6C77LyOF90Aa0OqyuBSoZBtn/pub" rel="noopener">プライバシーポリシー</a></p></footer>
+</body>
+</html>

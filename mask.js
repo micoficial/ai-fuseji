@@ -10,8 +10,8 @@ const digitsOf = (s) => toHalf(s).replace(/\D/g, "");
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 export const LABELS = {
-  ja: { name: "氏名", company: "会社", email: "メール", phone: "電話", postal: "郵便番号", address: "住所", mynumber: "マイナンバー", card: "カード番号", account: "口座番号", birth: "生年月日", word: "名称", money: "金額", date: "日付", url: "URL", ip: "IP", idnum: "管理番号" },
-  en: { name: "NAME", company: "COMPANY", email: "EMAIL", phone: "PHONE", postal: "ZIP", address: "ADDRESS", mynumber: "MYNUMBER", card: "CARD", account: "ACCOUNT", birth: "BIRTHDATE", word: "TERM", money: "AMOUNT", date: "DATE", url: "URL", ip: "IP", idnum: "ID" },
+  ja: { name: "氏名", company: "会社", email: "メール", phone: "電話", postal: "郵便番号", address: "住所", mynumber: "マイナンバー", card: "カード番号", account: "口座番号", birth: "生年月日", word: "名称", money: "金額", date: "日付", url: "URL", ip: "IP", idnum: "管理番号", secret: "パスワード" },
+  en: { name: "NAME", company: "COMPANY", email: "EMAIL", phone: "PHONE", postal: "ZIP", address: "ADDRESS", mynumber: "MYNUMBER", card: "CARD", account: "ACCOUNT", birth: "BIRTHDATE", word: "TERM", money: "AMOUNT", date: "DATE", url: "URL", ip: "IP", idnum: "ID", secret: "SECRET" },
 };
 
 // Pro版でだけ使える種類
@@ -89,6 +89,9 @@ function fixCompany(text) {
 
 // 検出のルール。上にあるものほど優先する（重なったら上を採る）
 const RULES = [
+  // パスワード・APIキー：ラベルの後ろの値と、よく知られたキーの形
+  { kind: "secret", re: new RegExp(`(?<![A-Za-z])(?:パスワード|パスコード|暗証番号|ログインPW|PW|Password|password|PASSWORD|passwd|APIキー|API[ _]?[Kk]ey|アクセスキー|シークレット|[Ss]ecret|トークン|[Tt]oken)${SP}*(?:は|[：:=＝])${SP}*([!-~]{4,80})`, "gd"), group: 1, fix: (t) => { const offset = t.match(/^["'(]*/)[0].length; const v = t.slice(offset).replace(/[.,;:)\]}>'"]+$/, ""); return v.length >= 4 && (/[^A-Za-z]/.test(v) || v.length >= 8) ? { offset, text: v } : null; } },
+  { kind: "secret", re: /(?<![A-Za-z0-9_-])(?:sk-(?:ant-|proj-)?[A-Za-z0-9_-]{20,}|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|AIza[0-9A-Za-z_-]{35}|xox[abprs]-[A-Za-z0-9-]{10,}|glpat-[A-Za-z0-9_-]{20})/g },
   { kind: "email", re: /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+/g },
   { kind: "url", re: /https?:\/\/[^\s「」『』（）()<>"'、。]+/g },
   { kind: "card", re: new RegExp(`(?<!${D})${D}(?:[ \\-－]?${D}){12,18}(?!${D})`, "g"),
@@ -97,7 +100,7 @@ const RULES = [
   { kind: "mynumber", re: new RegExp(`(?<!${D})${D}{4}[ \\-－]?${D}{4}[ \\-－]?${D}{4}(?!${D})`, "g"), check: (t) => myNumberOk(digitsOf(t)) },
   { kind: "phone", re: new RegExp(`(?:\\+|＋)(?:81|８１)${SP}?${H}?${SP}?[(（]?${D}{1,4}[)）]?${SP}?${H}?${SP}?${D}{1,4}${SP}?${H}?${SP}?${D}{3,4}(?!${D})`, "g"),
     check: (t) => { const n = digitsOf(t).length; return n >= 11 && n <= 12; } },
-  { kind: "phone", re: new RegExp(`(?<!${D})[(（]?[0０]${D}{1,4}[)）]?${SP}?(?:${H}${SP}?)?${D}{1,4}${SP}?(?:${H}${SP}?)?${D}{3,4}(?!${D})`, "g"),
+  { kind: "phone", re: new RegExp(`(?<!${D})(?:[(（][0０]${D}{1,4}[)）]|[0０]${D}{1,4}[)）]?)${SP}?(?:${H}${SP}?)?${D}{1,4}${SP}?(?:${H}${SP}?)?${D}{3,4}(?!${D})`, "g"),
     check: (t) => { const n = digitsOf(t).length; return n >= 10 && n <= 11; } },
   { kind: "postal", re: new RegExp(`〒${SP}?${D}{3}${H}?${D}{4}(?!${D})`, "g") },
   { kind: "postal", re: new RegExp(`(?<!${D}|${H})${D}{3}${H}${D}{4}(?!${D}|${H})`, "g") },
@@ -107,6 +110,8 @@ const RULES = [
   { kind: "address", re: new RegExp(`${PREF}[一-龥々ヶヵァ-ヶー]{0,8}?[市区町村郡][一-龥々ヶヵぁ-んァ-ヶーA-Za-z]{0,20}?${BLK}${BUILDING}`, "g") },
   { kind: "address", re: new RegExp(`(?<![一-龥々ヶヵァ-ヶー])[一-龥々ヶヵァ-ヶー]{1,6}[市区町村郡](?:[一-龥々ヶヵァ-ヶー]{1,6}[区町村])?[一-龥々ヶヵぁ-んァ-ヶー]{0,12}?${NUM}(?:丁目|番地|${H})${NUM}(?:(?:番|号|${H}|の)${NUM})*号?${BUILDING}`, "g") },
   { kind: "birth", re: new RegExp(`(?:生年月日|誕生日)${SP}*[：:は]?${SP}*(${DATE_BODY})`, "gd"), group: 1 },
+  // 「1985年4月3日生まれ」「S60.4.3生」のように、ラベルなしで後ろに「生まれ」が付く日付
+  { kind: "birth", re: new RegExp(`(${DATE_BODY})${SP}?(?=生まれ|生(?![一-龥]))`, "gd"), group: 1 },
   { kind: "name", re: new RegExp(`(?:氏名|お名前|名前|フルネーム|担当者名?|ご担当者?|患者名?|契約者名?|申込者名?|代表者名?|宛名|依頼者名?|署名|差出人|送信者|受取人|名義人?)${SP}*[：:]${SP}*([^\\s、。，,（(：:「」]{1,10}(?:${SP}[^\\s、。，,（(：:「」\\d０-９]{1,10})?)`, "gd"), group: 1, fix: (t) => fixName(t) },
   { kind: "name", re: new RegExp(`([一-龥々ヶ]{1,8}(?:${SP}[一-龥々ヶ]{1,4})?|[ァ-ヶー]{2,10}(?:[ 　・][ァ-ヶー]{2,10})?)${SP}?(?=(?:${HONORIFIC})(?![一-龥]))`, "gd"), group: 1, fix: (t) => fixName(t) },
   // 管理番号：社員番号・会員番号・顧客番号・患者番号・カルテ番号・契約番号
@@ -129,6 +134,8 @@ const RULES = [
   // メールの名乗り：「合同会社ミコの佐藤です」「営業部の佐藤と申します」
   { kind: "name", re: new RegExp(`(?:${LEGAL}${CO_NAME}{1,24}|${CO_CH}{1,20}${LEGAL}|[部課室局店]|チーム)の${SP}?([一-龥々ヶ]{1,4})(?=です|と申します|でございます)`, "gd"), group: 1, fix: (t) => fixName(t) },
   { kind: "name", re: new RegExp(`(?<=^|\\n|。|、)${SP}*([一-龥々ヶ]{1,4})(?=と申します|でございます)`, "gd"), group: 1, fix: (t) => fixName(t) },
+  // 「株式会社みどり商事」のように、ひらがなで始まる社名（「株式会社にお願い」「株式会社から連絡」のように助詞で始まるものは除く）
+  { kind: "company", re: new RegExp(`${LEGAL}${SP}?(?!から|まで|より|など|ほか|および|ならびに|さん|さま|[にはがをでのとへもや])[ぁ-ゖ]{2,8}(?:[一-龥々ヶァ-ヶー]{1,16}|(?=$|\n|${SP}|[、。，,（(様御殿]))`, "g"), fix: (t) => fixCompany(t) },
   { kind: "company", re: new RegExp(`${LEGAL}${SP}?${CO_NAME}{1,24}`, "g"), fix: (t) => fixCompany(t) },
   { kind: "company", re: new RegExp(`${CO_CH}{1,20}${SP}?${LEGAL}`, "g"), fix: (t) => fixCompany(t) },
   { kind: "money", re: new RegExp(`(?:[¥￥$＄]${SP}?${D}[0-9０-９,，.]*(?:${SP}?(?:兆|億|万|千))*|${D}[0-9０-９,，.]*(?:(?:兆|億|万|千)${D}*)*${SP}?(?:円|ドル|USD|JPY))`, "g") },
