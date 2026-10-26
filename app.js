@@ -1,5 +1,5 @@
 // 体験ページ：拡張機能と同じ判定（mask.js）を、ページの中だけで動かす。文章はどこにも送らない。
-import { mask, restore, splitTokens } from "./mask.js";
+import { mask, restore, splitTokens, findConfidential } from "./mask.js";
 
 const STORE_URL = "https://chromewebstore.google.com/detail/clhnanhhikamfccidiibgbbfhnkgefjo?utm_source=micoficial_site&utm_medium=top";
 const STORE_LIVE = true; // 2026-10-12 公開を確認
@@ -56,6 +56,10 @@ function renderMask() {
   const total = r.items.reduce((n, i) => n + i.count, 0);
   $("maskCount").textContent = !src.trim() ? "" : total ? `（${total} か所）` : "（見つかりませんでした）";
   $("copyMasked").disabled = !src.trim();
+  const conf = findConfidential(src);
+  const cw = $("confWarn");
+  cw.hidden = !conf.length;
+  cw.textContent = conf.length ? `「${conf.join("」「")}」の表示があります。伏せ字は氏名・電話などの決まった形だけを伏せます。資料そのものをAIに貼ってよいかは、社内のルールで確かめてください。` : "";
   const ul = $("items");
   ul.textContent = "";
   for (const it of r.items) {

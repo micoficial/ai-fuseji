@@ -260,3 +260,10 @@ export function splitTokens(text, map) {
   if (pos < text.length) parts.push({ text: text.slice(pos) });
   return parts;
 }
+
+// 「社外秘」「Confidential」など、資料そのものに付いた取り扱いの表示を探す。
+// 伏せ字は決まった形（氏名・電話など）しか伏せないので、資料ごとAIに貼ってよいかは別に確かめてもらうための注意書き用。
+const CONF_RE = /社外秘|部外秘|社内秘|関係者外秘|極秘|㊙|取り?扱い?注意|持ち?出し?禁止|機密(?:文書|資料|情報|扱い|区分)|[【\[［(（]機密[】\]］)）]|\b(?:STRICTLY |Strictly )?(?:CONFIDENTIAL|Confidential)\b|\b(?:INTERNAL USE ONLY|Internal Use Only|For Internal Use Only)\b/g;
+export function findConfidential(text) {
+  return [...new Set([...(text || "").matchAll(CONF_RE)].map((m) => m[0].replace(/^[【\[［(（]|[】\]］)）]$/g, "")))];
+}
