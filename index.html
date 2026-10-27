@@ -118,6 +118,7 @@
   <ul>
     <li><a href="articles/ai-shanai-rule.html">ChatGPTに個人情報を入れないための社内ルール例（そのまま使えるひな形つき）</a></li>
     <li><a href="articles/ai-check-list.html">AIに文章を貼る前の30秒チェックリスト（事務・総務向け）</a></li>
+    <li><a href="articles/shagaihi-ai.html">社外秘の資料を生成AIに入れていい？ ChatGPT・Copilot・Gemini・AI議事録の線引き</a></li>
     <li><a href="articles/customer-info-chatgpt.html">ChatGPTに顧客情報を入れていい？ 事務・総務がまず知っておきたい3つの線引き</a></li>
     <li><a href="articles/law-revision-2026.html">個人情報保護法の改正（2026年）で、ChatGPTに顧客情報を貼ってよくなった？ 事務・総務向けに整理</a></li>
     <li><a href="articles/masking-howto.html">ChatGPTに貼る前の個人情報マスキング、3つのやり方（手作業・Wordの置換・自動）</a></li>
@@ -136,7 +137,7 @@
   <h2>よくある質問</h2>
   <details><summary>伏せ字にすれば、AIに何を貼っても安全ですか？</summary><p>いいえ。判定は機械的なルールなので、見落としがありえます。送る前に、伏せ字の文章を目で確認してください。会社のルールで禁止されている情報は、伏せ字にしても貼らないでください。</p></details>
   <details><summary>AIが答えの中で伏せ字の形を変えたら？</summary><p>[氏名1] が【氏名1】や［氏名1］、括弧なしの「氏名1」に変わっても元に戻せます。</p></details>
-  <details id="faq-shagaihi"><summary>「社外秘」の資料をChatGPTに貼ってもいいですか？</summary><p>まず社内のルールを確かめてください。「社外秘」「取扱注意」「Confidential」などの表示がある資料は、多くの会社で外部のサービスに出してよい範囲が決められています。AI伏せ字は、貼った文章にこうした表示があると注意を出します。伏せ字にできるのは氏名・電話・住所・メールなど決まった形の情報だけで、売上の数字や企画の中身そのものは残ります。貼ってよいと決まった資料でも、個人情報は伏せ字にしてから使うのが安全です。</p></details>
+  <details id="faq-shagaihi"><summary>「社外秘」の資料をChatGPTに貼ってもいいですか？</summary><p>まず社内のルールを確かめてください。「社外秘」「取扱注意」「Confidential」などの表示がある資料は、多くの会社で外部のサービスに出してよい範囲が決められています。AI伏せ字は、貼った文章にこうした表示があると注意を出します。伏せ字にできるのは氏名・電話・住所・メールなど決まった形の情報だけで、売上の数字や企画の中身そのものは残ります。貼ってよいと決まった資料でも、個人情報は伏せ字にしてから使うのが安全です。 詳しくは<a href="articles/shagaihi-ai.html">社外秘の資料を生成AIに入れていい？</a>へ。</p></details>
   <details id="faq-perm"><summary>拡張機能そのものが、AIとの会話を盗み見ることはありませんか？</summary><p>2026年1月、AI公式を装ってChatGPTなどの会話を外へ送っていた拡張機能が、合計90万以上インストールされていたと報じられました。拡張機能は「何を読めるか（権限）」で確かめられます。AI伏せ字の権限は次の3つだけです。</p><ul><li>右クリックメニュー（contextMenus）</li><li>サイドパネル（sidePanel）</li><li>設定の保存（storage）</li></ul><p>「すべてのサイトのデータの読み取りと変更」の権限は使わないので、ChatGPTなどの画面の中身は読めません。通信するのは、Pro版のライセンスキーを確かめるときの Gumroad（api.gumroad.com）だけで、文章は送りません。Chromeの「拡張機能を管理」→「詳細」で、表示された権限をご自身で確認できます。他の拡張機能も、同じ見方で確かめてみてください。</p></details>
   <details><summary>英語の文章にも使えますか？</summary><p>メール、電話番号、カード番号などは使えます。氏名と会社名の判定は日本語向けです。英語の名前は「いつも伏せる言葉」に登録してください。</p></details>
   <details><summary>誰が作っていますか？</summary><p>合同会社micoです。AIのフクロウ「ゼロ」が作り、その過程を動画で公開しています。お問い合わせ：mico.95.official@gmail.com</p></details>
