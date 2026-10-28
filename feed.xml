@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+<title>AI伏せ字（合同会社mico）</title>
+<link href="https://micoficial.github.io/ai-fuseji/"/>
+<link rel="self" href="https://micoficial.github.io/ai-fuseji/feed.xml"/>
+<id>https://micoficial.github.io/ai-fuseji/</id>
+<updated>2026-10-28T01:56:05Z</updated>
+<author><name>合同会社mico</name></author>
+<entry><title>AI伏せ字｜ChatGPTに貼る前に、個人情報を伏せ字にする無料ツール</title><link href="https://micoficial.github.io/ai-fuseji/"/><id>https://micoficial.github.io/ai-fuseji/</id><updated>2026-10-16T00:00:00Z</updated></entry>
+<entry><title>ChatGPTに個人情報を入れないための社内ルール例（そのまま使えるひな形つき）｜AI伏せ字</title><link href="https://micoficial.github.io/ai-fuseji/articles/ai-shanai-rule.html"/><id>https://micoficial.github.io/ai-fuseji/articles/ai-shanai-rule.html</id><updated>2026-10-26T00:00:00Z</updated></entry>
+<entry><title>AIに文章を貼る前の30秒チェックリスト（事務・総務向け）｜AI伏せ字</title><link href="https://micoficial.github.io/ai-fuseji/articles/ai-check-list.html"/><id>https://micoficial.github.io/ai-fuseji/articles/ai-check-list.html</id><updated>2026-10-16T00:00:00Z</updated></entry>
+<entry><title>伏せ字のままAIに頼める、事務仕事のプロンプト例7選（コピペで使える）｜AI伏せ字</title><link href="https://micoficial.github.io/ai-fuseji/articles/fuseji-prompt.html"/><id>https://micoficial.github.io/ai-fuseji/articles/fuseji-prompt.html</id><updated>2026-10-16T00:00:00Z</updated></entry>
+<entry><title>ChatGPTに顧客情報を入れていい？ 事務・総務がまず知っておきたい3つの線引き｜AI伏せ字</title><link href="https://micoficial.github.io/ai-fuseji/articles/customer-info-chatgpt.html"/><id>https://micoficial.github.io/ai-fuseji/articles/customer-info-chatgpt.html</id><updated>2026-10-16T00:00:00Z</updated></entry>
+<entry><title>ChatGPTに貼る前の個人情報マスキング、3つのやり方（手作業・Wordの置換・自動）｜AI伏せ字</title><link href="https://micoficial.github.io/ai-fuseji/articles/masking-howto.html"/><id>https://micoficial.github.io/ai-fuseji/articles/masking-howto.html</id><updated>2026-10-27T00:00:00Z</updated></entry>
+<entry><title>個人情報のマスキング箇所一覧：AIに貼る前に隠す12か所と、隠さなくていいもの｜AI伏せ字</title><link href="https://micoficial.github.io/ai-fuseji/articles/masking-kasho.html"/><id>https://micoficial.github.io/ai-fuseji/articles/masking-kasho.html</id><updated>2026-10-18T00:00:00Z</updated></entry>
+<entry><title>会社のPDFを結合したい。ネットにアップロードせずに済ませる4つの方法｜AI伏せ字</title><link href="https://micoficial.github.io/ai-fuseji/articles/pdf-merge-no-upload.html"/><id>https://micoficial.github.io/ai-fuseji/articles/pdf-merge-no-upload.html</id><updated>2026-10-16T00:00:00Z</updated></entry>
+<entry><title>個人情報保護法の改正（2026年）で、ChatGPTに顧客情報を貼ってよくなった？ 事務・総務向けに整理｜AI伏せ字</title><link href="https://micoficial.github.io/ai-fuseji/articles/law-revision-2026.html"/><id>https://micoficial.github.io/ai-fuseji/articles/law-revision-2026.html</id><updated>2026-10-16T00:00:00Z</updated></entry>
+<entry><title>PDF圧縮（無料・アップロードなし）｜PDFの容量をブラウザの中で小さくする</title><link href="https://micoficial.github.io/ai-fuseji/pdf/compress.html"/><id>https://micoficial.github.io/ai-fuseji/pdf/compress.html</id><updated>2026-10-16T00:00:00Z</updated></entry>
+<entry><title>PDF結合（無料・アップロードなし）｜複数のPDFをブラウザの中で1つにまとめる</title><link href="https://micoficial.github.io/ai-fuseji/pdf/merge.html"/><id>https://micoficial.github.io/ai-fuseji/pdf/merge.html</id><updated>2026-10-16T00:00:00Z</updated></entry>
+<entry><title>PDFのA4 2枚をA3 1枚に（無料・アップロードなし）｜余白なしで横に並べる</title><link href="https://micoficial.github.io/ai-fuseji/pdf/a4-a3.html"/><id>https://micoficial.github.io/ai-fuseji/pdf/a4-a3.html</id><updated>2026-10-16T00:00:00Z</updated></entry>
+<entry><title>PDFにページ番号を入れる（無料・アップロードなし）｜途中から・表紙なしにも対応</title><link href="https://micoficial.github.io/ai-fuseji/pdf/page-number.html"/><id>https://micoficial.github.io/ai-fuseji/pdf/page-number.html</id><updated>2026-10-18T00:00:00Z</updated></entry>
+<entry><title>PDFを分割・ページを抜き出す（無料・アップロードなし）｜オフラインでも安全</title><link href="https://micoficial.github.io/ai-fuseji/pdf/split.html"/><id>https://micoficial.github.io/ai-fuseji/pdf/split.html</id><updated>2026-10-19T00:00:00Z</updated></entry>
+<entry><title>PDFの回転を保存する（無料・アップロードなし）｜Chromeで回しても保存されないときに</title><link href="https://micoficial.github.io/ai-fuseji/pdf/rotate.html"/><id>https://micoficial.github.io/ai-fuseji/pdf/rotate.html</id><updated>2026-10-18T00:00:00Z</updated></entry>
+<entry><title>画像の文字を読み取り（OCR・無料・アップロードなし）｜画像から文字を抽出</title><link href="https://micoficial.github.io/ai-fuseji/ocr/"/><id>https://micoficial.github.io/ai-fuseji/ocr/</id><updated>2026-10-13T00:00:00Z</updated></entry>
+<entry><title>EdgeでPDFを圧縮する方法。アップロードせずに無料で容量を減らす｜AI伏せ字</title><link href="https://micoficial.github.io/ai-fuseji/articles/pdf-compress-edge.html"/><id>https://micoficial.github.io/ai-fuseji/articles/pdf-compress-edge.html</id><updated>2026-10-19T00:00:00Z</updated></entry>
+<entry><title>ChatGPT・Copilot・Geminiに個人情報を入れてしまったら｜最初の10分でやること｜AI伏せ字</title><link href="https://micoficial.github.io/ai-fuseji/articles/ai-nyuryoku-shimatta.html"/><id>https://micoficial.github.io/ai-fuseji/articles/ai-nyuryoku-shimatta.html</id><updated>2026-10-21T00:00:00Z</updated></entry>
+<entry><title>Claudeに個人情報はどこまで入れていい？｜学習させない設定と、仕事で使うときの線引き｜AI伏せ字</title><link href="https://micoficial.github.io/ai-fuseji/articles/claude-kojin-joho.html"/><id>https://micoficial.github.io/ai-fuseji/articles/claude-kojin-joho.html</id><updated>2026-10-22T00:00:00Z</updated></entry>
+<entry><title>個人情報マスキングツールの選び方：無料・買い切り・月額の3タイプと、確かめる5つの点｜AI伏せ字</title><link href="https://micoficial.github.io/ai-fuseji/articles/masking-tool.html"/><id>https://micoficial.github.io/ai-fuseji/articles/masking-tool.html</id><updated>2026-10-20T00:00:00Z</updated></entry>
+<entry><title>CSVの個人情報をマスキング（無料・アップロードなし）｜列ごとに伏せる</title><link href="https://micoficial.github.io/ai-fuseji/csv/"/><id>https://micoficial.github.io/ai-fuseji/csv/</id><updated>2026-10-24T00:00:00Z</updated></entry>
+<entry><title>社外秘の資料を生成AIに入れていい？ ChatGPT・Copilot・Gemini・AI議事録の線引き｜AI伏せ字</title><link href="https://micoficial.github.io/ai-fuseji/articles/shagaihi-ai.html"/><id>https://micoficial.github.io/ai-fuseji/articles/shagaihi-ai.html</id><updated>2026-10-27T00:00:00Z</updated></entry>
+<entry><title>NotebookLMに社内資料を入れていい？ 情報漏洩が心配なときの確かめ方と伏せ方｜AI伏せ字</title><link href="https://micoficial.github.io/ai-fuseji/articles/notebooklm-kimitsu.html"/><id>https://micoficial.github.io/ai-fuseji/articles/notebooklm-kimitsu.html</id><updated>2026-10-27T00:00:00Z</updated></entry>
+</feed>
