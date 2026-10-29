@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Claudeに個人情報はどこまで入れていい？｜学習させない設定と、仕事で使うときの線引き｜AI伏せ字</title>
-<meta name="description" content="Claude（Anthropic）に顧客の名前や電話番号を入れてよいか。個人向けプランで学習に使わせない設定の場所、保存期間の違い、法人向けプランとの差、仕事で使うときの3つの線引きをまとめました。">
-<meta name="keywords" content="Claude 個人情報, Claude 個人情報 学習させない, Claude 個人情報 設定, Claude 個人情報 どこまで, Claude 個人情報漏洩">
+<meta name="description" content="Claude（Anthropic）に顧客の名前や電話番号を入れてよいか。個人向けプランで学習に使わせない設定の場所、保存期間の違い、法人向けプランとの差、仕事で使うときの3つの線引き、Claude Code・Excel 連携で機密情報を渡すときの注意をまとめました。">
+<meta name="keywords" content="Claude 個人情報, Claude 個人情報 学習させない, Claude 個人情報 設定, Claude 個人情報 どこまで, Claude 個人情報漏洩, Claude 機密情報, Claude 情報漏洩, Claude 学習 オフ, Claude Code 機密情報">
 <link rel="icon" href="../icon128.png">
 <link rel="stylesheet" href="../style.css">
 </head>
@@ -39,6 +39,14 @@
 <li>ChatGPTに顧客情報を入れていい？ 3つの線引き：<a href="customer-info-chatgpt.html">customer-info-chatgpt.html</a></li>
 <li>AIに個人情報を入れてしまったら（最初の10分でやること）：<a href="ai-nyuryoku-shimatta.html">ai-nyuryoku-shimatta.html</a></li>
 </ul>
+<h2>4. Claude Code・デスクトップ版・Excel 連携でも同じ？（機密情報と情報漏洩）</h2>
+<p>チャット画面だけでなく、Claude Code（プログラミング用）、デスクトップ版、Excel などほかの道具とつなぐ使い方も増えています。気をつけることは2つです。</p>
+<ul>
+<li><b>個人のアカウントなら、1. の設定がそのままかかる</b>：Anthropic は、個人向けプランで使う Claude Code の作業も「学習に使うか」の設定の対象だと案内しています。会社の Team・Enterprise・API で使うなら、2. の商用の扱いです</li>
+<li><b>つないだ分だけ、送られる量が増える</b>：フォルダ・表・メールを読ませる使い方では、自分で貼った一文ではなく<b>ファイルの中身ごと</b>が送られて処理されます。顧客名簿や見積書の入ったフォルダを丸ごと渡す前に、要る部分だけにするか、伏せてから渡すのが安全です</li>
+<li><b>新しい機能は、使う前に公式ヘルプで確かめる</b>：Excel 連携やエージェントのような新しい使い方は、保存や学習の扱いが更新で変わりやすい部分です</li>
+</ul>
+<p>「Claude から情報漏洩した」という話の多くは、Claude そのものより、<b>入れてよいか決めずに入れた</b>ことが原因です。社内で決めておくことは、<a href="ai-shanai-rule.html">社内ルールの例</a>や<a href="shagaihi-ai.html">社外秘をAIに使うときの線引き</a>にまとめています。</p>
 <h2>いちばん確実なのは、貼る前に伏せ字にすること</h2>
 <p>「山田太郎様」を [氏名1]様、「090-1234-5678」を [電話1] にしてから貼れば、Claude に頼めることはほとんど変わりません。答えが返ってきたら、伏せ字を元に戻せば完成です。</p>
 <p>私たち（合同会社mico）は、この置き換えと戻す作業をブラウザの中だけで行う無料の道具「<b>AI伏せ字</b>」を作りました。文章は外部に送信しません。Claude のほか、ChatGPT・Gemini・Copilot に貼る前でも使えます。</p>
