@@ -21,6 +21,7 @@ AIに貼る前に、氏名・住所・電話番号・メール・会社名を [�
 
 - [ChatGPT・Copilot・Geminiに個人情報を入れてしまったら](https://micoficial.github.io/ai-fuseji/articles/ai-nyuryoku-shimatta.html)
 - [ChatGPTに顧客情報を入れていい？ 3つの線引き](https://micoficial.github.io/ai-fuseji/articles/customer-info-chatgpt.html)
+- [Copilotに個人情報はどこまで入れていい？](https://micoficial.github.io/ai-fuseji/articles/copilot-kojin-joho.html)
 - [Claudeに個人情報はどこまで入れていい？](https://micoficial.github.io/ai-fuseji/articles/claude-kojin-joho.html)
 - [個人情報マスキング、3つのやり方](https://micoficial.github.io/ai-fuseji/articles/masking-howto.html)
 - [個人情報のマスキング箇所一覧](https://micoficial.github.io/ai-fuseji/articles/masking-kasho.html)
