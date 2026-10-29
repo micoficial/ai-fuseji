@@ -92,6 +92,10 @@ const RULES = [
   // パスワード・APIキー：ラベルの後ろの値と、よく知られたキーの形
   { kind: "secret", re: new RegExp(`(?<![A-Za-z])(?:パスワード|パスコード|暗証番号|ログインPW|PW|Password|password|PASSWORD|passwd|APIキー|API[ _]?[Kk]ey|アクセスキー|シークレット|[Ss]ecret|トークン|[Tt]oken)${SP}*(?:は|[：:=＝])${SP}*([!-~]{4,80})`, "gd"), group: 1, fix: (t) => { const offset = t.match(/^["'(]*/)[0].length; const v = t.slice(offset).replace(/[.,;:)\]}>'"]+$/, ""); return v.length >= 4 && (/[^A-Za-z]/.test(v) || v.length >= 8) ? { offset, text: v } : null; } },
   { kind: "secret", re: /(?<![A-Za-z0-9_-])(?:sk-(?:ant-|proj-)?[A-Za-z0-9_-]{20,}|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|AIza[0-9A-Za-z_-]{35}|xox[abprs]-[A-Za-z0-9-]{10,}|glpat-[A-Za-z0-9_-]{20})/g },
+  // 保険証・年金の番号：「被保険者番号：12345678」「保険証 記号12 番号3456 枝番01」。電話の形より先に見る（介護保険の10桁を電話と取り違えないため）
+  { kind: "idnum", re: new RegExp(`(?:被保険者証番号|被保険者番号|保険者番号|保険証番号|受給者証番号|受給者番号|公費負担者番号|基礎年金番号|年金番号)${SP}*[：:]?${SP}*([A-Za-zＡ-Ｚａ-ｚ0-9０-９][A-Za-zＡ-Ｚａ-ｚ0-9０-９\\-－]{2,19})`, "gd"), group: 1 },
+  { kind: "idnum", re: new RegExp(`(?<=(?:保険証|被保険者証|資格確認書)[^\\n]{0,30}?)(?:記号|番号|枝番)${SP}*[：:]?${SP}*([A-Za-zＡ-Ｚａ-ｚ0-9０-９][A-Za-zＡ-Ｚａ-ｚ0-9０-９\\-－]{0,19})`, "gd"), group: 1 },
+  { kind: "idnum", re: new RegExp(`記号${SP}*[・･/／]${SP}*番号${SP}*[：:]?${SP}*([A-Za-zＡ-Ｚａ-ｚ0-9０-９][A-Za-zＡ-Ｚａ-ｚ0-9０-９\\-－・･ 　]{1,25}[A-Za-zＡ-Ｚａ-ｚ0-9０-９])`, "gd"), group: 1 },
   { kind: "email", re: /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+/g },
   { kind: "url", re: /https?:\/\/[^\s「」『』（）()<>"'、。]+/g },
   { kind: "card", re: new RegExp(`(?<!${D})${D}(?:[ \\-－]?${D}){12,18}(?!${D})`, "g"),
