@@ -64,7 +64,17 @@
 <h2>次から防ぐ：貼る前に伏せ字にする</h2>
 <p>いちばん確実なのは、<b>そもそも本物の名前や番号をAIに渡さない</b>ことです。<br>「山田太郎様」を [氏名1]様、「090-1234-5678」を [電話1] にしてから貼れば、返信の下書きも要約も、ほとんど同じように頼めます。答えが返ってきたら、伏せ字を元に戻せば完成です。</p>
 <p>私たち（合同会社mico）は、この置き換えと戻す作業をブラウザの中だけで行う無料の道具「<b>AI伏せ字</b>」を作りました。文章は外部に送信しません。ChatGPT・Copilot・Gemini・Claude のどれに貼る前でも使えます。</p>
-<p>体験ページ：<a href="../">こちら</a></p>
+<div class="cta" id="try"><p><b>この場で試す（送信しません）</b><br>下の例文を書き換えるか、自分の文章を貼って「伏せ字にする」を押してください。処理はこのページの中だけで行います。</p>
+<textarea id="tryin" rows="5" style="width:100%;box-sizing:border-box;font:inherit">お客様の山田太郎様（090-1234-5678、taro.yamada@example.co.jp）から、東京都千代田区丸の内1-2-3への配送について問い合わせがありました。</textarea>
+<p><button class="btn primary" id="trybtn" type="button">伏せ字にする</button> <button class="btn" id="trycopy" type="button" hidden>コピー</button></p>
+<pre id="tryout" style="white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px;min-height:2em" aria-live="polite"></pre>
+<p id="tryafter" hidden>毎回この作業をするなら、ブラウザに入れておくと右クリックで伏せられます（無料）→ <a href="https://chromewebstore.google.com/detail/clhnanhhikamfccidiibgbbfhnkgefjo?utm_source=micoficial_site&utm_medium=article11_try" rel="noopener">Chrome拡張</a> ／ <a href="https://microsoftedge.microsoft.com/addons/detail/cdokmdjggnfaekbpjjhhindbgaacbjop?utm_source=micoficial_site&utm_medium=article11_try" rel="noopener">Edgeアドオン</a>。元に戻す機能つきの全部入りは<a href="../">体験ページ</a>で。</p></div>
+<script type="module">
+import { mask } from "../mask.js";
+const $=(i)=>document.getElementById(i);
+$("trybtn").onclick=()=>{const r=mask($("tryin").value);$("tryout").textContent=r.masked;$("trycopy").hidden=false;$("tryafter").hidden=false;};
+$("trycopy").onclick=()=>{navigator.clipboard?.writeText($("tryout").textContent);$("trycopy").textContent="コピーしました";};
+</script>
 <p>※ 判定は機械的なルールなので、見落としがありえます。AIに送る前に、伏せ字の文章を目で確かめてください。</p>
 <section class="ai-guide"><h2>AIごとの個人情報ガイド</h2><ul><li><a href="customer-info-chatgpt.html">ChatGPTに顧客情報を入れていい？</a></li><li><a href="chatgpt-rireki-sakujo.html">ChatGPTの履歴を削除すると学習はどうなる？</a></li><li><a href="chatgpt-kaisha-bareru.html">ChatGPTを会社で使うとバレる？</a></li><li><a href="copilot-kojin-joho.html">Copilotに個人情報はどこまで入れていい？</a></li><li><a href="gemini-kojin-joho.html">Geminiに個人情報はどこまで入れていい？</a></li><li><a href="notebooklm-kimitsu.html">NotebookLMに社内資料を入れていい？</a></li><li><a href="claude-kojin-joho.html">Claudeに個人情報はどこまで入れていい？</a></li><li><a href="shagaihi-ai.html">社外秘の資料を生成AIに入れていい？</a></li></ul></section>
 <div class="cta"><p><b>AIに貼る前に、個人情報を伏せ字に。</b><br>氏名・住所・電話・メール・会社名を、ブラウザの中だけで [氏名1] のように置き換える無料ツールです。</p><p><a class="btn primary big" href="../">無料で試してみる</a></p><p>毎日使うなら、ブラウザに入れておくと右クリックで伏せられます（無料）→ <a href="https://chromewebstore.google.com/detail/clhnanhhikamfccidiibgbbfhnkgefjo?utm_source=micoficial_site&utm_medium=article_end" rel="noopener">Chrome拡張</a> ／ <a href="https://microsoftedge.microsoft.com/addons/detail/cdokmdjggnfaekbpjjhhindbgaacbjop?utm_source=micoficial_site&utm_medium=article_end" rel="noopener">Edgeアドオン</a></p></div>
