@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ChatGPTを会社で使うとバレる？｜会社のパソコン・会社契約で管理者に見えるもの・入力した内容は見られるか｜AI伏せ字</title>
+<meta name="description" content="ChatGPTを会社で使うと会社にバレるのか。会社のパソコン・社内ネットワークで記録されるもの、ChatGPT Business（旧Team）・Enterprise や Microsoft 365 Copilot で管理者に見えるもの、入力した内容は見られるか、隠れて使うより安全な使い方をまとめました。">
+<meta name="keywords" content="ChatGPT 会社 バレる, ChatGPT 内容 バレる 会社, ChatGPT 会社のパソコンで使う, ChatGPT Enterprise 会社にバレる, ChatGPT 社外秘, ChatGPT 社外秘情報, ChatGPT 業務利用 注意点, シャドーAI">
+<link rel="icon" href="../icon128.png">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="top"><div class="wrap row"><a class="brand" href="../"><img src="../icon128.png" alt="" width="32" height="32"> AI伏せ字</a><a class="btn small" href="../">無料で試す</a></div></header>
+<main class="wrap article">
+<h1>ChatGPTを会社で使うとバレる？｜会社のパソコン・会社契約で、管理者に見えるもの</h1>
+<p>「仕事で ChatGPT を使っているけれど、会社に分かるの？」「入力した内容まで見られる？」という疑問に、使う場所と契約の種類ごとに答えます。<br>先に結論を書くと、<b>会社のパソコンや会社の契約で使えば、使ったこと自体は分かる前提で考えるのが安全</b>です。内容まで見えるかどうかは、契約と会社の設定で変わります。</p>
+<p>※ 管理の機能や名前は各社の更新で変わります。自分の会社で何が記録されているかは、情報システムの担当者か社内規程で確かめてください。</p>
+<h2>1. 会社のパソコン・社内ネットワークで使う場合</h2>
+<ul>
+<li>多くの会社では、どのサイトにいつ接続したかが<b>プロキシやファイアウォールの記録</b>に残ります。chatgpt.com への接続も同じです</li>
+<li>会社によっては、通信の中身を検査する仕組み（SSLの検査）や、パソコンの操作を記録する管理ソフト、データの持ち出しを止める仕組み（DLP）を入れています。その場合は<b>貼った文章が記録される</b>こともあります</li>
+<li>個人のアカウントでログインしていても、会社の機器と回線を通る以上、この記録とは別の話です</li>
+</ul>
+<h2>2. 会社が契約した ChatGPT（Business〈旧Team〉・Enterprise）の場合</h2>
+<ul>
+<li>管理者は、誰がメンバーか・誰が使っているかを管理できます</li>
+<li><b>Enterprise</b> には、会社の管理者が会話やアップロードしたファイルを記録・監査できる仕組み（Compliance API）があります。有効にしている会社では、<b>入力した内容も会社が確認できる</b>と考えてください</li>
+<li>Business（旧Team）では、管理者がふだんの画面からメンバーの会話を読む機能は案内されていません。ただし会社のアカウントの中身は会社のデータです。退職時の引き継ぎや調査の対象になりえます</li>
+<li>どちらも、初めから<b>学習には使わない</b>扱いです。この点は個人の無料版・Plus より安心です</li>
+</ul>
+<h2>3. Microsoft 365 Copilot・Gemini（Google Workspace）の場合</h2>
+<ul>
+<li>会社の Microsoft 365 で使う Copilot は、会社の管理の内側で動きます。管理者は監査ログや電子情報開示（Microsoft Purview）で、<b>やり取りを記録・検索できる</b>ように設定できます</li>
+<li>Google Workspace の Gemini も、会社のアカウントで使えば会社の管理の対象です</li>
+<li>くわしくは <a href="copilot-kojin-joho.html">Copilotに個人情報はどこまで入れていい？</a> ／ <a href="gemini-kojin-joho.html">Geminiに個人情報はどこまで入れていい？</a></li>
+</ul>
+<h2>4. 自分のスマホ・個人アカウントで使う場合</h2>
+<ul>
+<li>会社の機器と回線を通らないので、会社の記録には残りません</li>
+<li>ただし、仕事の文章（お客様の名前・社外秘の資料）を個人のアカウントに貼ると、<b>会社の情報を会社の外に持ち出した</b>ことになります。社内規程や秘密保持の約束に反するおそれがあり、「バレるかどうか」より大きな問題です</li>
+<li>個人の無料版・Plus は、設定を変えないと会話が学習に使われることがあります（設定 →「データコントロール」→「すべての人のためにモデルを改善する」）</li>
+</ul>
+<h2>5. 入力した内容は OpenAI の人に見られる？</h2>
+<p>OpenAI は、悪用の防止などのために会話を確認することがあると案内しています。また、削除しても30日ほどはサーバーに残ります（<a href="chatgpt-rireki-sakujo.html">履歴を削除すると学習はどうなる？</a>）。「誰にも見られない場所」ではない、と考えて使うのが基本です。</p>
+<h2>隠れて使うより、確かめて・伏せて使う</h2>
+<p>会社に黙って使い、お客様の情報を貼ってしまうのが一番危ない使い方です（<a href="ai-nyuryoku-shimatta.html">個人情報を入れてしまったら</a>）。おすすめの順番は次の3つです。</p>
+<ol>
+<li><b>社内のルールを確かめる</b>：使ってよいAI・入れてはいけない情報が決まっているか。なければ、上司か担当者に聞く（<a href="ai-shanai-rule.html">社内ルールのひな形</a>）</li>
+<li><b>会社が用意したAIがあればそちらを使う</b>：学習に使われず、会社も状況を把握できるので、あとで問題になりにくい</li>
+<li><b>名前・電話・社外秘の部分は、貼る前に伏せ字にする</b>：「山田太郎様」を [氏名1]様 にしてから貼れば、どの契約で使っても、見られて困る情報そのものが残りません</li>
+</ol>
+<p>私たち（合同会社mico）は、3つめの置き換えと戻す作業をブラウザの中だけで行う無料の道具「<b>AI伏せ字</b>」を作りました。文章は外部に送信しません。Chrome・Edge に入れておけば、ChatGPT に貼る前に右クリックで伏せられます。</p>
+<p>体験ページ：<a href="../">こちら</a></p>
+<p>※ 判定は機械的なルールなので、見落としがありえます。AIに送る前に、伏せ字の文章を目で確かめてください。また、この記事は一般的な仕組みの説明で、会社ごとの監視の有無を保証するものではありません。</p>
+<div class="cta"><p><b>AIに貼る前に、個人情報を伏せ字に。</b><br>氏名・住所・電話・メール・会社名を、ブラウザの中だけで [氏名1] のように置き換える無料ツールです。</p><p><a class="btn primary big" href="../">無料で試してみる</a></p><p>毎日使うなら、ブラウザに入れておくと右クリックで伏せられます（無料）→ <a href="https://chromewebstore.google.com/detail/clhnanhhikamfccidiibgbbfhnkgefjo?utm_source=micoficial_site&utm_medium=article_end" rel="noopener">Chrome拡張</a> ／ <a href="https://microsoftedge.microsoft.com/addons/detail/cdokmdjggnfaekbpjjhhindbgaacbjop?utm_source=micoficial_site&utm_medium=article_end" rel="noopener">Edgeアドオン</a></p></div>
+</main>
+<footer class="wrap foot"><p class="tools-links">ほかの無料ツール（アップロードなし）：<a href="../pdf/merge.html">PDF結合（サイズをA4にそろえる）</a> ／ <a href="../pdf/a4-a3.html">A4 2枚→A3 1枚</a> ／ <a href="../pdf/compress.html">PDF圧縮</a> ／ <a href="../ocr/">画像の文字読み取り（OCR）</a></p><p>© 2026 合同会社mico ／ <a href="https://docs.google.com/document/d/e/2PACX-1vQDrryEfL2zc4WxP9wg9clm98mq7SNMVW1CrEBNZ9HvnXbdvYl2cNTx6C77LyOF90Aa0OqyuBSoZBtn/pub" rel="noopener">プライバシーポリシー</a></p></footer>
+</body>
+</html>
