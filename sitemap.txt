@@ -23,3 +23,4 @@ https://micoficial.github.io/ai-fuseji/articles/masking-tool.html
 https://micoficial.github.io/ai-fuseji/csv/
 https://micoficial.github.io/ai-fuseji/articles/shagaihi-ai.html
 https://micoficial.github.io/ai-fuseji/articles/notebooklm-kimitsu.html
+https://micoficial.github.io/ai-fuseji/articles/chatgpt-rireki-sakujo.html
