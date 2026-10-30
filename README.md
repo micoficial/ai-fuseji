@@ -31,6 +31,10 @@ AIに貼る前に、氏名・住所・電話番号・メール・会社名を [�
 - [AIに文章を貼る前の30秒チェックリスト](https://micoficial.github.io/ai-fuseji/articles/ai-check-list.html)
 - [伏せ字のままAIに頼めるプロンプト例7選](https://micoficial.github.io/ai-fuseji/articles/fuseji-prompt.html)
 - [個人情報保護法の改正（2026年）とAI](https://micoficial.github.io/ai-fuseji/articles/law-revision-2026.html)
+- [NotebookLMに社内資料を入れていい？ 情報漏洩が心配なときの確かめ方と伏せ方](https://micoficial.github.io/ai-fuseji/articles/notebooklm-kimitsu.html)
+- [ChatGPTの履歴を削除すると学習はどうなる？](https://micoficial.github.io/ai-fuseji/articles/chatgpt-rireki-sakujo.html)
+- [ChatGPTを会社で使うとバレる？ 管理者に見えるもの](https://micoficial.github.io/ai-fuseji/articles/chatgpt-kaisha-bareru.html)
+- [社外秘の資料を生成AIに入れていい？ ChatGPT・Copilot・Gemini・AI議事録の線引き](https://micoficial.github.io/ai-fuseji/articles/shagaihi-ai.html)
 - [会社のPDFをアップロードせずに結合する4つの方法](https://micoficial.github.io/ai-fuseji/articles/pdf-merge-no-upload.html)
 - [EdgeでPDFを圧縮する方法](https://micoficial.github.io/ai-fuseji/articles/pdf-compress-edge.html)
 
