@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>生成AIの情報漏洩事例と対策｜サムスン・ChatGPTの不具合・委託先の入力（2026年）から中小企業が学ぶこと｜AI伏せ字</title>
+<meta name="description" content="生成AIの情報漏洩の事例を、公表された事実だけで4つ整理しました（サムスンのソースコード入力、ChatGPTの不具合で他人の情報が見えた件、共有リンクが検索に出た件、2026年の委託先による個人情報の入力）。漏れ方の3つの型と、中小企業がすぐできる対策をまとめています。">
+<meta name="keywords" content="生成AI 情報漏洩 事例, 生成AI 情報漏洩 ニュース, 生成AI 情報漏洩 事件, 生成AI 情報漏洩 サムスン, 生成AI 情報漏洩対策, 生成AI 情報漏洩リスク, AI 情報漏洩 対策, ChatGPT 情報漏洩 事例">
+<link rel="icon" href="../icon128.png">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="top"><div class="wrap row"><a class="brand" href="../"><img src="../icon128.png" alt="" width="32" height="32"> AI伏せ字</a><a class="btn small" href="../">無料で試す</a></div></header>
+<main class="wrap article">
+<h1>生成AIの情報漏洩事例と対策｜サムスン・ChatGPTの不具合・委託先の入力（2026年）から中小企業が学ぶこと</h1>
+<p>「生成AIで情報漏洩」と聞くと、AIが勝手に秘密をばらすように思えます。けれど、公表された事例を並べると、<b>多くは人がAIに入れたこと</b>から始まっています。<br>この記事では、公表元や当事者の発表で確かめられる事例だけを4つ取り上げ、漏れ方の型と、明日からできる対策をまとめます。</p>
+<p>※ 各事例は公表時点の情報です。最新の状況は、それぞれの公表元で確かめてください。</p>
+<h2>事例1：サムスン電子（2023年）社内のソースコードをChatGPTに入力</h2>
+<ul>
+<li>2023年4月、技術者が社内のソースコードを ChatGPT に入力したことが分かり、同社は5月に、会社の端末と社内ネットワークで生成AIの利用を禁止したと報じられました（Bloomberg、2023年5月2日、社内通知に基づく報道）</li>
+<li>韓国メディアの報道では、不具合のあるプログラムの修正や、会議の内容から議事録を作るために入力した例があったとされています</li>
+<li><b>学べること</b>：悪意ではなく、「仕事を早く終わらせたい」という普通の動機で起きる。禁止だけでは、私物のスマホで使われるおそれが残る</li>
+</ul>
+<h2>事例2：ChatGPT（2023年3月）不具合で他人のチャット題名・支払い情報が見えた</h2>
+<ul>
+<li>2023年3月20日、ChatGPT で一部の利用者に<b>他の人のチャット履歴の題名</b>が表示される不具合が起きました。OpenAI は原因をオープンソースの部品（Redis のクライアント）の不具合と説明しています</li>
+<li>同じ不具合で、約9時間のあいだに利用していた有料版（Plus）会員の<b>1.2%</b>について、氏名・メールアドレス・支払い先住所・カード番号の下4桁・有効期限が他の人に見えた可能性があると公表されました</li>
+<li><b>学べること</b>：利用者に落ち度がなくても、サービス側の不具合で見えてしまうことがある。<b>入れた情報は「相手のサーバーにある」前提</b>で考える</li>
+</ul>
+<h2>事例3：ChatGPT（2025年7月）共有リンクの会話が検索結果に出た</h2>
+<ul>
+<li>会話を共有するときに「検索で見つけられるようにする」を選べる機能があり、選んだ会話が Google の検索結果に出ていたことが2025年7月末に報じられました。中には個人の事情が書かれた会話もありました</li>
+<li>OpenAI はこの機能を「短期間の試み」として7月31日に止め、検索エンジンからの削除を進めると説明しました</li>
+<li><b>学べること</b>：共有リンクは「渡した相手だけが見る」とは限らない。顧客情報の入った会話は共有しない</li>
+</ul>
+<h2>事例4：地方職員共済組合の委託先（2026年8月）許可していないAIに個人情報を入力</h2>
+<ul>
+<li>地方職員共済組合は2026年9月4日、業務の委託先（RIZAP株式会社）の担当者が、データ抽出の作業中に、<b>委託先が利用を許可していない外部の生成AIサービス</b>へ個人情報を含むデータを入力していた（8月20日に判明）と公表しました</li>
+<li>対象は726名。組合員等の記号・番号、氏名、生年月日、メールアドレスなどに加え、特定保健指導の区分や疾患情報（<b>要配慮個人情報</b>）も含まれていたとされています</li>
+<li>画面からの削除と、AIの提供事業者への削除依頼は完了し、学習には使われていないと判断した一方、提供事業者側で閲覧されたかどうかは確認中と書かれています（公表時点）</li>
+<li><b>学べること</b>：自社のルールが守られていても、<b>外注先・委託先</b>で起きる。中小企業は「頼む側」にも「頼まれる側」にもなる</li>
+</ul>
+<h2>漏れ方は3つの型に分けられる</h2>
+<ol>
+<li><b>人が入れる</b>（事例1・4）：一番多く、一番防ぎやすい。入れる前に止めるか、入れても困らない形にする</li>
+<li><b>サービス側の不具合</b>（事例2）：利用者は防げない。だから「そもそも送らない」が効く</li>
+<li><b>設定・共有の思い違い</b>（事例3）：共有リンク、学習の設定、会社のプランと個人のプランの取り違え</li>
+</ol>
+<h2>中小企業がすぐできる対策5つ</h2>
+<ol>
+<li><b>入れてはいけない物を一枚に書く</b>：氏名・住所・電話・メール、顧客番号、病気や家族の事情、社外秘の資料。ひな形は<a href="ai-shanai-rule.html">社内ルールの例</a>にあります</li>
+<li><b>学習の設定を確かめる</b>：個人のプランでは既定で学習に使われることがあります。<a href="chatgpt-gakushu-settei.html">ChatGPTに個人情報を学習させない設定</a></li>
+<li><b>共有リンクを作りっぱなしにしない</b>：顧客情報の入った会話は共有しない。作ったリンクは設定から消せます</li>
+<li><b>外注先・委託先にも同じルールを渡す</b>：契約や発注書に「許可していない生成AIに個人情報を入れない」と一行入れる（事例4の型）</li>
+<li><b>入れてしまったときの手順を決めておく</b>：<a href="ai-nyuryoku-shimatta.html">AIに個人情報を入れてしまったら（最初の10分でやること）</a>。個人情報保護委員会への報告が要る場合もあります</li>
+</ol>
+<p>士業・医療など守秘義務のある仕事なら<a href="shuhi-gimu-ai.html">生成AIと守秘義務</a>、社外秘の資料なら<a href="shagaihi-ai.html">社外秘の資料を生成AIに入れていい？</a>もあわせてどうぞ。</p>
+<h2>3つの型すべてに効くのは、貼る前に伏せ字にすること</h2>
+<p>「山田太郎様」を [氏名1]様、「090-1234-5678」を [電話1] にしてから貼れば、名前や番号はそもそもAIのサーバーに届きません。人がうっかり貼っても、サービス側に不具合があっても、共有リンクが外に出ても、見えるのは伏せ字だけです。返ってきた答えの伏せ字を元に戻せば、仕事はそのまま進みます。</p>
+<p>私たち（合同会社mico）は、この置き換えと戻す作業をブラウザの中だけで行う無料の道具「<b>AI伏せ字</b>」を作りました。文章は外部に送信しません。ChatGPT のほか、Claude・Gemini・Copilot に貼る前でも使えます。</p>
+<p>体験ページ：<a href="../">こちら</a></p>
+<p>※ 判定は機械的なルールなので、見落としがありえます。AIに送る前に、伏せ字の文章を目で確かめてください。</p>
+<h2>出典</h2>
+<ul>
+<li>地方職員共済組合「委託先における個人情報漏えいの可能性のある事案の発生について」（令和8年9月4日）<a href="https://www.chikyosai.or.jp/info/pdf/info_260904.pdf" rel="noopener">PDF</a></li>
+<li>OpenAI「March 20 ChatGPT outage: Here's what happened」（2023年3月24日）<a href="https://openai.com/index/march-20-chatgpt-outage/" rel="noopener">公式ブログ</a></li>
+<li>Bloomberg「Samsung Bans Staff's AI Use After Spotting ChatGPT Data Leak」（2023年5月2日）<a href="https://www.bloomberg.com/news/articles/2023-05-02/samsung-bans-chatgpt-and-other-generative-ai-use-by-staff-after-leak" rel="noopener">記事</a></li>
+<li>Search Engine Journal「OpenAI Is Pulling Shared ChatGPT Chats From Google Search」（2025年8月）<a href="https://www.searchenginejournal.com/openai-is-pulling-shared-chatgpt-chats-from-google-search/552671/" rel="noopener">記事</a></li>
+</ul>
+<section class="ai-guide"><h2>AIごとの個人情報ガイド</h2><ul><li><a href="customer-info-chatgpt.html">ChatGPTに顧客情報を入れていい？</a></li><li><a href="chatgpt-gakushu-settei.html">ChatGPTに個人情報を学習させない設定</a></li><li><a href="chatgpt-rireki-sakujo.html">ChatGPTの履歴を削除すると学習はどうなる？</a></li><li><a href="chatgpt-kaisha-bareru.html">ChatGPTを会社で使うとバレる？</a></li><li><a href="claude-kojin-joho.html">Claudeに個人情報はどこまで入れていい？</a></li><li><a href="copilot-kojin-joho.html">Copilotに個人情報はどこまで入れていい？</a></li><li><a href="gemini-kojin-joho.html">Geminiに個人情報はどこまで入れていい？</a></li><li><a href="notebooklm-kimitsu.html">NotebookLMに社内資料を入れていい？</a></li><li><a href="shagaihi-ai.html">社外秘の資料を生成AIに入れていい？</a></li><li><a href="ai-nyuryoku-shimatta.html">AIに個人情報を入れてしまったら</a></li><li><a href="shuhi-gimu-ai.html">生成AIと守秘義務（士業・医療）</a></li></ul></section>
+<div class="cta"><p><b>AIに貼る前に、個人情報を伏せ字に。</b><br>氏名・住所・電話・メール・会社名を、ブラウザの中だけで [氏名1] のように置き換える無料ツールです。</p><p><a class="btn primary big" href="../">無料で試してみる</a></p><p>毎日使うなら、ブラウザに入れておくと右クリックで伏せられます（無料）→ <a href="https://chromewebstore.google.com/detail/clhnanhhikamfccidiibgbbfhnkgefjo?utm_source=micoficial_site&utm_medium=article_jirei" rel="noopener">Chrome拡張</a> ／ <a href="https://microsoftedge.microsoft.com/addons/detail/cdokmdjggnfaekbpjjhhindbgaacbjop?utm_source=micoficial_site&utm_medium=article_jirei" rel="noopener">Edgeアドオン</a></p></div>
+</main>
+<footer class="wrap foot"><p class="tools-links">ほかの無料ツール（アップロードなし）：<a href="../pdf/merge.html">PDF結合（サイズをA4にそろえる）</a> ／ <a href="../pdf/a4-a3.html">A4 2枚→A3 1枚</a> ／ <a href="../pdf/compress.html">PDF圧縮</a> ／ <a href="../ocr/">画像の文字読み取り（OCR）</a></p><p>© 2026 合同会社mico ／ <a href="https://docs.google.com/document/d/e/2PACX-1vQDrryEfL2zc4WxP9wg9clm98mq7SNMVW1CrEBNZ9HvnXbdvYl2cNTx6C77LyOF90Aa0OqyuBSoZBtn/pub" rel="noopener">プライバシーポリシー</a></p></footer>
+</body>
+</html>
