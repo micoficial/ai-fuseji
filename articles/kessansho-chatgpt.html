@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ChatGPTで決算書分析する前に伏せる所と、そのまま使えるプロンプト｜AI伏せ字</title>
+<meta name="description" content="決算書をChatGPTに読ませて分析・要約したいときの下ごしらえ。会社名・代表者名・取引先・個人の貸主・口座番号など伏せる所の一覧、金額は残してよいか、伏せたまま使える決算書分析のプロンプト3つを、経営者・経理向けに整理します。">
+<meta name="keywords" content="chatgpt 決算書分析, chatgpt 決算書分析プロンプト, chatgpt 決算書 要約, 決算書 AI 分析, 勘定科目内訳明細書 個人情報">
+<link rel="icon" href="../icon128.png">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="top"><div class="wrap row"><a class="brand" href="../"><img src="../icon128.png" alt="" width="32" height="32"> AI伏せ字</a><a class="btn small" href="../">無料で試す</a></div></header>
+<main class="wrap article">
+<h1>ChatGPTで決算書分析する前に伏せる所と、そのまま使えるプロンプト</h1>
+<p>決算書をChatGPTに読ませると、「利益率はどう動いた？」「借入の返済は無理がない？」といった問いに、数字を拾いながら答えてくれます。<br>ただ、決算書には <b>会社名・代表者名・取引先・口座番号</b>、内訳書には <b>個人の貸主や役員の名前</b> まで載っています。</p>
+<p>結論から言うと、<b>分析に要るのは「科目と金額」。名前と番号は伏せても、分析の答えはほとんど変わりません</b>。伏せてから貼る、が一番かんたんで安全です。</p>
+<p>※ 生成AIの扱いは変わることがあります。最終的には、使うAIの公式の案内、会社のルール、顧問の税理士の考えを確かめてください。</p>
+<h2>貼る前に確かめる3つ</h2>
+<ol>
+<li><b>どのアカウント・プランで使っているか</b><br>個人向けの無料版・有料版は、設定しだいで入力が学習に使われることがあります。会社向けのプランは、既定で学習に使わないとされています。設定の場所は <a href="chatgpt-gakushu-settei.html">ChatGPTに個人情報を学習させない設定</a> にまとめました。</li>
+<li><b>会社に生成AIのルールがあるか</b><br>「決算の数字は外に出さない」と決めている会社もあります。ルールがあれば、それが最優先です。</li>
+<li><b>人から預かった数字ではないか</b><br>税理士・会計事務所が顧問先の決算書を扱うときは、守秘義務がかかります。顧問先の了解とルールの範囲で使ってください（<a href="shuhi-gimu-ai.html">生成AIと守秘義務</a>）。</li>
+</ol>
+<h2>伏せる所の一覧</h2>
+<table>
+<thead><tr><th>書類</th><th>伏せる所</th><th>伏せ方の例</th></tr></thead>
+<tbody>
+<tr><td>表紙・貸借対照表・損益計算書</td><td>会社名、代表者名、本店の住所</td><td>[会社1]、[氏名1]、[住所1]</td></tr>
+<tr><td>勘定科目内訳明細書（預貯金）</td><td>口座番号（銀行名・支店名も気になるなら）</td><td>[口座番号1]</td></tr>
+<tr><td>内訳書（売掛金・買掛金）</td><td>取引先の会社名・個人名</td><td>[会社2]、[会社3]</td></tr>
+<tr><td>内訳書（地代家賃・借入金）</td><td>個人の貸主や、役員・家族の名前と住所</td><td>[氏名2]、[住所2]</td></tr>
+<tr><td>役員報酬手当等の内訳</td><td>役員の名前・住所</td><td>[氏名1]</td></tr>
+<tr><td>法人税の申告書</td><td>法人番号、税務署の整理番号</td><td>消すか、貼らない</td></tr>
+</tbody>
+</table>
+<p>とくに見落としやすいのが <b>内訳書の個人の名前</b> です。社長個人から借りているお金（役員借入金）や、個人の大家さんへの家賃は、内訳書に名前と住所が並びます。</p>
+<h2>金額は残していい？</h2>
+<p>分析に使うなら、金額は残すしかありません。<b>名前を伏せれば、どこの会社の数字か分からなくなる</b>ので、多くの場合はそれで十分です。</p>
+<p>それでも気になるときは、次のどちらかにします。</p>
+<ul>
+<li><b>単位を変える</b>：「85,420,000円」→「85.4（百万円）」のように丸める。比率の分析はほぼ同じ答えになります</li>
+<li><b>比率だけ渡す</b>：売上を100としたときの各科目の割合に直してから貼る</li>
+</ul>
+<p>上場前・資金調達前など、まだ外に出していない数字は、会社の判断で貼らないのが安全です。</p>
+<h2>伏せたまま使える決算書分析のプロンプト3つ</h2>
+<h3>1. ざっくり健康診断</h3>
+<pre>次は[会社1]の2期分の決算書（貸借対照表・損益計算書）です。
+1. 売上・粗利・営業利益の前期比
+2. 安全性（自己資本比率・流動比率）
+3. 気になる点を3つ、理由つきで
+を、経営者向けに専門用語を減らして教えてください。数字は表にしてください。
+（ここに伏せ字にした決算書を貼る）</pre>
+<h3>2. 銀行に聞かれそうなこと</h3>
+<pre>[会社1]が[会社4]（金融機関）に追加の借入を相談します。
+次の決算書を見て、担当者が質問しそうなことを5つと、答えるときに用意する資料を挙げてください。
+（ここに伏せ字にした決算書を貼る）</pre>
+<h3>3. 内訳書から見える偏り</h3>
+<pre>次は勘定科目内訳明細書です。相手先は伏せ字にしてあります。
+売掛金と買掛金で、特定の相手先に偏っているものがあれば、割合と注意点を教えてください。
+（ここに伏せ字にした内訳書を貼る）</pre>
+<p>返ってきた答えの [会社2] などは、手元で元の名前に戻して読みます。伏せ字の道具を使っていれば、答えを貼るだけで元に戻せます。</p>
+<h2>決算書がPDFのときは</h2>
+<ul>
+<li><b>文字が選べるPDF</b>：本文をコピーして伏せ字の道具に貼り、伏せた文章をChatGPTに渡します。PDFそのものをアップロードすると、伏せ忘れがそのまま渡ります</li>
+<li><b>スキャンした画像のPDF</b>：先に文字を読み取ってから伏せます。読み取りは <a href="../ocr/">画像の文字読み取り（OCR、アップロードなし）</a> でできます</li>
+<li><b>黒塗りしてから渡したい</b>：PDFの上に黒い四角を置くだけでは、下の文字が残ることがあります（<a href="masking-howto.html">個人情報マスキングのやり方</a>）。下の文字ごと消すなら <a href="../pdf/redact.html">PDF墨消し</a> を使います</li>
+</ul>
+<h2>迷ったときの3行まとめ</h2>
+<ul>
+<li>分析に要るのは科目と金額。会社名・人名・口座番号は伏せても答えは変わらない</li>
+<li>内訳書の個人の貸主・役員の名前と住所を見落とさない</li>
+<li>まだ外に出していない数字や、顧問先から預かった決算書は、ルールと了解の範囲で</li>
+</ul>
+<hr>
+<p><b>AI伏せ字</b>は、AIに渡す前の文章から、氏名・住所・電話・メール・会社名・口座番号を [氏名1] のような伏せ字に置き換える無料ツールです。文章は外部に送らず、ブラウザの中だけで処理します。決算書の内訳書のように、科目の後ろに個人の名前が並ぶ書き方にも対応しています。</p>
+<section class="ai-guide"><h2>AIごとの個人情報ガイド</h2><ul><li><a href="customer-info-chatgpt.html">ChatGPTに顧客情報を入れていい？</a></li><li><a href="chatgpt-gakushu-settei.html">ChatGPTに個人情報を学習させない設定</a></li><li><a href="chatgpt-rireki-sakujo.html">ChatGPTの履歴を削除すると学習はどうなる？</a></li><li><a href="chatgpt-kaisha-bareru.html">ChatGPTを会社で使うとバレる？</a></li><li><a href="copilot-kojin-joho.html">Copilotに個人情報はどこまで入れていい？</a></li><li><a href="gemini-kojin-joho.html">Geminiに個人情報はどこまで入れていい？</a></li><li><a href="claude-kojin-joho.html">Claudeに個人情報はどこまで入れていい？</a></li><li><a href="shagaihi-ai.html">社外秘の資料を生成AIに入れていい？</a></li><li><a href="ai-nyuryoku-shimatta.html">AIに個人情報を入れてしまったら</a></li><li><a href="shuhi-gimu-ai.html">生成AIと守秘義務（士業・医療）</a></li></ul></section>
+<div class="cta"><p><b>決算書を貼る前に、名前と番号を伏せ字に。</b><br>会社名・氏名・住所・口座番号を、ブラウザの中だけで [会社1] のように置き換える無料ツールです。</p><p><a class="btn primary big" href="../">無料で試してみる</a></p><p>毎日使うなら、ブラウザに入れておくと右クリックで伏せられます（無料）→ <a href="https://chromewebstore.google.com/detail/clhnanhhikamfccidiibgbbfhnkgefjo?utm_source=micoficial_site&utm_medium=article_end" rel="noopener">Chrome拡張</a> ／ <a href="https://microsoftedge.microsoft.com/addons/detail/cdokmdjggnfaekbpjjhhindbgaacbjop?utm_source=micoficial_site&utm_medium=article_end" rel="noopener">Edgeアドオン</a></p></div>
+</main>
+<footer class="wrap foot"><p class="tools-links">ほかの無料ツール（アップロードなし）：<a href="../pdf/merge.html">PDF結合（サイズをA4にそろえる）</a> ／ <a href="../pdf/a4-a3.html">A4 2枚→A3 1枚</a> ／ <a href="../pdf/compress.html">PDF圧縮</a> ／ <a href="../ocr/">画像の文字読み取り（OCR）</a></p><p>© 2026 合同会社mico ／ <a href="https://docs.google.com/document/d/e/2PACX-1vQDrryEfL2zc4WxP9wg9clm98mq7SNMVW1CrEBNZ9HvnXbdvYl2cNTx6C77LyOF90Aa0OqyuBSoZBtn/pub" rel="noopener">プライバシーポリシー</a></p></footer>
+</body>
+</html>

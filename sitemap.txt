@@ -32,3 +32,4 @@ https://micoficial.github.io/ai-fuseji/articles/ai-rouei-jirei.html
 https://micoficial.github.io/ai-fuseji/articles/ai-cyber-risk-ipa.html
 https://micoficial.github.io/ai-fuseji/pdf/redact.html
 https://micoficial.github.io/ai-fuseji/articles/mynumber-kuronuri.html
+https://micoficial.github.io/ai-fuseji/articles/kessansho-chatgpt.html
