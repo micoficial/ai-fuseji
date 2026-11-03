@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>契約書をChatGPTでチェックする前に伏せる所と、そのまま使えるプロンプト｜AI伏せ字</title>
+<meta name="description" content="契約書をChatGPTでチェック・要約したいときの下ごしらえ。当事者の会社名・個人名、署名欄の代表者、住所、口座番号など伏せる所の一覧、秘密保持条項との関係、伏せたまま使える契約書チェックのプロンプト3つを、中小企業の総務・経営者向けに整理します。">
+<meta name="keywords" content="契約書 chatgpt チェック, chatgpt 契約書 チェック プロンプト, 契約書 リーガルチェック chatgpt, chatgpt 契約書 要約, 契約書 AI 個人情報">
+<link rel="icon" href="../icon128.png">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="top"><div class="wrap row"><a class="brand" href="../"><img src="../icon128.png" alt="" width="32" height="32"> AI伏せ字</a><a class="btn small" href="../">無料で試す</a></div></header>
+<main class="wrap article">
+<h1>契約書をChatGPTでチェックする前に伏せる所と、そのまま使えるプロンプト</h1>
+<p>取引先から届いた契約書をChatGPTに読ませると、「こちらに不利な条項はどれ？」「損害賠償の上限は？」といった問いに、条文を拾いながら答えてくれます。<br>ただ、契約書には <b>当事者の会社名・個人名、署名欄の代表者、住所、振込先の口座</b> が並びます。</p>
+<p>結論から言うと、<b>チェックに要るのは「条文の中身」。名前と番号は [会社1] [氏名1] に伏せても、チェックの答えはほとんど変わりません</b>。伏せてから貼る、が一番かんたんで安全です。</p>
+<p>※ ChatGPTの答えは法律の助言ではありません。金額の大きい契約や争いになりそうな契約は、弁護士など専門家に確かめてください。生成AIの扱いは変わることがあるので、使うAIの公式の案内と会社のルールも確かめてください。</p>
+<h2>貼る前に確かめる3つ</h2>
+<ol>
+<li><b>どのアカウント・プランで使っているか</b><br>個人向けの無料版・有料版は、設定しだいで入力が学習に使われることがあります。会社向けのプランは、既定で学習に使わないとされています。設定の場所は <a href="chatgpt-gakushu-settei.html">ChatGPTに個人情報を学習させない設定</a> にまとめました。</li>
+<li><b>相手と秘密保持の約束をしていないか</b><br>交渉中の契約書の案や、すでに結んだ秘密保持契約（NDA）の対象の資料は、「第三者に開示しない」と約束していることがあります。AIに入れることがその約束に触れるかは、条文と会社の考え方しだいです。迷うなら <b>相手の名前・金額・案件名を伏せてから</b> 貼るか、貼らずに条文だけ書き写して聞きます（<a href="shagaihi-ai.html">社外秘の資料を生成AIに入れていい？</a>）。</li>
+<li><b>会社に生成AIのルールがあるか</b><br>「契約書はAIに入れない」と決めている会社もあります。ルールがあれば、それが最優先です（<a href="ai-shanai-rule.html">生成AIの社内ルールのひな形</a>）。</li>
+</ol>
+<h2>伏せる所の一覧</h2>
+<table>
+<thead><tr><th>場所</th><th>伏せる所</th><th>伏せ方の例</th></tr></thead>
+<tbody>
+<tr><td>前文</td><td>当事者の会社名。<b>個人事業主・フリーランスとの契約なら個人の名前</b></td><td>[会社1]（以下「甲」という）、[氏名1]（以下「乙」という）</td></tr>
+<tr><td>署名欄</td><td>代表者の名前、個人の当事者の名前、住所</td><td>代表取締役　[氏名2]　印</td></tr>
+<tr><td>報酬・支払の条</td><td>振込先の口座番号、口座名義</td><td>[口座番号1]</td></tr>
+<tr><td>通知・連絡先の条</td><td>担当者の名前、メール、電話</td><td>[氏名3]、[メール1]、[電話1]</td></tr>
+<tr><td>別紙・仕様書</td><td>案件名、商品名、物件の所在地、関わる人の名前</td><td>[案件A]、[住所2]（手で置き換える）</td></tr>
+</tbody>
+</table>
+<p>とくに見落としやすいのが <b>個人との契約</b> です。業務委託契約で相手がフリーランスのときは、前文の「（以下「乙」という）」の前と、署名欄の「乙　◯◯ ◯◯　印」に個人の名前が入ります。</p>
+<p>金額（報酬・損害賠償の上限）は、チェックの中身そのものなので残します。名前を伏せれば、どこの会社の契約か分からなくなるので、多くの場合はそれで十分です。</p>
+<h2>伏せたまま使える契約書チェックのプロンプト3つ</h2>
+<h3>1. こちらに不利な条項を探す</h3>
+<pre>次は[会社1]（甲）と当社（乙）の業務委託契約書の案です。当社は受託する側です。
+1. 当社に不利な条項を、条番号つきで重要な順に5つ
+2. それぞれ、どう直してもらうと良いかの修正案
+3. 抜けている条項（検収・著作権・解除・損害賠償の上限など）
+を、専門用語を減らして表にしてください。
+（ここに伏せ字にした契約書を貼る）</pre>
+<h3>2. 社内で回すための要約</h3>
+<pre>次の契約書を、決裁する上司向けに1画面で要約してください。
+契約期間・自動更新・報酬と支払日・解除の条件・損害賠償・秘密保持の期間を、表にしてください。
+（ここに伏せ字にした契約書を貼る）</pre>
+<h3>3. 前の版との違い</h3>
+<pre>次は同じ契約書の、当社が出した版（A）と[会社1]から戻ってきた版（B）です。
+Bで変わった所を条番号つきで一覧にし、当社にとって不利になった所に印を付けてください。
+（ここに伏せ字にしたAとBを貼る）</pre>
+<p>返ってきた答えの [会社1] などは、手元で元の名前に戻して読みます。伏せ字の道具を使っていれば、答えを貼るだけで元に戻せます。</p>
+<h2>契約書がPDFのときは</h2>
+<ul>
+<li><b>文字が選べるPDF</b>：本文をコピーして伏せ字の道具に貼り、伏せた文章をChatGPTに渡します。PDFをそのままアップロードすると、署名欄や別紙の名前もそのまま渡ります</li>
+<li><b>押印したものをスキャンしたPDF</b>：先に文字を読み取ってから伏せます。読み取りは <a href="../ocr/">画像の文字読み取り（OCR、アップロードなし）</a> でできます</li>
+<li><b>PDFのまま黒塗りしたい</b>：黒い四角を置くだけでは、下の文字が残ることがあります（<a href="masking-howto.html">個人情報マスキングのやり方</a>）。下の文字ごと消すなら <a href="../pdf/redact.html">PDF墨消し</a> を使います</li>
+</ul>
+<h2>迷ったときの3行まとめ</h2>
+<ul>
+<li>チェックに要るのは条文の中身。会社名・人名・住所・口座は伏せても答えは変わらない</li>
+<li>フリーランスとの契約は、前文と署名欄の個人の名前を見落とさない</li>
+<li>秘密保持の約束がある資料と大事な契約は、ルールと専門家の確認の範囲で</li>
+</ul>
+<hr>
+<p><b>AI伏せ字</b>は、AIに渡す前の文章から、氏名・住所・電話・メール・会社名・口座番号を [氏名1] のような伏せ字に置き換える無料ツールです。文章は外部に送らず、ブラウザの中だけで処理します。契約書の「（以下「乙」という）」の前の名前や、「代表取締役　◯◯ ◯◯　印」の署名欄にも対応しています。</p>
+<section class="ai-guide"><h2>AIごとの個人情報ガイド</h2><ul><li><a href="customer-info-chatgpt.html">ChatGPTに顧客情報を入れていい？</a></li><li><a href="chatgpt-gakushu-settei.html">ChatGPTに個人情報を学習させない設定</a></li><li><a href="chatgpt-rireki-sakujo.html">ChatGPTの履歴を削除すると学習はどうなる？</a></li><li><a href="chatgpt-kaisha-bareru.html">ChatGPTを会社で使うとバレる？</a></li><li><a href="copilot-kojin-joho.html">Copilotに個人情報はどこまで入れていい？</a></li><li><a href="gemini-kojin-joho.html">Geminiに個人情報はどこまで入れていい？</a></li><li><a href="claude-kojin-joho.html">Claudeに個人情報はどこまで入れていい？</a></li><li><a href="shagaihi-ai.html">社外秘の資料を生成AIに入れていい？</a></li><li><a href="ai-nyuryoku-shimatta.html">AIに個人情報を入れてしまったら</a></li><li><a href="shuhi-gimu-ai.html">生成AIと守秘義務（士業・医療）</a></li><li><a href="kessansho-chatgpt.html">ChatGPTで決算書分析する前に伏せる所</a></li></ul></section>
+<div class="cta"><p><b>契約書を貼る前に、名前と番号を伏せ字に。</b><br>会社名・氏名・住所・口座番号を、ブラウザの中だけで [会社1] のように置き換える無料ツールです。</p><p><a class="btn primary big" href="../">無料で試してみる</a></p><p>毎日使うなら、ブラウザに入れておくと右クリックで伏せられます（無料）→ <a href="https://chromewebstore.google.com/detail/clhnanhhikamfccidiibgbbfhnkgefjo?utm_source=micoficial_site&utm_medium=article_end" rel="noopener">Chrome拡張</a> ／ <a href="https://microsoftedge.microsoft.com/addons/detail/cdokmdjggnfaekbpjjhhindbgaacbjop?utm_source=micoficial_site&utm_medium=article_end" rel="noopener">Edgeアドオン</a></p></div>
+</main>
+<footer class="wrap foot"><p class="tools-links">ほかの無料ツール（アップロードなし）：<a href="../pdf/merge.html">PDF結合（サイズをA4にそろえる）</a> ／ <a href="../pdf/a4-a3.html">A4 2枚→A3 1枚</a> ／ <a href="../pdf/compress.html">PDF圧縮</a> ／ <a href="../ocr/">画像の文字読み取り（OCR）</a></p><p>© 2026 合同会社mico ／ <a href="https://docs.google.com/document/d/e/2PACX-1vQDrryEfL2zc4WxP9wg9clm98mq7SNMVW1CrEBNZ9HvnXbdvYl2cNTx6C77LyOF90Aa0OqyuBSoZBtn/pub" rel="noopener">プライバシーポリシー</a></p></footer>
+</body>
+</html>
