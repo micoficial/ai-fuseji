@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDFに電子印鑑を押す（無料・アップロードなし）｜丸印・角印・日付印をその場で作成</title>
+<meta name="description" content="PDFに電子印鑑を押す無料ツール。丸印・角印・日付印をその場で作るか、手持ちの印影の画像を使い、押したい所をクリックするだけ。日付はその都度変えられます。PDFも印影も外部に送りません。Acrobat不要、登録不要。">
+<meta property="og:title" content="PDFに電子印鑑を押す（無料・アップロードなし）">
+<meta property="og:description" content="丸印・角印・日付印を作って、PDFの好きな所に押せます。ファイルも印影も外部に送りません。">
+<link rel="icon" href="merge-icon128.png">
+<link rel="canonical" href="https://micoficial.github.io/ai-fuseji/pdf/stamp.html">
+<link rel="stylesheet" href="../style.css">
+<style>
+  .drop { display: block; border: 2px dashed var(--line); border-radius: 14px; padding: 36px 16px; text-align: center; background: var(--card); cursor: pointer; }
+  .drop.over { border-color: var(--accent); }
+  .drop b { display: block; font-size: 20px; margin-bottom: 4px; }
+  .maker { display: grid; grid-template-columns: 150px 1fr; gap: 18px; align-items: start; margin: 0 0 20px; padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
+  .maker canvas { width: 130px; height: 130px; display: block; margin: 0 auto; background: #fff; border-radius: 8px; }
+  .fit { display: block; margin: 0 0 10px; line-height: 2; }
+  .fit input[type=radio] { transform: scale(1.2); margin-right: 4px; }
+  .fit input[type=text], .fit input[type=number], .fit input[type=date] { font: inherit; padding: 2px 6px; max-width: 100%; }
+  .fit input[type=text] { width: 12em; }
+  .fit input[type=number] { width: 4.5em; }
+  .bar { position: sticky; top: 0; z-index: 5; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; padding: 10px 0; background: var(--bg); }
+  .bar button.sub { font: inherit; padding: 4px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--ink); cursor: pointer; }
+  .pages { display: grid; gap: 30px; margin: 30px 0 12px; }
+  .pg { position: relative; margin: 0 auto; max-width: 100%; box-shadow: 0 1px 6px rgba(0,0,0,.18); background: #fff; touch-action: pan-y; cursor: crosshair; }
+  .pg canvas { display: block; width: 100%; height: auto; }
+  .pg canvas.over { position: absolute; inset: 0; height: 100%; }
+  .pg .no { position: absolute; left: -2px; top: -22px; font-size: 13px; color: var(--muted); }
+  .hint { font-size: 14px; }
+  [hidden] { display: none !important; }
+  @media (max-width: 560px) { .maker { grid-template-columns: 1fr; } }
+</style>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PDFに電子印鑑を押す（アップロードなし）","url":"https://micoficial.github.io/ai-fuseji/pdf/stamp.html","description":"丸印・角印・日付印を作るか手持ちの印影を使って、PDFの好きな所に押す無料ツール。ブラウザの中だけで処理します。","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows, macOS, ChromeOS（Chrome・Edge などのブラウザ）","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"publisher":{"@type":"Organization","name":"合同会社mico"}},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"電子印鑑を押したPDFに法的な効力はありますか？","acceptedAnswer":{"@type":"Answer","text":"このツールで押せるのは印影の画像です。見積書・請求書・社内の回覧のように、印影があれば足りる書類に向いています。誰が押したか、押した後に変えられていないかは証明できないので、実印が要る書類や重要な契約には、電子署名や電子契約サービスを使ってください。"}},{"@type":"Question","name":"電子印鑑の日付を変更できますか？","acceptedAnswer":{"@type":"Answer","text":"できます。日付印の日付を選び直してから押すだけです。書き方は和暦・西暦から選べます。"}},{"@type":"Question","name":"手持ちの印影の画像を使えますか？","acceptedAnswer":{"@type":"Answer","text":"使えます。PNG・JPEGの画像を選ぶと、白い背景を透明にして押します。紙に押した印鑑をスキャンした画像でもかまいません。"}}]}]</script>
+</head>
+<body>
+<header class="top">
+  <div class="wrap row">
+    <a class="brand" href="./stamp.html"><img src="merge-icon128.png" alt="" width="32" height="32"> PDF電子印鑑</a>
+    <a class="btn small" href="merge.html">PDF結合</a>
+  </div>
+</header>
+<main>
+<section class="hero wrap">
+  <p class="eyebrow">無料・登録なし・アップロードなし</p>
+  <h1>PDFに、<br><em>電子印鑑を押す。</em></h1>
+  <p class="lead">丸印・角印・日付印をその場で作るか、手持ちの印影を選んで、押したい所をクリックするだけ。処理はこのページの中（あなたのPCの中）で完結し、PDFも印影も外部に送りません。</p>
+</section>
+
+<section class="tool wrap" aria-label="PDFに電子印鑑を押すツール">
+  <div class="maker">
+    <canvas id="seal" width="480" height="480" aria-label="印影の見本"></canvas>
+    <div>
+      <p class="fit">種類：<label><input type="radio" name="kind" value="round" checked> 丸印</label>　<label><input type="radio" name="kind" value="square"> 角印</label>　<label><input type="radio" name="kind" value="date"> 日付印</label>　<label><input type="radio" name="kind" value="image"> 手持ちの画像</label></p>
+      <p class="fit" id="rowText"><label><span id="textLabel">名前</span> <input id="text" type="text" value="山田" maxlength="16"></label></p>
+      <div id="rowDate" hidden>
+        <p class="fit"><label>上の段 <input id="top" type="text" value="総務部" maxlength="10"></label></p>
+        <p class="fit"><label>日付 <input id="date" type="date"></label>　<label><input type="radio" name="era" value="wareki" checked> 和暦</label>　<label><input type="radio" name="era" value="seireki"> 西暦</label></p>
+        <p class="fit"><label>下の段 <input id="bottom" type="text" value="山田" maxlength="8"></label></p>
+      </div>
+      <p class="fit" id="rowImage" hidden><label>印影の画像（PNG・JPEG） <input id="image" type="file" accept="image/png,image/jpeg"></label></p>
+      <p class="fit"><label>大きさ <input id="mm" type="number" min="5" max="60" step="0.5" value="10.5"> mm</label>　<label><input id="all" type="checkbox"> 全ページの同じ位置に押す</label></p>
+    </div>
+  </div>
+  <label id="drop" class="drop">
+    <b>PDFをここにドラッグ</b>
+    <span class="muted">またはクリックして選ぶ（1ファイル）。</span>
+    <input id="fileInput" type="file" accept="application/pdf" hidden>
+  </label>
+  <div id="bar" class="bar" hidden>
+    <button id="undo" class="sub" disabled>1つ戻す</button>
+    <button id="run" class="btn primary" disabled>押して保存</button>
+    <span id="status" class="muted" role="status"></span>
+  </div>
+  <p id="hint" class="hint muted" hidden>押したい所をクリックしてください（いくつでも）。押した印はドラッグで動かせます。元のページの文字はそのままです。</p>
+  <div id="pages" class="pages"></div>
+</section>
+
+<section class="wrap grid3">
+  <div class="card"><h3>本当に送っていない？</h3><p>このページのプログラムが、あなたのブラウザの中で押します。PDFも印影もどこにも送らず、保存もしません。読み込んだ後ならネットを切っても動きます。</p></div>
+  <div class="card"><h3>日付はその都度</h3><p>日付印は、押す日に合わせて選び直せます。和暦・西暦どちらでも。部署名と名前も自由に入れられます。</p></div>
+  <div class="card"><h3>ほかの道具</h3><p>複数のPDFを1つにするなら<a href="merge.html">PDF結合</a>、隠したい所があるなら<a href="redact.html">PDF墨消し</a>、重くなったら<a href="compress.html">PDF圧縮</a>。</p></div>
+</section>
+
+<section class="wrap install" id="ext">
+  <h2>PDFをよく扱うなら、Chrome拡張機能で</h2>
+  <p>ツールバーのボタン1つでPDFの結合・並べ替え。Pro版（買い切り ¥980）では、ページ範囲の指定・回転・分割・画像の追加ができます。</p>
+  <p><a class="btn primary big" href="https://chromewebstore.google.com/detail/bmbjoiempejebljbjgkddmmlnlnhbjjn?utm_source=micoficial_site&utm_medium=pdf_stamp" rel="noopener">Chromeに追加（無料）</a></p>
+</section>
+
+<section class="wrap faq">
+  <h2>よくある質問</h2>
+  <details><summary>電子印鑑を押したPDFに法的な効力はありますか？</summary><p>このツールで押せるのは印影の画像です。見積書・請求書・社内の回覧のように、印影があれば足りる書類に向いています。誰が押したか、押した後に変えられていないかは証明できないので、実印が要る書類や重要な契約には、電子署名や電子契約サービスを使ってください。</p></details>
+  <details><summary>電子印鑑の日付を変更したい</summary><p>日付印の日付を選び直してから押すだけです。和暦・西暦を選べます。すでに押して保存したPDFの印は書き換えられないので、元のPDFに押し直してください。</p></details>
+  <details><summary>手持ちの印影の画像を使えますか？</summary><p>使えます。「手持ちの画像」を選んでPNG・JPEGを指定すると、白い背景を透明にして押します。紙に押した印鑑をスキャンした画像でもかまいません。</p></details>
+  <details><summary>Acrobat Readerが無くても押せますか？</summary><p>押せます。ChromeかEdgeでこのページを開くだけで、ソフトのインストールも登録も要りません。</p></details>
+  <details><summary>会社の角印の大きさは？</summary><p>大きさの欄で mm を指定できます。目安は認印の丸印が10.5mm、角印が21mm、日付印が18mmです。種類を変えると目安の大きさに切り替わるので、実物に合わせて直してください。</p></details>
+  <details><summary>パスワード付きのPDFに押せない</summary><p>編集が制限されたPDFには押せません。<a href="../articles/pdf-password.html">パスワードを外して保存する手順</a>で外してから使ってください。</p></details>
+  <details><summary>Microsoft Edgeで使えますか？</summary><p>はい。このページはEdgeでもそのまま使えます（インストール不要）。</p></details>
+</section>
+</main>
+<footer class="wrap foot">
+  <p>© 2026 合同会社mico ／ <a href="../privacy.html">プライバシーポリシー</a> ／ <a href="split.html">PDF分割</a> ／ <a href="merge.html">PDF結合</a> ／ <a href="compress.html">PDF圧縮</a> ／ <a href="rotate.html">PDFの回転</a> ／ <a href="redact.html">PDF墨消し</a> ／ <a href="page-number.html">ページ番号</a> ／ <a href="../ocr/">画像の文字読み取り</a></p>
+</footer>
+<script type="module">
+import * as pdfjs from "./lib/pdfjs.min.js";
+import { PDFDocument } from "./lib/pdf-lib.esm.min.js";
+import { drawSeal, whiteToClear, applyStamps, mmToPt } from "./stamp.js";
+pdfjs.GlobalWorkerOptions.workerSrc = new URL("./lib/pdfjs.worker.min.js", import.meta.url).href;
+const $ = (id) => document.getElementById(id);
+const SIZE = { round: 10.5, square: 21, date: 18, image: 15 };
+const seal = $("seal");
+let item = null, doc = null, userImage = null; // userImage：背景を抜いたキャンバス
+const stamps = []; // { page, x, y, mm, canvas, group }
+const pagesInfo = []; // { over, wPt }
+const kind = () => document.querySelector("input[name=kind]:checked").value;
+
+function dateText() {
+  const v = $("date").value;
+  if (!v) return "";
+  const [y, m, d] = v.split("-").map(Number);
+  if (document.querySelector("input[name=era]:checked").value === "seireki") return `${y}.${m}.${d}`;
+  const yy = y - 2018; // 令和
+  return `${yy === 1 ? "元" : yy}.${m}.${d}`;
+}
+function paintSeal() {
+  const k = kind();
+  if (k === "image") {
+    const c = seal.getContext("2d");
+    c.clearRect(0, 0, seal.width, seal.height);
+    if (userImage) {
+      const r = Math.min(seal.width / userImage.width, seal.height / userImage.height);
+      const w = userImage.width * r, h = userImage.height * r;
+      c.drawImage(userImage, (seal.width - w) / 2, (seal.height - h) / 2, w, h);
+    }
+    return;
+  }
+  drawSeal(seal, { kind: k, text: $("text").value.trim(), top: $("top").value.trim(), date: dateText(), bottom: $("bottom").value.trim() });
+}
+function snapshot() {
+  if (kind() === "image") return userImage;
+  const c = document.createElement("canvas");
+  c.width = c.height = seal.width;
+  c.getContext("2d").drawImage(seal, 0, 0);
+  return c;
+}
+function onKind() {
+  const k = kind();
+  $("rowText").hidden = k === "date" || k === "image";
+  $("rowDate").hidden = k !== "date";
+  $("rowImage").hidden = k !== "image";
+  $("textLabel").textContent = k === "square" ? "会社名など" : "名前";
+  if (k === "square" && !$("text").dataset.edited) $("text").value = "株式会社見本之印";
+  if (k === "round" && !$("text").dataset.edited) $("text").value = "山田";
+  $("mm").value = SIZE[k];
+  paintSeal();
+}
+const today = new Date();
+$("date").value = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+document.querySelectorAll("input[name=kind]").forEach((r) => r.addEventListener("change", onKind));
+document.querySelectorAll("input[name=era]").forEach((r) => r.addEventListener("change", paintSeal));
+$("text").addEventListener("input", () => { $("text").dataset.edited = "1"; paintSeal(); });
+for (const id of ["top", "date", "bottom"]) $(id).addEventListener("input", paintSeal);
+$("image").addEventListener("change", async (e) => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const bmp = await createImageBitmap(f);
+  const r = Math.min(1, 800 / Math.max(bmp.width, bmp.height));
+  const c = document.createElement("canvas");
+  c.width = Math.round(bmp.width * r); c.height = Math.round(bmp.height * r);
+  const ctx = c.getContext("2d");
+  ctx.drawImage(bmp, 0, 0, c.width, c.height);
+  const img = ctx.getImageData(0, 0, c.width, c.height);
+  whiteToClear(img.data);
+  ctx.putImageData(img, 0, 0);
+  userImage = c;
+  paintSeal();
+});
+
+function redraw(i) {
+  const { over, wPt } = pagesInfo[i];
+  const ctx = over.getContext("2d");
+  ctx.clearRect(0, 0, over.width, over.height);
+  for (const s of stamps) {
+    if (s.page !== i) continue;
+    const w = (mmToPt(s.mm) / wPt) * over.width;
+    const h = w * (s.canvas.height / s.canvas.width);
+    ctx.drawImage(s.canvas, s.x * over.width - w / 2, s.y * over.height - h / 2, w, h);
+  }
+}
+function refresh() {
+  const n = new Set(stamps.map((s) => s.group)).size;
+  $("undo").disabled = !n;
+  $("run").disabled = !n;
+  $("status").textContent = n ? `${n}か所` : "";
+}
+let groupNo = 0;
+function hook(over, i) {
+  let drag = null, moved = false, start = null;
+  const pos = (e) => { const r = over.getBoundingClientRect(); return { x: Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)), y: Math.min(1, Math.max(0, (e.clientY - r.top) / r.height)) }; };
+  const hit = (p) => {
+    const { wPt } = pagesInfo[i];
+    const ar = over.height / over.width;
+    for (let k = stamps.length - 1; k >= 0; k--) {
+      const s = stamps[k];
+      if (s.page !== i) continue;
+      const half = mmToPt(s.mm) / wPt / 2;
+      if (Math.abs(p.x - s.x) <= half && Math.abs(p.y - s.y) * ar <= half) return s;
+    }
+    return null;
+  };
+  over.addEventListener("pointerdown", (e) => {
+    start = pos(e); moved = false; drag = hit(start);
+    if (drag) { e.preventDefault(); try { over.setPointerCapture(e.pointerId); } catch {} }
+  });
+  over.addEventListener("pointermove", (e) => {
+    if (!drag) return;
+    const p = pos(e);
+    moved = true;
+    for (const s of stamps) if (s.group === drag.group) { s.x = p.x; s.y = p.y; }
+    stamps.forEach((s) => { if (s.group === drag.group) redraw(s.page); });
+  });
+  over.addEventListener("pointerup", (e) => {
+    if (!start) return;
+    if (!drag && !moved) {
+      const p = pos(e);
+      if (Math.abs(p.x - start.x) < 0.02 && Math.abs(p.y - start.y) < 0.02) place(i, p);
+    }
+    drag = null; start = null;
+  });
+  over.addEventListener("pointercancel", () => { drag = null; start = null; });
+}
+function place(i, p) {
+  const canvas = snapshot();
+  if (!canvas) { $("status").textContent = "先に印影の画像を選んでください。"; return; }
+  const mm = Math.min(60, Math.max(5, parseFloat($("mm").value) || 10.5));
+  const group = ++groupNo;
+  const targets = $("all").checked ? pagesInfo.map((_, k) => k) : [i];
+  for (const page of targets) stamps.push({ page, x: p.x, y: p.y, mm, canvas, group });
+  targets.forEach(redraw);
+  refresh();
+}
+async function open(f) {
+  item = { name: f.name, bytes: new Uint8Array(await f.arrayBuffer()) };
+  stamps.length = 0; pagesInfo.length = 0;
+  $("pages").innerHTML = ""; $("status").textContent = "読み込んでいます…";
+  $("bar").hidden = false;
+  try {
+    doc = await pdfjs.getDocument({ data: item.bytes.slice(), isEvalSupported: false }).promise;
+  } catch (e) {
+    $("status").textContent = "このPDFは開けませんでした：" + String(e.message || e).slice(0, 80);
+    return;
+  }
+  $("hint").hidden = false; $("drop").hidden = true;
+  const maxW = Math.min(820, $("pages").clientWidth || 820);
+  for (let i = 0; i < doc.numPages; i++) {
+    const page = await doc.getPage(i + 1);
+    const vp1 = page.getViewport({ scale: 1 });
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    const cssW = Math.min(maxW, vp1.width * 1.4);
+    const vp = page.getViewport({ scale: (cssW / vp1.width) * dpr });
+    const wrap = document.createElement("div");
+    wrap.className = "pg"; wrap.style.width = cssW + "px";
+    const base = document.createElement("canvas");
+    base.width = Math.ceil(vp.width); base.height = Math.ceil(vp.height);
+    const over = document.createElement("canvas");
+    over.className = "over"; over.width = base.width; over.height = base.height;
+    const no = document.createElement("span"); no.className = "no"; no.textContent = `${i + 1} / ${doc.numPages}`;
+    wrap.append(no, base, over);
+    $("pages").append(wrap);
+    pagesInfo[i] = { over, wPt: vp1.width };
+    hook(over, i);
+    await page.render({ canvasContext: base.getContext("2d"), viewport: vp }).promise;
+    $("status").textContent = `読み込み ${i + 1} / ${doc.numPages}`;
+  }
+  $("status").textContent = "";
+  refresh();
+}
+$("fileInput").addEventListener("change", (e) => { const f = e.target.files[0]; if (f) open(f); e.target.value = ""; });
+const drop = $("drop");
+for (const ev of ["dragenter", "dragover"]) drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("over"); });
+for (const ev of ["dragleave", "drop"]) drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove("over"); });
+drop.addEventListener("drop", (e) => { const f = [...e.dataTransfer.files].find((f) => f.type === "application/pdf" || /\.pdf$/i.test(f.name)); if (f) open(f); });
+$("undo").addEventListener("click", () => {
+  const last = stamps[stamps.length - 1];
+  if (!last) return;
+  const pages = new Set();
+  for (let k = stamps.length - 1; k >= 0; k--) if (stamps[k].group === last.group) { pages.add(stamps[k].page); stamps.splice(k, 1); }
+  pages.forEach(redraw);
+  refresh();
+});
+const toPng = async (c) => new Uint8Array(await (await new Promise((r) => c.toBlob(r, "image/png"))).arrayBuffer());
+$("run").addEventListener("click", async () => {
+  $("run").disabled = true; $("status").textContent = "押しています…";
+  try {
+    const out = await PDFDocument.load(item.bytes);
+    const pngs = new Map();
+    const list = [];
+    for (const s of stamps) {
+      if (!pngs.has(s.canvas)) pngs.set(s.canvas, await toPng(s.canvas));
+      list.push({ page: s.page, x: s.x, y: s.y, mm: s.mm, png: pngs.get(s.canvas), ratio: s.canvas.height / s.canvas.width });
+    }
+    const n = await applyStamps(out, list);
+    const bytes = await out.save();
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([bytes], { type: "application/pdf" }));
+    a.download = item.name.replace(/\.pdf$/i, "") + "_押印.pdf";
+    a.click();
+    $("status").textContent = `${n}か所に押して保存しました。`;
+  } catch (e) {
+    const msg = String(e.message || e);
+    $("status").textContent = /encrypt/i.test(msg) ? "編集が制限されたPDFです。パスワードを外してから使ってください（下のよくある質問）。" : "保存できませんでした：" + msg.slice(0, 100);
+  } finally { $("run").disabled = !stamps.length; }
+});
+onKind();
+</script>
+</body>
+</html>
