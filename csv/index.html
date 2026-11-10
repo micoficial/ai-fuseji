@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CSVの個人情報をマスキング（無料・アップロードなし）｜列ごとに伏せる</title>
-<meta name="description" content="顧客リストや患者名簿のCSVから、氏名・電話番号・住所・メールなどの個人情報を列ごとにマスキングする無料ツール。同じ人は同じ番号に置き換えるので集計・分析はそのまま。Excel の Shift_JIS も読めます。アップロードせずブラウザの中だけで処理、登録・インストール不要。">
-<meta property="og:title" content="CSVの個人情報をマスキング（無料・アップロードなし）">
+<title>CSV・Excelの個人情報マスキングツール（無料・アップロードなし）｜列ごとに伏せる</title>
+<meta name="description" content="顧客リストや患者名簿のCSV・Excel（.xlsx）から、氏名・電話番号・住所・メールなどの個人情報を列ごとにマスキングする無料ツール。同じ人は同じ番号に置き換えるので集計・分析はそのまま。Excel の Shift_JIS も読めます。アップロードせずブラウザの中だけで処理、登録・インストール不要。">
+<meta property="og:title" content="CSV・Excelの個人情報マスキングツール（無料・アップロードなし）">
 <meta property="og:description" content="CSVの氏名・電話・住所を列ごとに伏せる。ファイルは外部に送らずブラウザの中だけで。">
 <link rel="icon" href="../icon128.png">
 <link rel="canonical" href="https://micoficial.github.io/ai-fuseji/csv/">
@@ -37,15 +37,15 @@
 <main>
 <section class="hero wrap">
   <p class="eyebrow">無料・登録なし・アップロードなし</p>
-  <h1>CSVの個人情報を、<br><em>列ごとにマスキング。</em></h1>
+  <h1>CSV・Excelの個人情報を、<br><em>列ごとにマスキング。</em></h1>
   <p class="lead">顧客リスト・会員名簿・患者一覧などのCSVから、氏名・電話番号・住所・メールを伏せます。同じ人は同じ番号（氏名001…）に置き換えるので、集計や分析はそのまま。外注先・AI・テスト環境に渡す前にどうぞ。処理はあなたのブラウザの中だけで、ファイルはどこにも送信しません。</p>
 </section>
 
-<section class="tool wrap" aria-label="CSVをマスキングするツール">
+<section class="tool wrap" aria-label="CSV・Excelをマスキングするツール">
   <label id="drop" class="drop">
-    <b>CSVをここにドラッグ</b>
-    <span class="muted">またはクリックして選ぶ（.csv・.tsv・.txt、Excel の Shift_JIS も可）。</span>
-    <input id="fileInput" type="file" accept=".csv,.tsv,.txt,text/csv" hidden>
+    <b>CSV・Excelをここにドラッグ</b>
+    <span class="muted">またはクリックして選ぶ（.csv・.tsv・.txt・.xlsx。Excel はそのまま入れられます）。</span>
+    <input id="fileInput" type="file" accept=".csv,.tsv,.txt,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden>
   </label>
   <p class="opt"><label><input id="hasHeader" type="checkbox" checked> 1行目は見出し（そのまま残す）</label></p>
   <ol id="cols" class="cols"></ol>
@@ -73,7 +73,7 @@
   <details><summary>CSVをアップロードしなくて大丈夫？</summary><p>大丈夫です。読み込みもマスキングも保存も、このページのプログラムがあなたのブラウザの中で行います。CSVをサーバーに送る仕組みはなく、読み込んだあとはネットを切っても動きます。</p></details>
   <details><summary>「置き換え」と「すべて伏せる」の違いは？</summary><p>「置き換え」は同じ値を同じ番号（例：氏名001）にします。誰が何回買ったかなどの集計はそのままできます。「すべて伏せる」は値を●●●にして、元の値の手がかりを残しません。</p></details>
   <details><summary>Excelで作ったCSVが文字化けしない？</summary><p>Excel が保存する Shift_JIS のCSVも、UTF-8 のCSVも自動で読み分けます。保存するCSVは Excel でそのまま開ける形（BOM付き UTF-8）です。</p></details>
-  <details><summary>Excel（.xlsx）の一部だけ伏せ字にしたい</summary><p>Excel で「名前を付けて保存」→ ファイルの種類「CSV（コンマ区切り）」で保存し、このページに入れてください。伏せたい列だけ選び、ほかは「そのまま」にできます。名前の1文字目だけ残す（山●●●）こともできます。保存したCSVは Excel でそのまま開けます。</p></details>
+  <details id="faq-xlsx"><summary>Excel（.xlsx）の一部だけ伏せ字にしたい</summary><p>.xlsx をそのままこのページに入れてください（2026年11月から対応）。読むのは最初のシートで、日付は「2026/11/10」の形で出ます。伏せたい列だけ選び、ほかは「そのまま」にすると、その列だけがマスキングされます。保存は Excel でそのまま開けるCSV（BOM付き UTF-8）です。式・色・罫線・2枚目以降のシートは引き継がないので、元のファイルは手元に残してください。</p></details>
   <details><summary>備考欄の文章に名前や電話番号が混ざっている</summary><p>その列を「文中の個人情報だけ伏せる」にすると、文章はそのまま、氏名・電話・メール・住所などの部分だけを [氏名1] のような伏せ字にします。</p></details>
   <details><summary>元に戻せますか？</summary><p>戻せません。元のCSVは手元に残るので、マスキングしたCSVだけを社外やAIに渡してください。</p></details>
 </section>
@@ -83,6 +83,7 @@
 </footer>
 <script type="module">
 import { decode, parseCSV, toCSV, guessMode, maskRows, MODES } from "./csvmask.js";
+import { isXlsx, readXlsx } from "./xlsx.js";
 const $ = (id) => document.getElementById(id);
 let data = null;
 const modeOpts = Object.entries(MODES).map(([v, t]) => `<option value="${v}">${t}</option>`).join("");
@@ -108,7 +109,7 @@ function render() {
       li.querySelector("select").addEventListener("change", preview);
       ol.append(li);
     }
-    $("status").textContent = `${data.name}：${data.rows.length - (hdr ? 1 : 0)}行・${width}列`;
+    $("status").textContent = `${data.name}${data.note || ""}：${data.rows.length - (hdr ? 1 : 0)}行・${width}列`;
   }
   $("run").disabled = !data;
   preview();
@@ -116,9 +117,16 @@ function render() {
 async function add(files) {
   const f = files[0];
   if (!f) return;
-  const { rows, sep } = parseCSV(decode(new Uint8Array(await f.arrayBuffer())));
+  const bytes = new Uint8Array(await f.arrayBuffer());
+  let rows, sep = ",", note = "";
+  if (isXlsx(bytes)) {
+    if (typeof DecompressionStream === "undefined") { $("status").textContent = "このブラウザでは Excel を読めません。Excel で CSV に保存して入れてください。"; return; }
+    try { const x = await readXlsx(bytes); rows = x.rows; note = x.sheetName ? `（シート「${x.sheetName}」）` : ""; }
+    catch (e) { $("status").textContent = e.message + "。Excel で CSV に保存して入れてください。"; return; }
+  } else if (/\.xls$/i.test(f.name)) { $("status").textContent = "古い形式（.xls）は読めません。Excel で .xlsx か CSV で保存し直してください。"; return; }
+  else ({ rows, sep } = parseCSV(decode(bytes)));
   if (!rows.length) { $("status").textContent = "中身が空のようです。"; return; }
-  data = { name: f.name, rows, sep };
+  data = { name: f.name, rows, sep, note };
   render();
 }
 $("fileInput").addEventListener("change", (e) => { add([...e.target.files]); e.target.value = ""; });
@@ -131,7 +139,7 @@ $("run").addEventListener("click", () => {
   const out = maskRows(data.rows, modes(), { hasHeader: $("hasHeader").checked });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(new Blob(["﻿" + toCSV(out, data.sep)], { type: "text/csv" }));
-  a.download = data.name.replace(/\.(csv|tsv|txt)$/i, "") + "_masked." + (data.sep === "\t" ? "tsv" : "csv");
+  a.download = data.name.replace(/\.(csv|tsv|txt|xlsx)$/i, "") + "_masked." + (data.sep === "\t" ? "tsv" : "csv");
   a.click();
   $("status").textContent = `${a.download} を保存しました（元のファイルはそのままです）。`;
 });
