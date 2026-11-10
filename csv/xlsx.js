@@ -101,7 +101,10 @@ export async function readXlsx(bytes) {
       else if (t === "inlineStr") val = texts(body);
       else if (t === "b") val = vm ? (vm[1] === "1" ? "TRUE" : "FALSE") : "";
       else if (vm) val = ent(vm[1]);
-      if ((!t || t === "n") && val !== "" && isDate[s]) val = serialToDate(+val);
+      if ((!t || t === "n") && val !== "") {
+        if (isDate[s]) val = serialToDate(+val);
+        else if (/[.eE]/.test(val) && Number.isFinite(+val)) val = String(+(+val).toPrecision(15));
+      }
       row[c] = val;
     }
     rows[r] = Array.from(row, (x) => x ?? "");
