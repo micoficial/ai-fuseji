@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>給与明細をChatGPT・AIに見せても大丈夫？｜伏せる所と残してよい所、総務が社員の明細を貼るときの線引き｜AI伏せ字</title>
+<meta name="description" content="給与明細の画像や数字をChatGPTなどのAIに見せて、手取りの計算や控除の意味を聞いてもよいか。名前・社員番号・口座番号など伏せる所、金額など残してよい所、学習させない設定、総務が社員の給与データを貼るときの線引きをまとめました。">
+<meta name="keywords" content="給与明細 ChatGPT, ChatGPT 給与明細, 給与明細 AIに見せる, 給与明細 AI, ChatGPT 給与計算, 給与明細 個人情報, 給与 個人情報 AI">
+<link rel="icon" href="../icon128.png">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="top"><div class="wrap row"><a class="brand" href="../"><img src="../icon128.png" alt="" width="32" height="32"> AI伏せ字</a><a class="btn small" href="../">無料で試す</a></div></header>
+<main class="wrap article">
+<h1>給与明細をChatGPT・AIに見せても大丈夫？｜伏せる所と残してよい所、総務が社員の明細を貼るときの線引き</h1>
+<p>「控除が多すぎない？」「手取りはいくらになる？」——給与明細を写真に撮って ChatGPT に聞く人が増えています。総務の側でも、給与計算や社員からの質問への答えを AI に手伝わせたい場面があります。</p>
+<p>給与明細には、名前と金額だけでなく、社員番号・振込口座・扶養や住民税の情報まで並んでいます。そのまま見せてよいのか、どこを隠せばよいのかをまとめました。</p>
+<p>※ AIの設定の名前や場所は更新で変わることがあります。最後は各サービスの公式ヘルプで確かめてください。</p>
+<h2>1. 結論：金額は残してよい。人と口座を特定できる所を伏せる</h2>
+<p>「控除の意味」「手取りの計算」「残業代が合っているか」を聞くのに要るのは<b>金額と項目名</b>です。誰の明細か、どの口座に振り込まれるかは、答えに関係しません。</p>
+<ul>
+<li><b>伏せる</b>：氏名、社員番号、会社名・部署名、振込先の銀行・支店・口座番号、住所、マイナンバー（もし載っていたら）</li>
+<li><b>残してよい</b>：基本給・手当・控除の金額と項目名、勤務日数・残業時間、何月分か</li>
+<li><b>迷ったら伏せる</b>：扶養の人数・家族の名前、住民税の市区町村、病欠・休職の記載</li>
+</ul>
+<h2>2. 写真（画像）で見せるときの注意</h2>
+<ul>
+<li>画像は、写っている物が全部AIに渡ります。名前や口座の欄は、撮る前に紙を折る・付箋で隠す・画像の編集で塗りつぶす</li>
+<li>スマホの写真には撮った場所などの情報（位置情報）が付くことがあります。気になるなら、スクリーンショットを撮り直してから使う</li>
+<li>いちばん簡単なのは、<b>金額の行だけを文字で打ち込む</b>ことです。項目名と金額だけなら、誰の明細か分かりません</li>
+</ul>
+<h2>3. 自分の明細なら：学習させない設定にしておく</h2>
+<p>個人の ChatGPT（無料・Plus）は、何もしないと会話がAIの改善（学習）に使われることがあります。設定の「データコントロール」→「すべての人のためにモデルを改善する」をオフにすると、これから先の会話は学習に使われない、と案内されています。手順はこちら：<a href="chatgpt-gakushu-settei.html">ChatGPTに個人情報を学習させない設定</a></p>
+<p>ただし、オフにしても文章や画像は OpenAI のサーバーに送られて処理されます。「学習されない」と「外に出ていない」は同じではないので、伏せられる所は伏せてから見せるのが確実です。</p>
+<h2 id="somu">4. 総務が社員の給与データを貼るとき</h2>
+<p>自分の明細と違い、社員の給与は<b>会社が預かっている個人情報</b>です。本人の知らないうちに外部のAIサービスへ渡すことになるので、線引きが一段きびしくなります。</p>
+<ol>
+<li><b>会社のルールを先に見る</b>：「個人アカウントのAIに社内の情報を入れない」と決めているなら入れない。ルールがなければ、まず作る（<a href="ai-shanai-rule.html">生成AIの社内ルール例</a>）</li>
+<li><b>会社で契約したAIを使う</b>：ChatGPT の法人向けプラン（Business・Enterprise）や、Microsoft 365 の Copilot など、入力を学習に使わないと契約で決まっているもの（<a href="copilot-kojin-joho.html">Copilotの場合</a>）</li>
+<li><b>本物の名前が要るか考える</b>：計算式の確認、エクセルの関数づくり、社員への説明文の下書きなら、名前は [氏名1]、社員番号は [管理番号1] で足ります。一覧表なら列ごと消してから貼る</li>
+<li><b>マイナンバーは入れない</b>：源泉徴収票などに載るマイナンバーは、法律で使える目的が決まっています。AIに相談するために渡すことは想定されていません（<a href="mynumber-kuronuri.html">マイナンバーの黒塗りのしかた</a>）</li>
+</ol>
+<p>入れてしまったときは、こちらに順番でまとめています：<a href="ai-nyuryoku-shimatta.html">ChatGPT・Copilot・Geminiに個人情報を入れてしまったら（最初の10分でやること）</a></p>
+<h2>いちばん確実なのは、貼る前に伏せ字にすること</h2>
+<p>私たち（合同会社mico）は、名前・社員番号・会社名・口座番号を [氏名1]・[管理番号1]・[会社1]・[口座番号1] のように置き換える無料の道具「<b>AI伏せ字</b>」を作りました。<b>金額はそのまま残る</b>ので、AIに計算や意味を聞くのに困りません。処理はブラウザの中だけで、文章は外部に送信しません。</p>
+<div class="cta" id="try"><p><b>この場で試す（送信しません）</b><br>下の例文を書き換えるか、明細の文字を貼って「伏せ字にする」を押してください。処理はこのページの中だけで行います。</p>
+<textarea id="tryin" rows="6" style="width:100%;box-sizing:border-box;font:inherit">株式会社みなと商事　2026年10月分 給与明細
+社員番号 012345　氏名 佐藤 花子 様
+基本給 230,000円　時間外手当 18,500円
+健康保険 11,500円　厚生年金 21,045円　所得税 5,130円　住民税 9,800円
+差引支給額 196,025円
+振込先 福岡銀行 博多支店 普通 1234567</textarea>
+<p><button class="btn primary" id="trybtn" type="button">伏せ字にする</button> <button class="btn" id="trycopy" type="button" hidden>コピー</button></p>
+<pre id="tryout" style="white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px;min-height:2em" aria-live="polite"></pre>
+<p id="tryafter" hidden>毎回この作業をするなら、ブラウザに入れておくと右クリックで伏せられます（無料）→ <a href="https://chromewebstore.google.com/detail/clhnanhhikamfccidiibgbbfhnkgefjo?utm_source=micoficial_site&utm_medium=article_kyuyo_try" rel="noopener">Chrome拡張</a> ／ <a href="https://microsoftedge.microsoft.com/addons/detail/cdokmdjggnfaekbpjjhhindbgaacbjop?utm_source=micoficial_site&utm_medium=article_kyuyo_try" rel="noopener">Edgeアドオン</a>。元に戻す機能つきの全部入りは<a href="../">体験ページ</a>で。 社名や取引先名など、いつも伏せる言葉を無料の5語より多く登録するなら <a href="https://micoficial.gumroad.com/l/ai-fuseji-pro" rel="noopener">Pro版（買い切り ¥1,480）</a>。</p></div>
+<script type="module">
+import { mask } from "../mask.js";
+const $=(i)=>document.getElementById(i);
+$("trybtn").onclick=()=>{const r=mask($("tryin").value);$("tryout").textContent=r.masked;$("trycopy").hidden=false;$("tryafter").hidden=false;};
+$("trycopy").onclick=()=>{navigator.clipboard?.writeText($("tryout").textContent);$("trycopy").textContent="コピーしました";};
+</script>
+<p>※ 銀行名・支店名は伏せないので、気になるときは手で消してください。判定は機械的なルールなので、見落としがありえます。AIに送る前に、伏せ字の文章を目で確かめてください。</p>
+<section class="ai-guide"><h2>AIごとの個人情報ガイド</h2><ul><li><a href="customer-info-chatgpt.html">ChatGPTに顧客情報を入れていい？</a></li><li><a href="chatgpt-gakushu-settei.html">ChatGPTに個人情報を学習させない設定</a></li><li><a href="chatgpt-rireki-sakujo.html">ChatGPTの履歴を削除すると学習はどうなる？</a></li><li><a href="chatgpt-kaisha-bareru.html">ChatGPTを会社で使うとバレる？</a></li><li><a href="copilot-kojin-joho.html">Copilotに個人情報はどこまで入れていい？</a></li><li><a href="notebooklm-kimitsu.html">NotebookLMに社内資料を入れていい？</a></li><li><a href="claude-kojin-joho.html">Claudeに個人情報はどこまで入れていい？</a></li><li><a href="shagaihi-ai.html">社外秘の資料を生成AIに入れていい？</a></li><li><a href="ai-nyuryoku-shimatta.html">AIに個人情報を入れてしまったら</a></li><li><a href="shuhi-gimu-ai.html">生成AIと守秘義務（士業・医療）</a></li></ul></section>
+<div class="cta"><p><b>AIに貼る前に、個人情報を伏せ字に。</b><br>氏名・住所・電話・メール・会社名を、ブラウザの中だけで [氏名1] のように置き換える無料ツールです。</p><p><a class="btn primary big" href="../">無料で試してみる</a></p><p>毎日使うなら、ブラウザに入れておくと右クリックで伏せられます（無料）→ <a href="https://chromewebstore.google.com/detail/clhnanhhikamfccidiibgbbfhnkgefjo?utm_source=micoficial_site&utm_medium=article_end" rel="noopener">Chrome拡張</a> ／ <a href="https://microsoftedge.microsoft.com/addons/detail/cdokmdjggnfaekbpjjhhindbgaacbjop?utm_source=micoficial_site&utm_medium=article_end" rel="noopener">Edgeアドオン</a></p></div>
+</main>
+<footer class="wrap foot"><p class="tools-links">ほかの無料ツール（アップロードなし）：<a href="../pdf/merge.html">PDF結合（サイズをA4にそろえる）</a> ／ <a href="../pdf/a4-a3.html">A4 2枚→A3 1枚</a> ／ <a href="../pdf/compress.html">PDF圧縮</a> ／ <a href="../ocr/">画像の文字読み取り（OCR）</a></p><p>© 2026 合同会社mico ／ <a href="https://docs.google.com/document/d/e/2PACX-1vQDrryEfL2zc4WxP9wg9clm98mq7SNMVW1CrEBNZ9HvnXbdvYl2cNTx6C77LyOF90Aa0OqyuBSoZBtn/pub" rel="noopener">プライバシーポリシー</a></p></footer>
+</body>
+</html>
