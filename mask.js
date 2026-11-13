@@ -136,6 +136,8 @@ const RULES = [
   // 口座の名義：「カ）サンプルショウジ」「名義：ヤマダ タロウ」
   { kind: "company", re: new RegExp(`(?:カ|ユ|ド|シャ|ザイ|イ)[)）]${SP}?[ァ-ヶー]{2,}(?:${SP}[ァ-ヶー]{2,})?`, "g") },
   { kind: "name", re: new RegExp(`(?:口座名義|名義人?)${SP}*[：:]?${SP}*([ァ-ヶー]{2,}(?:${SP}[ァ-ヶー]{2,})?)`, "gd"), group: 1 },
+  // 履歴書・名簿の「ふりがな　たなか みさき」「フリガナ：タナカ ミサキ」
+  { kind: "name", re: new RegExp(`(?:ふりがな|フリガナ|よみがな|ヨミガナ)${SP}*[：:]?${SP}*([ぁ-ゖァ-ヺー]{1,10}(?:${SP}[ぁ-ゖァ-ヺー]{1,10})?)`, "gd"), group: 1 },
   // チャットの発言者：「[10:02] 佐藤：」「田中: 」の行頭の名前
   { kind: "name", re: new RegExp(`(?<=^|\\n|[\\]）)]${SP}?)${SP}*((?:${SURNAMES})[一-龥々]{0,3})(?=${SP}*[：:])`, "gd"), group: 1, fix: (t) => fixName(t) },
   // 会議の文字起こし（Teams・Zoom・Meet・Notta など）の話し手の行：「山田 太郎   0:01:12」「[佐藤 花子] 10:02」「<v 鈴木一郎>」
@@ -238,6 +240,16 @@ export function mask(text, opts = {}) {
     if (t.length < 2) continue;
     for (const m of text.matchAll(new RegExp(esc(t), "g"))) {
       if (free(m.index, m.index + t.length)) taken.push({ kind: c.kind, start: m.index, end: m.index + t.length });
+    }
+  }
+  // 氏名のすぐ後ろの読みがな「（たなか みさき）」「(タナカ ミサキ)」も伏せる（履歴書・名簿）
+  if (kinds.has("name")) {
+    for (const c of [...taken]) {
+      if (c.kind !== "name") continue;
+      const m = text.slice(c.end).match(/^[ \t　]*[（(]([ぁ-ゖァ-ヺー]{1,10}(?:[ 　・][ぁ-ゖァ-ヺー]{1,10})?)[）)]/u);
+      if (!m) continue;
+      const s = c.end + m[0].indexOf(m[1]);
+      if (free(s, s + m[1].length)) taken.push({ kind: "name", start: s, end: s + m[1].length });
     }
   }
   taken.sort((a, b) => a.start - b.start);
